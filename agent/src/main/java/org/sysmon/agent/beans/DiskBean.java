@@ -78,8 +78,10 @@ public class DiskBean implements MetricBean {
                 continue;
             }
 
+            long timeSpendDoingIo = curStat.timeSpentOnIo - preStat.timeSpentOnIo;
+
             // TODO: Calculate differences for wanted disk io stats
-            measurementList.add(new MetricMeasurement(curStat.getDevice(), 0));
+            measurementList.add(new MetricMeasurement(curStat.getDevice() + "-iotime", timeSpendDoingIo));
 
         }
 
