@@ -15,9 +15,9 @@ import org.sysmon.shared.MetricMeasurement;
 import org.sysmon.shared.MetricResult;
 
 @Configurer
-public class ProcessorBean implements MetricBean {
+public class ProcessorBeanLinux implements MetricBean {
 
-    private final static Logger log = LoggerFactory.getLogger(ProcessorBean.class);
+    private final static Logger log = LoggerFactory.getLogger(ProcessorBeanLinux.class);
 
     private List<LinuxProcessorStat> currentProcessorStats;
     private List<LinuxProcessorStat> previousProcessorStats;
