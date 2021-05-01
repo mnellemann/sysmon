@@ -20,7 +20,7 @@ public class MetricResult {
 
 
     public String toString() {
-        StringBuilder sb = new StringBuilder(name).append("\n");
+        StringBuilder sb = new StringBuilder(String.format("%s - %s\n", timestamp.toString(), name));
         for(MetricMeasurement mm : measurementList) {
             sb.append(mm.toString()).append("\n");
         }

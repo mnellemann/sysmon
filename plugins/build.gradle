@@ -1,0 +1,32 @@
+subprojects {
+    apply plugin: 'java-library'
+
+    jar {
+        manifest {
+            attributes(
+                    'Plugin-Id'         : "${pluginId}",
+                    'Plugin-Class'      : "${pluginClass}",
+                    'Plugin-Version'    : "${pluginVersion}",
+                    'Plugin-Provider'   : "${pluginProvider}",
+                    'Plugin-Description': "${pluginDescription}"
+            )
+        }
+    }
+
+    task copyJar(type: Copy, dependsOn:[jar]) {
+        from jar // here it automatically reads jar file produced from jar task
+        into "../test/"
+    }
+
+    tasks.assemble.dependsOn {
+        copyJar
+    }
+
+}
+
+task customCleanUp(type:Delete) {
+    delete "test"
+    //delete files("${buildDir}/test/*.jar")
+}
+
+tasks.clean.dependsOn(tasks.customCleanUp)

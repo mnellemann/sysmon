@@ -20,10 +20,13 @@ dependencies {
     testImplementation 'org.codehaus.groovy:groovy:3.0.7'
     testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
     testImplementation 'junit:junit:4.13.1'
-    testImplementation 'org.slf4j:slf4j-api:1.7.30'
+    testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
-    implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
+
+    //annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
+    implementation group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}"
 
 }
 

@@ -1,22 +1,30 @@
-package org.sysmon.agent.beans;
+package org.sysmon.plugins.sysmon_aix;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sysmon.shared.MetricBean;
+import org.pf4j.Extension;
+import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
 
-public class ProcessorBeanAix implements MetricBean {
+@Extension
+public class AixProcessorExtension implements MetricExtension {
 
-    private final static Logger log = LoggerFactory.getLogger(ProcessorBeanAix.class);
+    @Override
+    public boolean isSupported() {
+        return System.getProperty("os.name").toLowerCase().contains("aix");
+    }
 
+    @Override
+    public String getGreeting() {
+        return "Welcome from AIX ProcessorMetric";
+    }
 
     @Override
     public MetricResult getMetrics() {
-        log.warn("TODO: AIX processor stat.");
         return null;
     }
 
 }
+
+
 
 
 /*

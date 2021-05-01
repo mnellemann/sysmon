@@ -1,0 +1,14 @@
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        testImplementation project(':shared')
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+

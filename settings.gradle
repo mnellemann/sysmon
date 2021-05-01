@@ -8,4 +8,12 @@
  */
 
 rootProject.name = 'sysmon'
-include('shared', 'agent')
+include('shared', 'agent', 'plugins')
+
+new File(rootDir, "plugins").listFiles().each {
+
+    if (it.directory && new File(it, 'build.gradle').exists()) {
+        include ":plugins:${it.name}"
+    }
+
+}
