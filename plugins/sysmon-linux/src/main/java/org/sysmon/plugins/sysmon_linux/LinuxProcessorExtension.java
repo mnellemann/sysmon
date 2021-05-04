@@ -29,10 +29,14 @@ public class LinuxProcessorExtension implements MetricExtension {
         return System.getProperty("os.name").toLowerCase().contains("linux");
     }
 
+    @Override
+    public String getName() {
+        return "linux-processor";
+    }
 
     @Override
-    public String getGreeting() {
-        return "Welcome from Linux ProcessorMetric";
+    public String getDescription() {
+        return "Linux Processor Metrics";
     }
 
 

@@ -13,8 +13,13 @@ public class AixDiskExtension implements MetricExtension {
     }
 
     @Override
-    public String getGreeting() {
-        return "Welcome from AIX DiskMetric";
+    public String getName() {
+        return "aix-disk";
+    }
+
+    @Override
+    public String getDescription() {
+        return "AIX Disk Metrics (TODO)";
     }
 
     @Override

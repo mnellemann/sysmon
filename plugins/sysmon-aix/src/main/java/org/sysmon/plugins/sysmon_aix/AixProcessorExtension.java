@@ -22,8 +22,13 @@ public class AixProcessorExtension implements MetricExtension {
     }
 
     @Override
-    public String getGreeting() {
-        return "Welcome from AIX ProcessorMetric";
+    public String getName() {
+        return "aix-processor";
+    }
+
+    @Override
+    public String getDescription() {
+        return "AIX Processor Metrics";
     }
 
     @Override

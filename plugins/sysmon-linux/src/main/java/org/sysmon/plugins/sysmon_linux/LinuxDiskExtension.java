@@ -24,8 +24,13 @@ public class LinuxDiskExtension implements MetricExtension {
     }
 
     @Override
-    public String getGreeting() {
-        return "Welcome from Linux DiskMetric";
+    public String getName() {
+        return "linux-disk";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Linux Disk Metrics";
     }
 
     @Override

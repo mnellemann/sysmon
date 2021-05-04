@@ -5,7 +5,10 @@ import org.pf4j.ExtensionPoint;
 public interface MetricExtension extends ExtensionPoint {
 
     boolean isSupported();
-    String getGreeting();
+
+    String getName();
+    String getDescription();
+
     MetricResult getMetrics();
 
 }

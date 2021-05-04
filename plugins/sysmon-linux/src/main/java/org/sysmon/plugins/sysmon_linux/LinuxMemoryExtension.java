@@ -25,8 +25,13 @@ public class LinuxMemoryExtension implements MetricExtension {
     }
 
     @Override
-    public String getGreeting() {
-        return "Welcome from Linux MemoryMetric";
+    public String getName() {
+        return "linux-memory";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Linux Memory Metrics";
     }
 
 

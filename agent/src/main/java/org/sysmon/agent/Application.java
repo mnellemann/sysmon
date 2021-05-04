@@ -3,53 +3,50 @@
  */
 package org.sysmon.agent;
 
-import org.pf4j.*;
+import org.apache.camel.main.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sysmon.shared.MetricExtension;
-
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
+    public static void main(String[] args) {
+
+        // use Camels Main class
+        Main main = new Main();
+
+        // and add the routes (you can specify multiple classes)
+        main.configure().addRoutesBuilder(MyRouteBuilder.class);
+
+        // now keep the application running until the JVM is terminated (ctrl + c or sigterm)
+        try {
+            main.run(args);
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+    }
+
+/*
     public static void main(String[] args) throws InterruptedException {
 
         // create the plugin manager
-        PluginManager pluginManager = new SysmonPluginManager(); // or "new ZipPluginManager() / new DefaultPluginManager()"
+        PluginManager pluginManager = new JarPluginManager(); // or "new ZipPluginManager() / new DefaultPluginManager()"
 
         // start and load all plugins of application
         pluginManager.loadPlugins();
         pluginManager.startPlugins();
 
-        /*
-        final PluginManager pluginManager = new SysmonPluginManager() {
-
-            protected ExtensionFinder createExtensionFinder() {
-                DefaultExtensionFinder extensionFinder = (DefaultExtensionFinder) super.createExtensionFinder();
-                extensionFinder.addServiceProviderExtensionFinder();
-                return extensionFinder;
-            }
-
-        };
-
-        pluginManager.loadPlugins();
-        pluginManager.startPlugins();
-        */
-
-        /*
-        List<PluginWrapper> plugins = pluginManager.getPlugins();
-        for(PluginWrapper wrapper : plugins) {
-            log.info(">>> Plugin Description: " + wrapper.getDescriptor().getPluginDescription());
-        }
-         */
 
         List<MetricExtension> metricExtensions = pluginManager.getExtensions(MetricExtension.class);
         log.info(String.format("Found %d extensions for extension point '%s':", metricExtensions.size(), MetricExtension.class.getName()));
-        for (MetricExtension plugin : metricExtensions) {
-            log.info(">>> " + plugin.getGreeting());
+        for (MetricExtension ext : metricExtensions) {
+            if(ext.isSupported()) {
+                log.info(">>> " + ext.getGreeting());
+
+                // TODO: Setup camel
+            }
         }
 
 
@@ -62,24 +59,7 @@ public class Application {
         Runtime.getRuntime().addShutdownHook(shutdownHook);
 
 
-        /*
-        do {
-
-            for (MetricExtension plugin : metricExtensions) {
-
-                // TODO: Find better way to avoid using plugins not working on runtime OS.
-
-                if(plugin.isSupported()) {
-                    System.out.println(">>> " + plugin.getMetrics());
-                }
-            }
-
-            Thread.sleep(15000);
-        } while (keepRunning.get());
-        */
-
-
     }
-
+ */
 
 }
