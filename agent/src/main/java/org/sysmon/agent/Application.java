@@ -37,7 +37,7 @@ public class Application {
 
         pluginManager.loadPlugins();
         pluginManager.startPlugins();
-*/
+        */
 
         /*
         List<PluginWrapper> plugins = pluginManager.getPlugins();

@@ -35,7 +35,7 @@ public class LinuxDiskExtension implements MetricExtension {
         try {
             copyCurrentValues();
             readProcFile();
-            result.setMeasurementList(calculate());
+            result.setMetricMeasurementList(calculate());
         } catch (IOException e) {
             e.printStackTrace();
         }

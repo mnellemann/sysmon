@@ -2,6 +2,8 @@ package org.sysmon.plugins.sysmon_linux;
 
 
 import org.pf4j.Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricMeasurement;
 import org.sysmon.shared.MetricResult;
@@ -16,58 +18,40 @@ import java.util.List;
 @Extension
 public class LinuxProcessorExtension implements MetricExtension {
 
+    private static final Logger log = LoggerFactory.getLogger(LinuxProcessorExtension.class);
+
     private List<LinuxProcessorStat> currentProcessorStats;
     private List<LinuxProcessorStat> previousProcessorStats;
+
 
     @Override
     public boolean isSupported() {
         return System.getProperty("os.name").toLowerCase().contains("linux");
     }
 
+
     @Override
     public String getGreeting() {
         return "Welcome from Linux ProcessorMetric";
     }
 
+
     @Override
     public MetricResult getMetrics() {
-
-        MetricResult result = new MetricResult("processor");
-        try {
-            copyCurrentValues();
-            readProcFile();
-            result.setMeasurementList(calculate());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-
-    private void readProcFile() throws IOException {
-
-        currentProcessorStats = new ArrayList<>();
-        List<String> allLines = Files.readAllLines(Paths.get("/proc/stat"), StandardCharsets.UTF_8);
-        for(String line : allLines) {
-            if(line.startsWith("cpu")) {
-                currentProcessorStats.add(new LinuxProcessorStat(line));
-            }
-        }
-
-    }
-
-
-    private void copyCurrentValues() {
 
         if(currentProcessorStats != null && currentProcessorStats.size() > 0) {
             previousProcessorStats = new ArrayList<>(currentProcessorStats);
         }
 
+        MetricResult result = new MetricResult("processor");
+        currentProcessorStats = processFileOutput(readProcFile());
+        result.setMetricMeasurementList(calculateDifference());
+
+        return result;
     }
 
 
-    private List<MetricMeasurement> calculate() {
+    private List<MetricMeasurement> calculateDifference() {
 
         List<MetricMeasurement> measurementList = new ArrayList<>();
 
@@ -92,6 +76,34 @@ public class LinuxProcessorExtension implements MetricExtension {
         return  measurementList;
 
     }
+
+
+    protected List<String> readProcFile() {
+
+        List<String> allLines = new ArrayList<>();
+        try {
+            allLines = Files.readAllLines(Paths.get("/proc/stat"), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+        return allLines;
+
+    }
+
+
+    protected List<LinuxProcessorStat> processFileOutput(List<String> inputLines) {
+
+        List<LinuxProcessorStat> processorStats = new ArrayList<>();
+        for(String line : inputLines) {
+            if(line.matches("^cpu\\d+.*")) {
+                processorStats.add(new LinuxProcessorStat(line));
+            }
+        }
+
+        return processorStats;
+    }
+
+
 }
 
 

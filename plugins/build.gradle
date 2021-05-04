@@ -1,5 +1,21 @@
 subprojects {
-    apply plugin: 'java-library'
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+
+    dependencies {
+
+        testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
+        testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
+        testImplementation project(':shared')
+
+        implementation project(':shared')
+        implementation(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}") {
+            exclude(group: "org.slf4j")
+        }
+        annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
+        implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+
+    }
 
     jar {
         manifest {
@@ -22,6 +38,13 @@ subprojects {
         copyJar
     }
 
+
+    test {
+        useJUnitPlatform()
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 }
 
 task customCleanUp(type:Delete) {

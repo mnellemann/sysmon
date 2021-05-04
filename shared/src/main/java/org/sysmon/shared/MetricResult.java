@@ -14,10 +14,13 @@ public class MetricResult {
         this.timestamp = Instant.now();
     }
 
-    public void setMeasurementList(List<MetricMeasurement> measurementList) {
+    public void setMetricMeasurementList(List<MetricMeasurement> measurementList) {
         this.measurementList = measurementList;
     }
 
+    public void addMetricMeasurement(MetricMeasurement measurement) {
+        measurementList.add(measurement);
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder(String.format("%s - %s\n", timestamp.toString(), name));
