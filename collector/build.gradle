@@ -1,28 +1,21 @@
 plugins {
-    id 'groovy'
     id 'application'
 }
 
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
-}
-
 dependencies {
+    testImplementation project(':shared')
     implementation project(':shared')
-    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
-    implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
 
-    implementation group: 'org.apache.camel', name: 'camel-core', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-rest', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-jetty', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-jackson', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-main', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-bean', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-timer', version: '3.7.3'
-    implementation group: 'org.apache.camel', name: 'camel-stream', version: '3.7.3'
+    implementation group: 'org.apache.camel', name: 'camel-core', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-rest', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-jetty', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-jackson', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-main', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-bean', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-timer', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-stream', version: camelVersion
+    implementation group: 'org.apache.camel', name: 'camel-influxdb', version: camelVersion
 }
-
 
 application {
     // Define the main class for the application.

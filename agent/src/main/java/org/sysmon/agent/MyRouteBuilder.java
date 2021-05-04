@@ -78,7 +78,11 @@ public class MyRouteBuilder extends RouteBuilder {
                 .process(new MetricProcessor())
                 .marshal().json()
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-                .to("http://127.0.0.1:9925/metrics");
+                .doTry()
+                    .to("http://127.0.0.1:9925/metrics")
+                .doCatch(Exception.class)
+                    .log("Error sending metric to collector.")
+                .end();
 
 
 

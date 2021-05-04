@@ -3,8 +3,7 @@ subprojects {
     apply plugin: 'groovy'
 
     dependencies {
-
-        testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
+        testImplementation 'org.spockframework:spock-core:2.0-M5-groovy-3.0'
         testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
         testImplementation project(':shared')
 
@@ -14,7 +13,6 @@ subprojects {
         }
         annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
         implementation "org.slf4j:slf4j-api:${slf4jVersion}"
-
     }
 
     jar {

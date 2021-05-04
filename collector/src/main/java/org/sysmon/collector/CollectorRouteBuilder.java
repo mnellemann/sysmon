@@ -1,6 +1,5 @@
 package org.sysmon.collector;
 
-
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.sysmon.shared.dto.MetricMessageDTO;
@@ -9,6 +8,7 @@ public class CollectorRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
         restConfiguration().component("jetty")
                 .bindingMode(RestBindingMode.auto)
                 .host("127.0.0.1")
@@ -28,7 +28,16 @@ public class CollectorRouteBuilder extends RouteBuilder {
                 .type(MetricMessageDTO.class)
                 .route()
                 .to("bean:incomingMetricProcessor")
+                .to("seda:inbound")
                 .endRest();
+
+        /*
+        from("seda:inbound")
+                .to("influxdb://myInfluxConnection?databaseName=sysmon");
+         */
+
     }
+
+
 
 }
