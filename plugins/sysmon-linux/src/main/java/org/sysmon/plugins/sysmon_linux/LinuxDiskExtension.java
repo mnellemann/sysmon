@@ -11,9 +11,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Extension
 public class LinuxDiskExtension implements MetricExtension {
+
+    private final static List<String> ignoreList = new ArrayList<String>() {{
+        add("dm-");
+        add("loop");
+    }};
 
     private List<LinuxDiskStat> currentDiskStats;
     private List<LinuxDiskStat> previousDiskStats;
@@ -84,14 +90,19 @@ public class LinuxDiskExtension implements MetricExtension {
             LinuxDiskStat curStat = currentDiskStats.get(i);
             LinuxDiskStat preStat = previousDiskStats.get(i);
 
-            if(curStat.getDevice().startsWith("loop")) {
-                continue;
+            AtomicBoolean ignore = new AtomicBoolean(false);
+            ignoreList.forEach(str -> {
+                if(curStat.getDevice().startsWith(str)) {
+                    ignore.set(true);
+                }
+            });
+
+
+            if(!ignore.get()) {
+                long timeSpendDoingIo = curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo();
+                // TODO: Calculate differences for wanted disk io stats
+                measurementList.add(new MetricMeasurement(curStat.getDevice() + "-iotime", timeSpendDoingIo));
             }
-
-            long timeSpendDoingIo = curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo();
-
-            // TODO: Calculate differences for wanted disk io stats
-            measurementList.add(new MetricMeasurement(curStat.getDevice() + "-iotime", timeSpendDoingIo));
 
         }
 

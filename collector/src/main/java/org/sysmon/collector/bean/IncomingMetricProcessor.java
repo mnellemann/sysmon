@@ -9,8 +9,6 @@ import org.sysmon.shared.dto.MetricMessageDTO;
 
 public class IncomingMetricProcessor implements Processor {
 
-    private final static Logger log = LoggerFactory.getLogger(IncomingMetricProcessor.class);
-
     public void process(Exchange exchange) throws Exception {
 
         MetricResult payload = exchange.getIn().getBody(MetricResult.class);
