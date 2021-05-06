@@ -1,7 +1,9 @@
 package org.sysmon.collector;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.sysmon.shared.MetricResult;
 import org.sysmon.shared.dto.MetricMessageDTO;
 
 public class CollectorRouteBuilder extends RouteBuilder {
@@ -25,11 +27,12 @@ public class CollectorRouteBuilder extends RouteBuilder {
                 .post("/metrics")
                 .consumes("application/json")
                 .produces("text/html")
-                .type(MetricMessageDTO.class)
+                .type(MetricResult.class)
                 .route()
-                .to("bean:incomingMetricProcessor")
                 .to("seda:inbound")
                 .endRest();
+
+        from("seda:inbound").log("Got metric from: ${header.component}").to("mock:sink");
 
         /*
         from("seda:inbound")

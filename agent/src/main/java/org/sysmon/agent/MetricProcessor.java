@@ -15,6 +15,7 @@ public class MetricProcessor implements Processor {
 
     private static final AtomicLong counter = new AtomicLong();
 
+    /*
     public void process(Exchange exchange) throws Exception {
 
         MetricResult reading = exchange.getIn().getBody(MetricResult.class);
@@ -26,6 +27,14 @@ public class MetricProcessor implements Processor {
         // do something...
         MetricMessageDTO payload = new MetricMessageDTO("event " + reading, counter.getAndIncrement());
         exchange.getIn().setBody(payload, MetricMessageDTO.class);
+    }*/
+
+
+    public void process(Exchange exchange) throws Exception {
+        MetricResult result = exchange.getIn().getBody(MetricResult.class);
+        result.setHostname("sauron");
+        exchange.getIn().setBody(result);
+        exchange.getIn().setHeader("component", result.getName());
     }
 
 

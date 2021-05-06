@@ -2,11 +2,14 @@ package org.sysmon.agent;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.pf4j.JarPluginManager;
 import org.pf4j.PluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sysmon.shared.MetricExtension;
+import org.sysmon.shared.MetricResult;
 
 import java.util.List;
 
@@ -75,13 +78,13 @@ public class MyRouteBuilder extends RouteBuilder {
 
         // Send to collector when combined
         from("seda:metrics")
-                .process(new MetricProcessor())
-                .marshal().json()
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .doTry()
+                    .process(new MetricProcessor())
+                    .marshal().json(JsonLibrary.Jackson, MetricResult.class)
                     .to("http://127.0.0.1:9925/metrics")
                 .doCatch(Exception.class)
-                    .log("Error sending metric to collector.")
+                    .log("Error sending metric to collector: ${exception}")
                 .end();
 
 
