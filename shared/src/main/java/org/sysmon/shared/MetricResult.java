@@ -12,7 +12,7 @@ public class MetricResult implements Serializable {
     private String name;
     private Long timestamp;   // epoch milli
     private String hostname;
-    private List<MetricMeasurement> measurementList = new ArrayList<>();
+    private List<MeasurementPair> measurements = new ArrayList<>();
 
     public MetricResult() {
 
@@ -23,12 +23,12 @@ public class MetricResult implements Serializable {
         this.timestamp = Instant.now().toEpochMilli();
     }
 
-    public void setMetricMeasurementList(List<MetricMeasurement> measurementList) {
-        this.measurementList = measurementList;
+    public void setMetricMeasurementList(List<MeasurementPair> measurementList) {
+        this.measurements = measurementList;
     }
 
-    public void addMetricMeasurement(MetricMeasurement measurement) {
-        measurementList.add(measurement);
+    public void addMetricMeasurement(MeasurementPair measurement) {
+        measurements.add(measurement);
     }
 
     public void setHostname(String hostname) {
@@ -55,13 +55,13 @@ public class MetricResult implements Serializable {
         return hostname;
     }
 
-    public List<MetricMeasurement> getMeasurementList() {
-        return measurementList;
+    public List<MeasurementPair> getMeasurements() {
+        return measurements;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder(String.format("%s - %s\n", timestamp.toString(), name));
-        for(MetricMeasurement mm : measurementList) {
+        for(MeasurementPair mm : measurements) {
             sb.append(mm.toString()).append("\n");
         }
 

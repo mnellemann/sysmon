@@ -17,7 +17,7 @@ public class Application {
         Main main = new Main();
 
         // and add the routes (you can specify multiple classes)
-        main.configure().addRoutesBuilder(MyRouteBuilder.class);
+        main.configure().addRoutesBuilder(AgentRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)
         try {

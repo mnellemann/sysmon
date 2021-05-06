@@ -5,7 +5,7 @@ import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sysmon.shared.MetricExtension;
-import org.sysmon.shared.MetricMeasurement;
+import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 
 import java.io.IOException;
@@ -55,9 +55,9 @@ public class LinuxProcessorExtension implements MetricExtension {
     }
 
 
-    private List<MetricMeasurement> calculateDifference() {
+    private List<MeasurementPair> calculateDifference() {
 
-        List<MetricMeasurement> measurementList = new ArrayList<>();
+        List<MeasurementPair> measurementList = new ArrayList<>();
 
         if(previousProcessorStats == null || previousProcessorStats.size() != currentProcessorStats.size()) {
             return measurementList;
@@ -73,7 +73,7 @@ public class LinuxProcessorExtension implements MetricExtension {
             float percentUsage = (float) (workTimeDiff - idleTimeDiff) / workTimeDiff;
 
             Integer pct = (int) (percentUsage * 100);
-            measurementList.add(new MetricMeasurement(curStat.getCpuName(), pct));
+            measurementList.add(new MeasurementPair(curStat.getCpuName(), pct));
 
         }
 

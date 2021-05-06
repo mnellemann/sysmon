@@ -1,13 +1,17 @@
 package org.sysmon.shared;
 
-public class MetricMeasurement {
+import java.io.Serializable;
+
+public class MeasurementPair implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private Object value;
 
-    public MetricMeasurement() { }
+    public MeasurementPair() { }
 
-    public MetricMeasurement(String name, Object value) {
+    public MeasurementPair(String name, Object value) {
         this.name = name;
         this.value = value;
     }

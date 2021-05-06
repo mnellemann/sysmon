@@ -2,10 +2,7 @@ package org.sysmon.collector.bean;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sysmon.shared.MetricResult;
-import org.sysmon.shared.dto.MetricMessageDTO;
 
 public class IncomingMetricProcessor implements Processor {
 

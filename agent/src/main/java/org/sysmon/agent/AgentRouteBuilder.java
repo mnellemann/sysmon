@@ -12,10 +12,9 @@ import org.sysmon.shared.MetricResult;
 
 import java.util.List;
 
-public class MyRouteBuilder extends RouteBuilder {
+public class AgentRouteBuilder extends RouteBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(MyRouteBuilder.class);
-
+    private static final Logger log = LoggerFactory.getLogger(AgentRouteBuilder.class);
 
     @Override
     public void configure() throws Exception {
@@ -33,14 +32,12 @@ public class MyRouteBuilder extends RouteBuilder {
                 // Setup Camel route for this extension
                 from("timer:collect?period=10000")
                         .bean(ext, "getMetrics")
-                        //.setHeader("ext", constant(ext.getName()))
-                        .doTry()
-                        .process(new MetricProcessor())
-                        .choice()
-                        .when(exchangeProperty("skip").isEqualTo(true))
-                        .stop()
+                        //.doTry()
+                        .process(new MetricEnrichProcessor())
+                        .choice().when(exchangeProperty("skip").isEqualTo(true))
+                            .stop()
                         .otherwise()
-                        .to("seda:metrics");
+                            .to("seda:metrics");
 
             }
         }
@@ -48,12 +45,14 @@ public class MyRouteBuilder extends RouteBuilder {
 
         from("seda:metrics")
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+                //.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                 .doTry()
                     //.process(new MetricProcessor())
                     .marshal().json(JsonLibrary.Jackson, MetricResult.class)
                     .to("http://127.0.0.1:9925/metrics")
                 .doCatch(Exception.class)
-                    .log("Error sending metric to collector: ${exception}")
+                    .log("Error: ${exception.message}")
+                    //.log("Error sending metric to collector: ${body}")
                 .end();
 
     }

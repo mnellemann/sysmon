@@ -4,7 +4,7 @@ import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sysmon.shared.MetricExtension;
-import org.sysmon.shared.MetricMeasurement;
+import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 import org.sysmon.shared.PluginHelper;
 
@@ -39,7 +39,7 @@ public class AixProcessorExtension implements MetricExtension {
         List<String> mpstat = PluginHelper.executeCommand("mpstat", "-a");
         List<AixProcessorStat> processorStats = processCommandOutput(mpstat);
         for(AixProcessorStat stat : processorStats) {
-            result.addMetricMeasurement(new MetricMeasurement(String.format("cpu%d", stat.getCpuNum()), stat.getUtilizationPercentage()));
+            result.addMetricMeasurement(new MeasurementPair(String.format("cpu%d", stat.getCpuNum()), stat.getUtilizationPercentage()));
         }
 
         return result;

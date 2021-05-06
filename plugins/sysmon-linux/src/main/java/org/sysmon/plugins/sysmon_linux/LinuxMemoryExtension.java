@@ -2,7 +2,7 @@ package org.sysmon.plugins.sysmon_linux;
 
 import org.pf4j.Extension;
 import org.sysmon.shared.MetricExtension;
-import org.sysmon.shared.MetricMeasurement;
+import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 
 import java.io.IOException;
@@ -49,9 +49,9 @@ public class LinuxMemoryExtension implements MetricExtension {
     }
 
 
-    private List<MetricMeasurement> readProcFile() throws IOException {
+    private List<MeasurementPair> readProcFile() throws IOException {
 
-        List<MetricMeasurement> measurementList = new ArrayList<>();
+        List<MeasurementPair> measurementList = new ArrayList<>();
 
         List<String> allLines = Files.readAllLines(Paths.get("/proc/meminfo"), StandardCharsets.UTF_8);
         for (String line : allLines) {
@@ -59,7 +59,7 @@ public class LinuxMemoryExtension implements MetricExtension {
             if (line.startsWith("Mem")) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find() && matcher.groupCount() == 2) {
-                    measurementList.add(new MetricMeasurement(matcher.group(1), matcher.group(2)));
+                    measurementList.add(new MeasurementPair(matcher.group(1), matcher.group(2)));
                 }
             }
         }

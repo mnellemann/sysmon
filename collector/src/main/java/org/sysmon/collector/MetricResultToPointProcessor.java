@@ -1,9 +1,9 @@
-package org.sysmon.collector.processor;
+package org.sysmon.collector;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.influxdb.dto.Point;
-import org.sysmon.shared.MetricMeasurement;
+import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 
 import java.util.List;
@@ -20,8 +20,8 @@ public class MetricResultToPointProcessor implements Processor {
                 .time(metricResult.getTimestamp(), TimeUnit.MILLISECONDS)
                 .tag("hostname", metricResult.getHostname());
 
-        List<MetricMeasurement> measurements = metricResult.getMeasurementList();
-        for(MetricMeasurement measurement : measurements) {
+        List<MeasurementPair> measurements = metricResult.getMeasurements();
+        for(MeasurementPair measurement : measurements) {
             if(measurement.getValue() instanceof Number) {
                 Number num = (Number) measurement.getValue();
                 builder.addField(measurement.getName(), num);

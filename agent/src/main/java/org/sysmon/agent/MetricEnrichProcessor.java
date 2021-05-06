@@ -5,19 +5,21 @@ import org.apache.camel.Processor;
 import org.sysmon.shared.MetricResult;
 
 
-public class MetricProcessor implements Processor {
+public class MetricEnrichProcessor implements Processor {
+
+    // TODO: Read hostname from future configuration
+    private final static String hostname = "saruman";
 
     public void process(Exchange exchange) throws Exception {
         MetricResult result = exchange.getIn().getBody(MetricResult.class);
-        if(result.getMeasurementList().size() < 1) {
+        result.setHostname(hostname);
+
+        // We make sure MetricResults with no measurements are not sent further down the line
+        if(result.getMeasurements().size() < 1) {
             exchange.setProperty("skip", true);
         }
 
         exchange.getIn().setHeader("component", result.getName());
-
-        // TODO: Read hostname from configuration
-        result.setHostname("sauron");
-
         exchange.getIn().setBody(result);
     }
 

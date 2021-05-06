@@ -2,7 +2,7 @@ package org.sysmon.plugins.sysmon_linux;
 
 import org.pf4j.Extension;
 import org.sysmon.shared.MetricExtension;
-import org.sysmon.shared.MetricMeasurement;
+import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 
 import java.io.IOException;
@@ -76,9 +76,9 @@ public class LinuxDiskExtension implements MetricExtension {
     }
 
 
-    private List<MetricMeasurement> calculate() {
+    private List<MeasurementPair> calculate() {
 
-        List<MetricMeasurement> measurementList = new ArrayList<>();
+        List<MeasurementPair> measurementList = new ArrayList<>();
 
         if(previousDiskStats == null || previousDiskStats.size() != currentDiskStats.size()) {
             return measurementList;
@@ -101,7 +101,7 @@ public class LinuxDiskExtension implements MetricExtension {
             if(!ignore.get()) {
                 long timeSpendDoingIo = curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo();
                 // TODO: Calculate differences for wanted disk io stats
-                measurementList.add(new MetricMeasurement(curStat.getDevice() + "-iotime", timeSpendDoingIo));
+                measurementList.add(new MeasurementPair(curStat.getDevice() + "-iotime", timeSpendDoingIo));
             }
 
         }
