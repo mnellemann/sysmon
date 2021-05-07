@@ -3,6 +3,7 @@ package org.sysmon.client;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.spi.Registry;
 import org.pf4j.JarPluginManager;
 import org.pf4j.PluginManager;
 import org.slf4j.Logger;
@@ -12,12 +13,14 @@ import org.sysmon.shared.MetricResult;
 
 import java.util.List;
 
-public class AgentRouteBuilder extends RouteBuilder {
+public class ClientRouteBuilder extends RouteBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(AgentRouteBuilder.class);
+    private static final Logger log = LoggerFactory.getLogger(ClientRouteBuilder.class);
 
     @Override
     public void configure() throws Exception {
+
+        Registry registry = getContext().getRegistry();
 
         PluginManager pluginManager = new JarPluginManager();
         pluginManager.loadPlugins();
@@ -50,7 +53,7 @@ public class AgentRouteBuilder extends RouteBuilder {
                 .doTry()
                     //.process(new MetricProcessor())
                     .marshal().json(JsonLibrary.Jackson, MetricResult.class)
-                    .to("http://127.0.0.1:9925/metrics")
+                    .to((String)registry.lookupByName("myServerUrl"))
                 .doCatch(Exception.class)
                     .log("Error: ${exception.message}")
                     //.log("Error sending metric to collector: ${body}")

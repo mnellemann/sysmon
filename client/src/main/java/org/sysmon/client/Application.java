@@ -4,62 +4,42 @@
 package org.sysmon.client;
 
 import org.apache.camel.main.Main;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import picocli.CommandLine;
 
-public class Application {
+import java.io.IOException;
+import java.net.URL;
+import java.util.concurrent.Callable;
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+@CommandLine.Command(name = "sysmon-client", mixinStandardHelpOptions = true)
+public class Application implements Callable<Integer> {
 
-    public static void main(String[] args) {
+    @CommandLine.Option(names = { "-s", "--server-url" }, description = "Server URL [default: 'http://127.0.0.1:9925/metrics'].", defaultValue = "http://127.0.0.1:9925/metrics", paramLabel = "<url>")
+    private URL serverUrl;
 
-        // use Camels Main class
+
+    public static void main(String... args) {
+        int exitCode = new CommandLine(new Application()).execute(args);
+        System.exit(exitCode);
+    }
+
+
+    @Override
+    public Integer call() throws IOException {
+
         Main main = new Main();
-
-        // and add the routes (you can specify multiple classes)
-        main.configure().addRoutesBuilder(AgentRouteBuilder.class);
+        main.bind("myServerUrl", serverUrl.toString());
+        main.configure().addRoutesBuilder(ClientRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)
         try {
-            main.run(args);
-        } catch(Exception e) {
+            main.run();
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
-    }
-
-/*
-    public static void main(String[] args) throws InterruptedException {
-
-        // create the plugin manager
-        PluginManager pluginManager = new JarPluginManager(); // or "new ZipPluginManager() / new DefaultPluginManager()"
-
-        // start and load all plugins of application
-        pluginManager.loadPlugins();
-        pluginManager.startPlugins();
-
-
-        List<MetricExtension> metricExtensions = pluginManager.getExtensions(MetricExtension.class);
-        log.info(String.format("Found %d extensions for extension point '%s':", metricExtensions.size(), MetricExtension.class.getName()));
-        for (MetricExtension ext : metricExtensions) {
-            if(ext.isSupported()) {
-                log.info(">>> " + ext.getGreeting());
-
-                // TODO: Setup camel
-            }
-        }
-
-
-        AtomicBoolean keepRunning = new AtomicBoolean(true);
-        Thread shutdownHook = new Thread(() -> {
-            keepRunning.set(false);
-            pluginManager.stopPlugins();
-            System.out.println("Stopping sysmon, please wait ...");
-        });
-        Runtime.getRuntime().addShutdownHook(shutdownHook);
-
+        return 0;
 
     }
- */
 
 }
+

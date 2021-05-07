@@ -2,17 +2,20 @@ package org.sysmon.server;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.spi.Registry;
 import org.sysmon.shared.MetricResult;
 
-public class CollectorRouteBuilder extends RouteBuilder {
+public class ServerRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
 
+        Registry registry = getContext().getRegistry();
+
         restConfiguration().component("jetty")
                 .bindingMode(RestBindingMode.auto)
                 .host("127.0.0.1")
-                .port(9925);
+                .port((Integer) registry.lookupByName("myListenPort"));
 
         rest()
                 .get("/")

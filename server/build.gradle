@@ -1,10 +1,17 @@
 plugins {
     id 'application'
+
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "net.nemerosa.versioning" version "2.14.0"
+    id "nebula.ospackage" version "8.4.1"
 }
 
 dependencies {
     testImplementation project(':shared')
     implementation project(':shared')
+
+    annotationProcessor "info.picocli:picocli-codegen:${picocliVersion}"
+    implementation "info.picocli:picocli:${picocliVersion}"
 
     implementation group: 'org.apache.camel', name: 'camel-core', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-main', version: camelVersion
@@ -23,4 +30,54 @@ application {
 tasks.named('test') {
     // Use junit platform for unit tests.
     useJUnitPlatform()
+}
+
+apply plugin: 'nebula.ospackage'
+ospackage {
+    packageName = 'sysmon-server'
+    release = '1'
+    user = 'root'
+    packager = "Mark Nellemann <mark.nellemann@gmail.com>"
+
+    into '/opt/sysmon-server'
+
+    from(shadowJar.outputs.files) {
+        into 'lib'
+    }
+
+    from('build/scriptsShadow') {
+        into 'bin'
+    }
+
+    from('doc/') {
+        into 'doc'
+    }
+
+    from(['README.md', 'LICENSE']) {
+        into 'doc'
+    }
+
+}
+
+buildRpm {
+    dependsOn startShadowScripts
+    os = "LINUX"
+}
+
+buildDeb {
+    dependsOn startShadowScripts
+}
+
+jar {
+    manifest {
+        attributes(
+                'Created-By'     : "Gradle ${gradle.gradleVersion}",
+                'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+                'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-User'     : System.properties['user.name'],
+                'Build-Version'  : versioning.info.tag ?: (versioning.info.branch + "-" + versioning.info.build),
+                'Build-Revision' : versioning.info.commit,
+                'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ").toString(),
+        )
+    }
 }
