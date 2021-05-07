@@ -40,7 +40,7 @@ public class LinuxMemoryExtension implements MetricExtension {
 
         MetricResult result = new MetricResult("memory");
         try {
-            result.setMetricMeasurementList(readProcFile());
+            result.addMeasurements(readProcFile());
         } catch (IOException e) {
             e.printStackTrace();
         }

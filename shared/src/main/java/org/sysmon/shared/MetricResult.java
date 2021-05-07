@@ -15,7 +15,6 @@ public class MetricResult implements Serializable {
     private List<MeasurementPair> measurements = new ArrayList<>();
 
     public MetricResult() {
-
     }
 
     public MetricResult(String name) {
@@ -23,11 +22,11 @@ public class MetricResult implements Serializable {
         this.timestamp = Instant.now().toEpochMilli();
     }
 
-    public void setMetricMeasurementList(List<MeasurementPair> measurementList) {
+    public void addMeasurements(List<MeasurementPair> measurementList) {
         this.measurements = measurementList;
     }
 
-    public void addMetricMeasurement(MeasurementPair measurement) {
+    public void addMeasurement(MeasurementPair measurement) {
         measurements.add(measurement);
     }
 

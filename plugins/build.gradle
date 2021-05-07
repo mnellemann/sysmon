@@ -29,7 +29,7 @@ subprojects {
 
     task copyJar(type: Copy, dependsOn:[jar]) {
         from jar // here it automatically reads jar file produced from jar task
-        into "../test/"
+        into "../output/"
     }
 
     tasks.assemble.dependsOn {
@@ -46,7 +46,7 @@ subprojects {
 }
 
 task customCleanUp(type:Delete) {
-    delete "test"
+    delete "output"
     //delete files("${buildDir}/test/*.jar")
 }
 

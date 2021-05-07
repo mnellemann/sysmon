@@ -4,8 +4,8 @@ package org.sysmon.plugins.sysmon_linux;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MeasurementPair;
+import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
 
 import java.io.IOException;
@@ -20,8 +20,8 @@ public class LinuxProcessorExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(LinuxProcessorExtension.class);
 
-    private List<LinuxProcessorStat> currentProcessorStats;
-    private List<LinuxProcessorStat> previousProcessorStats;
+    private List<LinuxProcessorProcLine> currentProcessorProc;
+    private List<LinuxProcessorProcLine> previousProcessorProc;
 
 
     @Override
@@ -43,43 +43,24 @@ public class LinuxProcessorExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        if(currentProcessorStats != null && currentProcessorStats.size() > 0) {
-            previousProcessorStats = new ArrayList<>(currentProcessorStats);
+        if(currentProcessorProc != null && currentProcessorProc.size() > 0) {
+            previousProcessorProc = new ArrayList<>(currentProcessorProc);
         }
+        currentProcessorProc = processFileOutput(readProcFile());
 
         MetricResult result = new MetricResult("processor");
-        currentProcessorStats = processFileOutput(readProcFile());
-        result.setMetricMeasurementList(calculateDifference());
+        if(previousProcessorProc == null || previousProcessorProc.size() != currentProcessorProc.size()) {
+            return result;
+        }
+
+        for(int i = 0; i < currentProcessorProc.size(); i++) {
+            LinuxProcessorStat stat = new LinuxProcessorStat(currentProcessorProc.get(i), previousProcessorProc.get(i));
+            result.addMeasurement(stat.getMeasurements());
+        }
 
         return result;
     }
 
-
-    private List<MeasurementPair> calculateDifference() {
-
-        List<MeasurementPair> measurementList = new ArrayList<>();
-
-        if(previousProcessorStats == null || previousProcessorStats.size() != currentProcessorStats.size()) {
-            return measurementList;
-        }
-
-        for(int i = 0; i < currentProcessorStats.size(); i++) {
-
-            LinuxProcessorStat curStat = currentProcessorStats.get(i);
-            LinuxProcessorStat preStat = previousProcessorStats.get(i);
-
-            long workTimeDiff = curStat.getCombinedTime() - preStat.getCombinedTime();
-            long idleTimeDiff = curStat.getCombinedIdleTime() - preStat.getCombinedIdleTime();
-            float percentUsage = (float) (workTimeDiff - idleTimeDiff) / workTimeDiff;
-
-            Integer pct = (int) (percentUsage * 100);
-            measurementList.add(new MeasurementPair(curStat.getCpuName(), pct));
-
-        }
-
-        return  measurementList;
-
-    }
 
 
     protected List<String> readProcFile() {
@@ -95,12 +76,12 @@ public class LinuxProcessorExtension implements MetricExtension {
     }
 
 
-    protected List<LinuxProcessorStat> processFileOutput(List<String> inputLines) {
+    protected List<LinuxProcessorProcLine> processFileOutput(List<String> inputLines) {
 
-        List<LinuxProcessorStat> processorStats = new ArrayList<>();
+        List<LinuxProcessorProcLine> processorStats = new ArrayList<>();
         for(String line : inputLines) {
             if(line.matches("^cpu\\d+.*")) {
-                processorStats.add(new LinuxProcessorStat(line));
+                processorStats.add(new LinuxProcessorProcLine(line));
             }
         }
 

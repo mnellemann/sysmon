@@ -39,7 +39,7 @@ public class AixProcessorExtension implements MetricExtension {
         List<String> mpstat = PluginHelper.executeCommand("mpstat", "-a");
         List<AixProcessorStat> processorStats = processCommandOutput(mpstat);
         for(AixProcessorStat stat : processorStats) {
-            result.addMetricMeasurement(new MeasurementPair(String.format("cpu%d", stat.getCpuNum()), stat.getUtilizationPercentage()));
+            result.addMeasurement(new MeasurementPair(String.format("cpu%d", stat.getCpuNum()), stat.getUtilizationPercentage()));
         }
 
         return result;
