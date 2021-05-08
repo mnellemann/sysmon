@@ -1,10 +1,9 @@
 package org.sysmon.plugins.sysmon_linux;
 
-
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sysmon.shared.MeasurementPair;
+import org.sysmon.shared.Measurement;
 import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
 
@@ -13,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Extension
 public class LinuxProcessorExtension implements MetricExtension {
@@ -53,11 +54,20 @@ public class LinuxProcessorExtension implements MetricExtension {
             return result;
         }
 
+
+        List<Measurement> measurementList = new ArrayList<>();
         for(int i = 0; i < currentProcessorProc.size(); i++) {
             LinuxProcessorStat stat = new LinuxProcessorStat(currentProcessorProc.get(i), previousProcessorProc.get(i));
-            result.addMeasurement(stat.getMeasurements());
+
+            Map<String, String> tagsMap = new HashMap<>();
+            tagsMap.put("cpu", stat.getName());
+
+            Map<String, Object> fieldsMap = stat.getFields();
+
+            measurementList.add(new Measurement(tagsMap, fieldsMap));
         }
 
+        result.addMeasurements(measurementList);
         return result;
     }
 

@@ -3,13 +3,18 @@ package org.sysmon.server;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.influxdb.dto.Point;
-import org.sysmon.shared.MeasurementPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sysmon.shared.Measurement;
 import org.sysmon.shared.MetricResult;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class MetricResultToPointProcessor implements Processor {
+
+    private static final Logger log = LoggerFactory.getLogger(MetricResultToPointProcessor.class);
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -20,18 +25,30 @@ public class MetricResultToPointProcessor implements Processor {
                 .time(metricResult.getTimestamp(), TimeUnit.MILLISECONDS)
                 .tag("hostname", metricResult.getHostname());
 
-        List<MeasurementPair> measurements = metricResult.getMeasurements();
-        for(MeasurementPair measurement : measurements) {
-            if(measurement.getValue() instanceof Number) {
-                Number num = (Number) measurement.getValue();
-                builder.addField(measurement.getName(), num);
-            } else if(measurement.getValue() instanceof Boolean) {
-                Boolean bol = (Boolean) measurement.getValue();
-                builder.addField(measurement.getName(), bol);
-            } else {
-                String str = (String) measurement.getValue();
-                builder.addField(measurement.getName(), str);
+        List<Measurement> measurements = metricResult.getMeasurements();
+        for(Measurement measurement : measurements) {
+
+            for (Map.Entry<String,String> entry : measurement.getTags().entrySet()) {
+                log.debug("process() - tag: " + entry.getKey() + "=" + entry.getValue());
+                builder.tag(entry.getKey(), entry.getValue());
             }
+
+
+            for (Map.Entry<String,Object> entry : measurement.getFields().entrySet()) {
+                log.debug("process() - field: " + entry.getKey() + "=" + entry.getValue());
+                if(entry.getValue() instanceof Number) {
+                    Number num = (Number) entry.getValue();
+                    builder.addField(entry.getKey(), num);
+                } else if(entry.getValue() instanceof Boolean) {
+                    Boolean bol = (Boolean) entry.getValue();
+                    builder.addField(entry.getKey(), bol);
+                } else {
+                    String str = (String) entry.getValue();
+                    builder.addField(entry.getKey(), str);
+                }
+
+            }
+
         }
 
         exchange.getIn().setBody(builder.build());

@@ -113,5 +113,20 @@ public class LinuxDiskStat {
         return timeSpentOnIo;
     }
 
+    public Long getSectorsRead() {
+        return sectorsRead;
+    }
+
+    public Long getSectorsWritten() {
+        return sectorsWritten;
+    }
+
+    public Long getTimeSpentReading() {
+        return timeSpentReading;
+    }
+
+    public Long getTimeSpentWriting() {
+        return timeSpentWriting;
+    }
 
 }

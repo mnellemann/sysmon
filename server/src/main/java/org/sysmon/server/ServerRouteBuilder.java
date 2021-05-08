@@ -36,7 +36,7 @@ public class ServerRouteBuilder extends RouteBuilder {
         //from("seda:inbound").log("Got metric from: ${header.component}").to("mock:sink");
 
         from("seda:inbound")
-                .log("Got metric from: ${header.component}")
+                .log(">>> metric: ${header.hostname} - ${header.metric}")
                 .doTry()
                     .process(new MetricResultToPointProcessor())
                     .log("${body}")

@@ -1,8 +1,8 @@
 package org.sysmon.plugins.sysmon_linux;
 
 import org.pf4j.Extension;
+import org.sysmon.shared.Measurement;
 import org.sysmon.shared.MetricExtension;
-import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -76,14 +77,13 @@ public class LinuxDiskExtension implements MetricExtension {
     }
 
 
-    private List<MeasurementPair> calculate() {
+    private List<Measurement> calculate() {
 
-        List<MeasurementPair> measurementList = new ArrayList<>();
+        List<Measurement> measurementList = new ArrayList<>();
 
         if(previousDiskStats == null || previousDiskStats.size() != currentDiskStats.size()) {
             return measurementList;
         }
-
 
         for(int i = 0; i < currentDiskStats.size(); i++) {
 
@@ -97,11 +97,19 @@ public class LinuxDiskExtension implements MetricExtension {
                 }
             });
 
-
             if(!ignore.get()) {
-                long timeSpendDoingIo = curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo();
-                // TODO: Calculate differences for wanted disk io stats
-                measurementList.add(new MeasurementPair(curStat.getDevice() + "-iotime", timeSpendDoingIo));
+                HashMap<String, String> tagsMap = new HashMap<>();
+                tagsMap.put("device", curStat.getDevice());
+
+                HashMap<String, Object> fieldsMap = new HashMap<>();
+                fieldsMap.put("iotime", curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo());
+                fieldsMap.put("readtime", curStat.getTimeSpentReading() - preStat.getTimeSpentReading());
+                fieldsMap.put("writetime", curStat.getTimeSpentWriting() - preStat.getTimeSpentWriting());
+                fieldsMap.put("reads", curStat.getSectorsRead() - preStat.getSectorsRead());
+                fieldsMap.put("writes", curStat.getSectorsWritten() - preStat.getSectorsWritten());
+
+                measurementList.add(new Measurement(tagsMap, fieldsMap));
+
             }
 
         }

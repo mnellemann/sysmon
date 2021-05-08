@@ -36,8 +36,8 @@ class LinuxProcessorTest extends Specification {
         LinuxProcessorStat processorStat = new LinuxProcessorStat(processorProcLine1, processorProcLine2)
 
         then:
-        processorStat.getMeasurements().getName() == "cpu0"
-        processorStat.getMeasurements().getValue() == 42.13362f
+        processorStat.getName() == "cpu0"
+        processorStat.getFields().get("utilization") == 42.13362f
 
     }
 

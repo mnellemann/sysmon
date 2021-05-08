@@ -33,12 +33,12 @@ public class ClientRouteBuilder extends RouteBuilder {
                 log.info(">>> Enabling extension: " + ext.getDescription());
 
                 // Setup Camel route for this extension
-                from("timer:collect?period=5000")
+                from("timer:collect?period=15000")
                         .bean(ext, "getMetrics")
                         //.doTry()
-                        .process(new MetricEnrichProcessor())
+                        .process(new MetricEnrichProcessor(registry))
                         .choice().when(exchangeProperty("skip").isEqualTo(true))
-                            .log("Skipping: ${body}")
+                            .log("Skipping empty: ${body}")
                             .stop()
                         .otherwise()
                             .to("seda:metrics");

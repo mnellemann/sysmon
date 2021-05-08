@@ -1,10 +1,7 @@
 package org.sysmon.plugins.sysmon_linux;
 
-import org.sysmon.shared.MeasurementPair;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LinuxProcessorStat {
 
@@ -22,8 +19,18 @@ public class LinuxProcessorStat {
     }
 
 
-    public MeasurementPair getMeasurements() {
-        return new MeasurementPair(cpuName, utilizationPercentage);
+    public String getName() {
+        return cpuName;
+    }
+
+
+    public Map<String, Object> getFields() {
+
+        HashMap<String, Object> fieldsMap = new HashMap<>();
+        fieldsMap.put("utilization", utilizationPercentage);
+
+        return fieldsMap;
+
     }
 
 

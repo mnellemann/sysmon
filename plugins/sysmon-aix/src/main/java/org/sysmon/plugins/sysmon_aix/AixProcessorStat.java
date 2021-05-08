@@ -2,7 +2,7 @@ package org.sysmon.plugins.sysmon_aix;
 
 public class AixProcessorStat {
 
-    private final Integer cpuNum;
+    private final String name;
     private final Float userTime;
     private final Float systemTime;
     private final Float waitTime;
@@ -16,7 +16,7 @@ public class AixProcessorStat {
             throw new UnsupportedOperationException("AIX mpstat CPU string error: " + procString);
         }
 
-        this.cpuNum = Integer.parseInt(splitStr[0]);
+        this.name = "cpu" + splitStr[0];
         this.userTime = Float.parseFloat(splitStr[23]);
         this.systemTime = Float.parseFloat(splitStr[24]);
         this.waitTime = Float.parseFloat(splitStr[25]);
@@ -25,8 +25,8 @@ public class AixProcessorStat {
 
     }
 
-    public Integer getCpuNum() {
-        return cpuNum;
+    public String getName() {
+        return name;
     }
 
     public Float getUserTime() {

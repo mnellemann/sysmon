@@ -7,14 +7,18 @@ import org.apache.camel.main.Main;
 import picocli.CommandLine;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "sysmon-client", mixinStandardHelpOptions = true)
 public class Application implements Callable<Integer> {
 
-    @CommandLine.Option(names = { "-s", "--server-url" }, description = "Server URL [default: 'http://127.0.0.1:9925/metrics'].", defaultValue = "http://127.0.0.1:9925/metrics", paramLabel = "<url>")
+    @CommandLine.Option(names = { "-s", "--server-url" }, description = "Server URL (default: ${DEFAULT-VALUE}).", defaultValue = "http://127.0.0.1:9925/metrics", paramLabel = "<url>")
     private URL serverUrl;
+
+    @CommandLine.Option(names = { "-n", "--hostname" }, description = "Client hostname.", paramLabel = "<name>")
+    private String hostname;
 
 
     public static void main(String... args) {
@@ -26,8 +30,13 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
 
+        if(hostname == null || hostname.isEmpty()) {
+            hostname = InetAddress.getLocalHost().getHostName();
+        }
+
         Main main = new Main();
         main.bind("myServerUrl", serverUrl.toString());
+        main.bind("myHostname", hostname);
         main.configure().addRoutesBuilder(ClientRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)

@@ -12,16 +12,16 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "sysmon-server", mixinStandardHelpOptions = true)
 public class Application implements Callable<Integer> {
 
-    @CommandLine.Option(names = { "-i", "--influxdb-url" }, description = "InfluxDB URL [default: 'http://localhost:8086'].", defaultValue = "http://localhost:8086", paramLabel = "<url>")
+    @CommandLine.Option(names = { "-i", "--influxdb-url" }, description = "InfluxDB URL (default: ${DEFAULT-VALUE})].", defaultValue = "http://localhost:8086", paramLabel = "<url>")
     private URL influxUrl;
 
-    @CommandLine.Option(names = { "-u", "--influxdb-user" }, description = "InfluxDB User [default: 'root'].", defaultValue = "root", paramLabel = "<user>")
+    @CommandLine.Option(names = { "-u", "--influxdb-user" }, description = "InfluxDB Username (default: ${DEFAULT-VALUE})].", defaultValue = "root", paramLabel = "<user>")
     private String influxUser;
 
-    @CommandLine.Option(names = { "-p", "--influxdb-pass" }, description = "InfluxDB Password [default: ''].", defaultValue = "", paramLabel = "<pass>")
+    @CommandLine.Option(names = { "-p", "--influxdb-pass" }, description = "InfluxDB Password (default: ${DEFAULT-VALUE}).", defaultValue = "", paramLabel = "<pass>")
     private String influxPass;
 
-    @CommandLine.Option(names = { "-l", "--listen-port" }, description = "Listening port [default: '9925'].", defaultValue = "9925", paramLabel = "<port>")
+    @CommandLine.Option(names = { "-s", "--server-port" }, description = "Server port (default: ${DEFAULT-VALUE}).", defaultValue = "9925", paramLabel = "<port>")
     private String listenPort;
 
 

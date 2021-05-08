@@ -1,8 +1,8 @@
 package org.sysmon.plugins.sysmon_linux;
 
 import org.pf4j.Extension;
+import org.sysmon.shared.Measurement;
 import org.sysmon.shared.MetricExtension;
-import org.sysmon.shared.MeasurementPair;
 import org.sysmon.shared.MetricResult;
 
 import java.io.IOException;
@@ -10,7 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,21 +51,29 @@ public class LinuxMemoryExtension implements MetricExtension {
     }
 
 
-    private List<MeasurementPair> readProcFile() throws IOException {
+    private List<Measurement> readProcFile() throws IOException {
 
-        List<MeasurementPair> measurementList = new ArrayList<>();
+        List<Measurement> measurementList = new ArrayList<>();
+
+        Map<String, String> tagsMap = new HashMap<>();
+        Map<String, Object> fieldsMap = new HashMap<>();
 
         List<String> allLines = Files.readAllLines(Paths.get("/proc/meminfo"), StandardCharsets.UTF_8);
         for (String line : allLines) {
 
             if (line.startsWith("Mem")) {
+
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find() && matcher.groupCount() == 2) {
-                    measurementList.add(new MeasurementPair(matcher.group(1), matcher.group(2)));
+                    String key = matcher.group(1).substring(3).toLowerCase(); // remove "Mem" and lowercase
+                    Object value = matcher.group(2);
+                    fieldsMap.put(key, value);
                 }
             }
+
         }
 
+        measurementList.add(new Measurement(tagsMap, fieldsMap));
         return measurementList;
     }
 
