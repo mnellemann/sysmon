@@ -5,28 +5,36 @@ import java.util.Map;
 
 public class LinuxProcessorStat {
 
-    private final String cpuName;
-    //private final float user;
-    //private final float sys;
-    //private final float wait;
-    //private final float idle;
+    private final float user;
+    private final float sys;
+    private final float wait;
+    private final float idle;
     private final float busy;
 
     public LinuxProcessorStat(LinuxProcessorProcLine current, LinuxProcessorProcLine previous) {
-        cpuName = current.getCpuName();
 
-        long workTimeDiff = current.getCombinedTime() - previous.getCombinedTime();
-        long idleTimeDiff = current.getCombinedIdleTime() - previous.getCombinedIdleTime();
+        long workTime = current.getCombinedTime() - previous.getCombinedTime();
 
-        float utilization = (float) (workTimeDiff - idleTimeDiff) / workTimeDiff;
-        busy = (utilization * 100);
+        long busyTime = current.getCombinedIdleTime() - previous.getCombinedIdleTime();
+        float busyDiff = (float) (workTime - busyTime) / workTime;
+        busy = (busyDiff * 100);
 
-        // TODO: Calculate user, system, idle and wait diff times into percentage.
-    }
+        long userTime = current.getUserTime() - previous.getUserTime();
+        float userDiff = (float) (workTime - userTime) / workTime;
+        user = 100 - (userDiff * 100);
 
+        long sysTime = current.getSystemTime() - previous.getSystemTime();
+        float sysDiff = (float) (workTime - sysTime) / workTime;
+        sys = 100 - (sysDiff * 100);
 
-    public String getName() {
-        return cpuName;
+        long waitTime = current.getIoWaitTime() - previous.getIoWaitTime();
+        float waitDiff = (float) (workTime - waitTime) / workTime;
+        wait = 100 - (waitDiff * 100);
+
+        long idleTime = current.getIdleTime() - previous.getIdleTime();
+        float idleDiff = (float) (workTime - idleTime) / workTime;
+        idle = 100 - (idleDiff * 100);
+
     }
 
 
@@ -40,6 +48,10 @@ public class LinuxProcessorStat {
 
     public Map<String, Object> getFields() {
         Map<String, Object> fields = new HashMap<>();
+        fields.put("user", user);
+        fields.put("sys", sys);
+        fields.put("wait", wait);
+        fields.put("idle", idle);
         fields.put("busy", busy);
         return fields;
     }

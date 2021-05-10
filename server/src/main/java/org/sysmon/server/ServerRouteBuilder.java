@@ -44,9 +44,7 @@ public class ServerRouteBuilder extends RouteBuilder {
                     .log("Error storing metric to InfluxDB: ${exception}")
                 .end();
 
-
     }
-
 
 
 }

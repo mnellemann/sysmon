@@ -10,5 +10,4 @@ public interface MetricExtension extends ExtensionPoint {
     String getDescription();
 
     MetricResult getMetrics();
-
 }

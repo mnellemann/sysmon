@@ -37,6 +37,10 @@ class LinuxProcessorTest extends Specification {
 
         then:
         processorStat.getBusy() == 38.001614f
+        processorStat.getFields().get("user") == 35.6989f
+        processorStat.getFields().get("sys") == 2.2623215f
+        processorStat.getFields().get("idle") == 61.823322f
+        processorStat.getFields().get("wait") == 0.17505646f
 
     }
 
