@@ -2,6 +2,7 @@ package org.sysmon.shared;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Measurement {
 
@@ -13,8 +14,8 @@ public class Measurement {
     }
 
     public Measurement(Map<String, String> tags, Map<String, Object> fields) {
-        this.tags = tags;
-        this.fields = fields;
+        this.tags = Objects.requireNonNull(tags);
+        this.fields = Objects.requireNonNull(fields);
     }
 
     public Map<String, String> getTags() {
@@ -26,10 +27,12 @@ public class Measurement {
     }
 
     public void setTags(Map<String, String> tags) {
+        Objects.requireNonNull(tags);
         this.tags = tags;
     }
 
     public void setFields(Map<String, Object> fields) {
+        Objects.requireNonNull(fields);
         this.fields = fields;
     }
 

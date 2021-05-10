@@ -4,15 +4,20 @@
 package org.sysmon.client;
 
 import org.apache.camel.main.Main;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "sysmon-client", mixinStandardHelpOptions = true)
 public class Application implements Callable<Integer> {
+
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @CommandLine.Option(names = { "-s", "--server-url" }, description = "Server URL (default: ${DEFAULT-VALUE}).", defaultValue = "http://127.0.0.1:9925/metrics", paramLabel = "<url>")
     private URL serverUrl;
@@ -31,7 +36,12 @@ public class Application implements Callable<Integer> {
     public Integer call() throws IOException {
 
         if(hostname == null || hostname.isEmpty()) {
-            hostname = InetAddress.getLocalHost().getHostName();
+            try {
+                hostname = InetAddress.getLocalHost().getHostName();
+            } catch (UnknownHostException e) {
+                log.warn(e.getMessage());
+                hostname = "unknown";
+            }
         }
 
         Main main = new Main();

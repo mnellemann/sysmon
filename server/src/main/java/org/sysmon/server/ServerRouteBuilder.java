@@ -36,10 +36,9 @@ public class ServerRouteBuilder extends RouteBuilder {
         //from("seda:inbound").log("Got metric from: ${header.component}").to("mock:sink");
 
         from("seda:inbound")
-                .log(">>> metric: ${header.hostname} - ${header.metric}")
+                .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
                     .process(new MetricResultToPointProcessor())
-                    .log("${body}")
                     .to("influxdb://myInfluxConnection?databaseName=sysmon&retentionPolicy=autogen")
                 .doCatch(Exception.class)
                     .log("Error storing metric to InfluxDB: ${exception}")

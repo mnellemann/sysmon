@@ -1,0 +1,7 @@
+
+System configuration: lcpu=8 mem=4096MB ent=0.50
+
+   kthr            memory                         page                       faults                 cpu             time
+----------- --------------------- ------------------------------------ ------------------ ----------------------- --------
+  r   b   p        avm        fre    fi    fo    pi    po    fr     sr    in     sy    cs us sy id wa    pc    ec hr mi se
+  2   1   0     633739     130144     0    13     0     0     2      2     7    969   529  0  0 99  0  0.00   0.1 07:53:28

@@ -47,7 +47,7 @@ public class LinuxDiskExtension implements MetricExtension {
         try {
             copyCurrentValues();
             readProcFile();
-            result.addMeasurements(calculate());
+            result.setMeasurement(calculate());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,13 +77,14 @@ public class LinuxDiskExtension implements MetricExtension {
     }
 
 
-    private List<Measurement> calculate() {
-
-        List<Measurement> measurementList = new ArrayList<>();
+    private Measurement calculate() {
 
         if(previousDiskStats == null || previousDiskStats.size() != currentDiskStats.size()) {
-            return measurementList;
+            return null;
         }
+
+        HashMap<String, String> tagsMap = new HashMap<>();
+        HashMap<String, Object> fieldsMap = new HashMap<>();
 
         for(int i = 0; i < currentDiskStats.size(); i++) {
 
@@ -98,23 +99,16 @@ public class LinuxDiskExtension implements MetricExtension {
             });
 
             if(!ignore.get()) {
-                HashMap<String, String> tagsMap = new HashMap<>();
-                tagsMap.put("device", curStat.getDevice());
-
-                HashMap<String, Object> fieldsMap = new HashMap<>();
-                fieldsMap.put("iotime", curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo());
-                fieldsMap.put("readtime", curStat.getTimeSpentReading() - preStat.getTimeSpentReading());
-                fieldsMap.put("writetime", curStat.getTimeSpentWriting() - preStat.getTimeSpentWriting());
-                fieldsMap.put("reads", curStat.getSectorsRead() - preStat.getSectorsRead());
-                fieldsMap.put("writes", curStat.getSectorsWritten() - preStat.getSectorsWritten());
-
-                measurementList.add(new Measurement(tagsMap, fieldsMap));
-
+                fieldsMap.put(curStat.getDevice() + "_iotime", curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo());
+                //fieldsMap.put(curStat.getDevice() + "_readtime", curStat.getTimeSpentReading() - preStat.getTimeSpentReading());
+                //fieldsMap.put(curStat.getDevice() + "_writetime", curStat.getTimeSpentWriting() - preStat.getTimeSpentWriting());
+                fieldsMap.put(curStat.getDevice() + "_reads", curStat.getSectorsRead() - preStat.getSectorsRead());
+                fieldsMap.put(curStat.getDevice() + "_writes", curStat.getSectorsWritten() - preStat.getSectorsWritten());
             }
 
         }
 
-        return measurementList;
+        return new Measurement(tagsMap, fieldsMap);
     }
 
 }

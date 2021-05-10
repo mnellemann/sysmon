@@ -24,7 +24,7 @@ public class AixDiskExtension implements MetricExtension {
 
     @Override
     public MetricResult getMetrics() {
-        return null;
+        return new MetricResult("disk");
     }
 
 }

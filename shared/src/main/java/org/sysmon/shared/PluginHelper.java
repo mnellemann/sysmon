@@ -1,5 +1,8 @@
 package org.sysmon.shared;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PluginHelper {
+
+    private static final Logger log = LoggerFactory.getLogger(PluginHelper.class);
 
     final static boolean isWindows = System.getProperty("os.name")
             .toLowerCase().startsWith("windows");
@@ -29,11 +34,9 @@ public class PluginHelper {
         }
 
         builder.directory(new File(System.getProperty("user.home")));
-
         try {
 
             Process process = builder.start();
-
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(process.getInputStream()));
 
@@ -43,7 +46,9 @@ public class PluginHelper {
             }
 
             int exitCode = process.waitFor();
-            System.out.println("\nExited with error code : " + exitCode);
+            if(exitCode > 0) {
+                log.warn("executeCommand() - exit code: " + exitCode);
+            }
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

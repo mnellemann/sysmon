@@ -2,8 +2,6 @@ package org.sysmon.shared;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class MetricResult implements Serializable {
@@ -11,9 +9,9 @@ public class MetricResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
-    private Long timestamp;   // epoch milli
     private String hostname;
-    private List<Measurement> measurements = new ArrayList<>();
+    private Long timestamp;   // epoch milli
+    private Measurement measurement;
 
     public MetricResult() {
     }
@@ -23,12 +21,14 @@ public class MetricResult implements Serializable {
         this.timestamp = Instant.now().toEpochMilli();
     }
 
-    public void addMeasurements(List<Measurement> measurementList) {
-        this.measurements = measurementList;
+    public MetricResult(String name, Measurement measurement) {
+        this.name = name;
+        this.timestamp = Instant.now().toEpochMilli();
+        this.measurement = measurement;
     }
 
-    public void addMeasurement(Measurement measurement) {
-        measurements.add(measurement);
+    public void setMeasurement(Measurement measurement) {
+        this.measurement = measurement;
     }
 
     public void setHostname(String hostname) {
@@ -55,24 +55,24 @@ public class MetricResult implements Serializable {
         return hostname;
     }
 
-    public List<Measurement> getMeasurements() {
-        return measurements;
+    public Measurement getMeasurement() {
+        return measurement;
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder(String.format("%s - %s\n", timestamp.toString(), name));
-        for(Measurement m : measurements) {
+        StringBuilder sb = new StringBuilder(String.format("%s - %s {", timestamp.toString(), name));
 
-            for (Map.Entry<String,String> entry : m.getTags().entrySet())
-                sb.append(entry.getKey() + " : " + entry.getValue());
-
-            for (Map.Entry<String,Object> entry : m.getFields().entrySet())
-                sb.append(entry.getKey() + " : " + entry.getValue());
-
-            sb.append(m.toString()).append("\n");
+        if(measurement != null &&  measurement.getTags() != null) {
+            for (Map.Entry<String, String> entry : measurement.getTags().entrySet())
+                sb.append(" [").append(entry.getKey()).append(": ").append(entry.getValue()).append("]");
         }
 
-        return sb.toString();
+        if(measurement != null && measurement.getFields() != null) {
+            for (Map.Entry<String,Object> entry : measurement.getFields().entrySet())
+                sb.append(" [").append(entry.getKey()).append(": ").append(entry.getValue()).append("]");
+        }
+
+        return sb.append(" }").toString();
     }
     
 }

@@ -9,6 +9,7 @@ plugins {
 dependencies {
     testImplementation project(':shared')
     implementation project(':shared')
+    implementation project(':plugins')
 
     annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
     implementation group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}"

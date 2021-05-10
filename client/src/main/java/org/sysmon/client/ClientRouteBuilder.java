@@ -27,7 +27,6 @@ public class ClientRouteBuilder extends RouteBuilder {
         pluginManager.startPlugins();
 
         List<MetricExtension> metricExtensions = pluginManager.getExtensions(MetricExtension.class);
-        //log.info(String.format("Found %d extensions for extension point '%s':", metricExtensions.size(), MetricExtension.class.getName()));
         for (MetricExtension ext : metricExtensions) {
             if(ext.isSupported()) {
                 log.info(">>> Enabling extension: " + ext.getDescription());
@@ -42,7 +41,6 @@ public class ClientRouteBuilder extends RouteBuilder {
                             .stop()
                         .otherwise()
                             .to("seda:metrics");
-
             }
         }
 

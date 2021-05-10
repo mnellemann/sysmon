@@ -42,7 +42,7 @@ public class LinuxMemoryExtension implements MetricExtension {
 
         MetricResult result = new MetricResult("memory");
         try {
-            result.addMeasurements(readProcFile());
+            result.setMeasurement(readProcFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,9 +51,7 @@ public class LinuxMemoryExtension implements MetricExtension {
     }
 
 
-    private List<Measurement> readProcFile() throws IOException {
-
-        List<Measurement> measurementList = new ArrayList<>();
+    private Measurement readProcFile() throws IOException {
 
         Map<String, String> tagsMap = new HashMap<>();
         Map<String, Object> fieldsMap = new HashMap<>();
@@ -73,8 +71,7 @@ public class LinuxMemoryExtension implements MetricExtension {
 
         }
 
-        measurementList.add(new Measurement(tagsMap, fieldsMap));
-        return measurementList;
+        return new Measurement(tagsMap, fieldsMap);
     }
 
 }

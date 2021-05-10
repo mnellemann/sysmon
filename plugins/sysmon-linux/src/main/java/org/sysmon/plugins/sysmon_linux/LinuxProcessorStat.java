@@ -6,7 +6,11 @@ import java.util.Map;
 public class LinuxProcessorStat {
 
     private final String cpuName;
-    private final float utilizationPercentage;
+    //private final float user;
+    //private final float sys;
+    //private final float wait;
+    //private final float idle;
+    private final float busy;
 
     public LinuxProcessorStat(LinuxProcessorProcLine current, LinuxProcessorProcLine previous) {
         cpuName = current.getCpuName();
@@ -15,7 +19,9 @@ public class LinuxProcessorStat {
         long idleTimeDiff = current.getCombinedIdleTime() - previous.getCombinedIdleTime();
 
         float utilization = (float) (workTimeDiff - idleTimeDiff) / workTimeDiff;
-        utilizationPercentage = (utilization * 100);
+        busy = (utilization * 100);
+
+        // TODO: Calculate user, system, idle and wait diff times into percentage.
     }
 
 
@@ -24,13 +30,18 @@ public class LinuxProcessorStat {
     }
 
 
+    public Float getBusy() {
+        return busy;
+    }
+
+    public Map<String, String> getTags() {
+        return new HashMap<>();
+    }
+
     public Map<String, Object> getFields() {
-
-        HashMap<String, Object> fieldsMap = new HashMap<>();
-        fieldsMap.put("utilization", utilizationPercentage);
-
-        return fieldsMap;
-
+        Map<String, Object> fields = new HashMap<>();
+        fields.put("busy", busy);
+        return fields;
     }
 
 

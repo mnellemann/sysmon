@@ -44,31 +44,20 @@ public class LinuxProcessorExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        if(currentProcessorProc != null && currentProcessorProc.size() > 0) {
-            previousProcessorProc = new ArrayList<>(currentProcessorProc);
-        }
-        currentProcessorProc = processFileOutput(readProcFile());
+        LinuxProcessorProcLine proc1 = processFileOutput(readProcFile());
 
-        MetricResult result = new MetricResult("processor");
-        if(previousProcessorProc == null || previousProcessorProc.size() != currentProcessorProc.size()) {
-            return result;
-        }
-
-
-        List<Measurement> measurementList = new ArrayList<>();
-        for(int i = 0; i < currentProcessorProc.size(); i++) {
-            LinuxProcessorStat stat = new LinuxProcessorStat(currentProcessorProc.get(i), previousProcessorProc.get(i));
-
-            Map<String, String> tagsMap = new HashMap<>();
-            tagsMap.put("cpu", stat.getName());
-
-            Map<String, Object> fieldsMap = stat.getFields();
-
-            measurementList.add(new Measurement(tagsMap, fieldsMap));
+        try {
+            Thread.sleep(1 * 1000); // TODO: Configure sample collect time
+        } catch (InterruptedException e) {
+            log.warn("getMetrics() - sleep interrupted");
+            return null;
         }
 
-        result.addMeasurements(measurementList);
-        return result;
+        LinuxProcessorProcLine proc2 = processFileOutput(readProcFile());
+
+        LinuxProcessorStat stat = new LinuxProcessorStat(proc2, proc1);
+
+        return new MetricResult("processor", new Measurement(stat.getTags(), stat.getFields()));
     }
 
 
@@ -86,16 +75,15 @@ public class LinuxProcessorExtension implements MetricExtension {
     }
 
 
-    protected List<LinuxProcessorProcLine> processFileOutput(List<String> inputLines) {
+    protected LinuxProcessorProcLine processFileOutput(List<String> inputLines) {
 
-        List<LinuxProcessorProcLine> processorStats = new ArrayList<>();
         for(String line : inputLines) {
-            if(line.matches("^cpu\\d+.*")) {
-                processorStats.add(new LinuxProcessorProcLine(line));
+            if(line.matches("^cpu\\S+.*")) {
+                return new LinuxProcessorProcLine(line);
             }
         }
 
-        return processorStats;
+        return null;
     }
 
 

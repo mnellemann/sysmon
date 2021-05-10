@@ -47,7 +47,6 @@ subprojects {
 
 task customCleanUp(type:Delete) {
     delete "output"
-    //delete files("${buildDir}/test/*.jar")
 }
 
 tasks.clean.dependsOn(tasks.customCleanUp)

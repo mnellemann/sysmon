@@ -1,0 +1,6 @@
+
+System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
+
+%user  %sys  %wait  %idle physc %entc  lbusy  vcsw phint  %nsp  %utcyc
+----- ----- ------ ------ ----- ----- ------ ----- ----- -----  ------
+ 83.7   3.3    0.0   13.0  1.00 199.6   66.4  1288     0   149  32.96

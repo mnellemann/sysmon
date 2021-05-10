@@ -13,13 +13,13 @@ class LinuxProcessorTest extends Specification {
 
         when:
         LinuxProcessorExtension extension = new LinuxProcessorExtension()
-        List<LinuxProcessorProcLine> procLines = extension.processFileOutput(lines)
+        LinuxProcessorProcLine procLine = extension.processFileOutput(lines)
 
         then:
-        procLines[0].getSystemTime() == 4686l
-        procLines[0].getUserTime() == 27477l
-        procLines[0].getIdleTime() == 281276l
-        procLines[0].getIoWaitTime() == 252l
+        procLine.getSystemTime() == 4686l
+        procLine.getUserTime() == 27477l
+        procLine.getIdleTime() == 281276l
+        procLine.getIoWaitTime() == 252l
 
     }
 
@@ -29,15 +29,14 @@ class LinuxProcessorTest extends Specification {
         setup:
         def testFile1 = new File(getClass().getResource('/proc1.txt').toURI())
         def testFile2 = new File(getClass().getResource('/proc2.txt').toURI())
-        LinuxProcessorProcLine processorProcLine1 = new LinuxProcessorProcLine(testFile1.readLines().get(1))
-        LinuxProcessorProcLine processorProcLine2 = new LinuxProcessorProcLine(testFile2.readLines().get(1))
+        LinuxProcessorProcLine processorProcLine1 = new LinuxProcessorProcLine(testFile1.readLines().get(0))
+        LinuxProcessorProcLine processorProcLine2 = new LinuxProcessorProcLine(testFile2.readLines().get(0))
 
         when:
         LinuxProcessorStat processorStat = new LinuxProcessorStat(processorProcLine1, processorProcLine2)
 
         then:
-        processorStat.getName() == "cpu0"
-        processorStat.getFields().get("utilization") == 42.13362f
+        processorStat.getBusy() == 38.001614f
 
     }
 
