@@ -8,7 +8,7 @@ import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
 import org.sysmon.shared.PluginHelper;
 
-import java.util.HashMap;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +19,29 @@ public class AixProcessorExtension implements MetricExtension {
 
     @Override
     public boolean isSupported() {
-        return System.getProperty("os.name").toLowerCase().contains("aix");
+
+        String osArch = System.getProperty("os.arch").toLowerCase();
+        if(!osArch.startsWith("ppc64")) {
+            log.warn("Wrong os arch: " + osArch);
+            return false;
+        }
+
+        if(!PluginHelper.canExecute("lparstat")) {
+            log.warn("No lparstat command found.");
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public String getName() {
         return "aix-processor";
+    }
+
+    @Override
+    public String getProvides() {
+        return "processor";
     }
 
     @Override
@@ -35,7 +52,7 @@ public class AixProcessorExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        List<String> vmstat = PluginHelper.executeCommand("/usr/bin/lparstat 1 1");
+        List<String> vmstat = PluginHelper.executeCommand("lparstat 1 1");
         AixProcessorStat processorStat = processCommandOutput(vmstat);
 
         Map<String, String> tagsMap = processorStat.getTags();

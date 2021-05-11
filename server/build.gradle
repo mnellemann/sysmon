@@ -1,7 +1,7 @@
 plugins {
     id 'application'
 
-    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id "net.nemerosa.versioning" version "2.14.0"
     id "nebula.ospackage" version "8.5.6"
 }
@@ -39,7 +39,7 @@ ospackage {
     user = 'root'
     packager = "Mark Nellemann <mark.nellemann@gmail.com>"
 
-    into '/opt/sysmon-server'
+    into '/opt/sysmon/server'
 
     from(shadowJar.outputs.files) {
         into 'lib'
@@ -69,7 +69,8 @@ buildDeb {
     dependsOn startShadowScripts
 }
 
-task aixRpm(type: Rpm) {
+task buildRpmAix(type: Rpm) {
+    dependsOn startShadowScripts
     os "AIX"
 }
 
@@ -83,6 +84,14 @@ jar {
                 'Build-Version'  : versioning.info.tag ?: (versioning.info.branch + "-" + versioning.info.build),
                 'Build-Revision' : versioning.info.commit,
                 'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ").toString(),
+                'Add-Opens'      : 'java.base/java.lang.invoke' // To ignore "Illegal reflective access by retrofit2.Platform" warnings
         )
     }
+}
+
+shadowJar {
+    archiveBaseName.set('sysmon-server')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    mergeServiceFiles() // Tell plugin to merge duplicate service files
 }

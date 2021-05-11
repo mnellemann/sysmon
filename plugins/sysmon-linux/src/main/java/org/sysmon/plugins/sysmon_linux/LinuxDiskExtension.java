@@ -27,12 +27,18 @@ public class LinuxDiskExtension implements MetricExtension {
 
     @Override
     public boolean isSupported() {
-        return System.getProperty("os.name").toLowerCase().contains("linux");
+        //return System.getProperty("os.name").toLowerCase().contains("linux");
+        return false; // TODO: Not ready yet.
     }
 
     @Override
     public String getName() {
         return "linux-disk";
+    }
+
+    @Override
+    public String getProvides() {
+        return "disk";
     }
 
     @Override

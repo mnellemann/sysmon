@@ -8,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Properties;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "sysmon-client", mixinStandardHelpOptions = true)
@@ -22,9 +24,11 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-s", "--server-url" }, description = "Server URL (default: ${DEFAULT-VALUE}).", defaultValue = "http://127.0.0.1:9925/metrics", paramLabel = "<url>")
     private URL serverUrl;
 
-    @CommandLine.Option(names = { "-n", "--hostname" }, description = "Client hostname.", paramLabel = "<name>")
+    @CommandLine.Option(names = { "-n", "--hostname" }, description = "Client hostname (default: <hostname>).", paramLabel = "<name>")
     private String hostname;
 
+    @CommandLine.Option(names = { "-p", "--plugins" }, description = "Plugin jar path (default: ${DEFAULT-VALUE}).", paramLabel = "<path>", defaultValue = "/opt/sysmon/plugins")
+    private File plugins;
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);

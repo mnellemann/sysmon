@@ -5,6 +5,8 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
 import org.sysmon.shared.MetricResult;
 
+import java.util.Properties;
+
 public class ServerRouteBuilder extends RouteBuilder {
 
     @Override
@@ -14,8 +16,8 @@ public class ServerRouteBuilder extends RouteBuilder {
 
         restConfiguration().component("jetty")
                 .bindingMode(RestBindingMode.auto)
-                .host("127.0.0.1")
-                .port((Integer) registry.lookupByName("myListenPort"));
+                .host(registry.lookupByNameAndType("http.host", String.class))
+                .port(registry.lookupByNameAndType("http.port", Integer.class));
 
         rest()
                 .get("/")
@@ -39,7 +41,7 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
                     .process(new MetricResultToPointProcessor())
-                    .to("influxdb://myInfluxConnection?databaseName=sysmon&retentionPolicy=autogen")
+                    .to("influxdb://ref.myInfluxConnection?databaseName=sysmon&retentionPolicy=autogen")
                 .doCatch(Exception.class)
                     .log("Error storing metric to InfluxDB: ${exception}")
                 .end();

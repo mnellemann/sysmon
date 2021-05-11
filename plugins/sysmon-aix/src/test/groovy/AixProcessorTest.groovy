@@ -4,10 +4,10 @@ import spock.lang.Specification
 
 class AixProcessorTest extends Specification {
 
-    void "test lparstat output processing"() {
+    void "test AIX lparstat output processing"() {
 
         setup:
-        def testFile = new File(getClass().getResource('/lparstat.txt').toURI())
+        def testFile = new File(getClass().getResource('/lparstat-aix.txt').toURI())
         List<String> lines = testFile.readLines("UTF-8")
 
         when:
@@ -23,5 +23,26 @@ class AixProcessorTest extends Specification {
 
     }
 
+
+    void "test Linux lparstat output processing"() {
+
+        setup:
+        def testFile = new File(getClass().getResource('/lparstat-linux.txt').toURI())
+        List<String> lines = testFile.readLines("UTF-8")
+
+        when:
+        AixProcessorExtension extension = new AixProcessorExtension()
+        AixProcessorStat stats = extension.processCommandOutput(lines)
+
+        then:
+        stats.getUser() == 0.03f
+        stats.getSys() == 0.0f
+        stats.getWait() == 0.0f
+        stats.getIdle() == 99.97f
+        stats.getFields().get("ent") == 4.00f
+        stats.getTags().get("mode") == "Uncapped"
+        stats.getTags().get("type") == "Shared"
+
+    }
 
 }

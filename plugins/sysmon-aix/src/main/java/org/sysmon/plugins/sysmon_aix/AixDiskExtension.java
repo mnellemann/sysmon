@@ -18,6 +18,11 @@ public class AixDiskExtension implements MetricExtension {
     }
 
     @Override
+    public String getProvides() {
+        return "disk";
+    }
+
+    @Override
     public String getDescription() {
         return "AIX Disk Metrics (TODO)";
     }

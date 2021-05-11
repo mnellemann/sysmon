@@ -13,7 +13,12 @@ public class AixProcessorStat {
 
     private static final Logger log = LoggerFactory.getLogger(AixProcessorStat.class);
 
-    private final Pattern pattern = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
+    // System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
+    private final Pattern patternAix = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
+
+    // type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
+    private final Pattern patternLinux = Pattern.compile("^type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+) kB cpus=(\\d+) ent=(\\d+\\.?\\d*)");
+
 
     private String type;
     private String mode;
@@ -31,34 +36,44 @@ public class AixProcessorStat {
     private final Float lbusy;  // Indicates the percentage of logical processor(s) utilization that occurred while executing at the user and system level.
 
 
-    /*
+    AixProcessorStat(List<String> lines) {
 
-    System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
+        Pattern p;
+        for (String line : lines) {
 
-
-    %user  %sys  %wait  %idle physc %entc  lbusy  vcsw phint  %nsp  %utcyc
-    ----- ----- ------ ------ ----- ----- ------ ----- ----- -----  ------
-      0.1   0.0    0.0   99.9  0.00   0.2    1.9 37441986   316   149  33.06
-    */
-    AixProcessorStat(List<String> vmstatLines) {
-
-        for(String line : vmstatLines) {
-            Matcher matcher = pattern.matcher(line);
-            if (matcher.find() && matcher.groupCount() == 7) {
-                type=matcher.group(1);
-                mode=matcher.group(2);
-                smt = Integer.parseInt(matcher.group(3));
-                lcpu = Integer.parseInt(matcher.group(4));
-                psize = Integer.parseInt(matcher.group(5));
-                ent = Float.parseFloat(matcher.group(7));
-                break;
+            if (line.startsWith("System configuration:")) {
+                p = patternAix;
+                Matcher matcher = patternAix.matcher(line);
+                if (matcher.find() && matcher.groupCount() == 7) {
+                    type = matcher.group(1);
+                    mode = matcher.group(2);
+                    smt = Integer.parseInt(matcher.group(3));
+                    lcpu = Integer.parseInt(matcher.group(4));
+                    psize = Integer.parseInt(matcher.group(5));
+                    ent = Float.parseFloat(matcher.group(7));
+                }
             }
+
+            if (line.startsWith("type=")) {
+                //type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
+
+                Matcher matcher = patternLinux.matcher(line);
+                if (matcher.find() && matcher.groupCount() == 7) {
+                    type = matcher.group(1);
+                    mode = matcher.group(2);
+                    smt = Integer.parseInt(matcher.group(3));
+                    lcpu = Integer.parseInt(matcher.group(4));
+                    psize = Integer.parseInt(matcher.group(6));
+                    ent = Float.parseFloat(matcher.group(7));
+                }
+            }
+
         }
 
-        String vmstat = vmstatLines.get(vmstatLines.size() -1);
-        String[] splitStr = vmstat.trim().split("\\s+");
-        if(splitStr.length != 11) {
-            throw new UnsupportedOperationException("vmstat string error: " + splitStr.length);
+        String lparstat = lines.get(lines.size() -1);
+        String[] splitStr = lparstat.trim().split("\\s+");
+        if(splitStr.length < 9) {
+            throw new UnsupportedOperationException("lparstat string error: " + lparstat);
         }
 
         this.user = Float.parseFloat(splitStr[0]);

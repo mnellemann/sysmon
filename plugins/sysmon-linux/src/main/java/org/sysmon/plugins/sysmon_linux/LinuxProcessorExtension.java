@@ -36,6 +36,11 @@ public class LinuxProcessorExtension implements MetricExtension {
     }
 
     @Override
+    public String getProvides() {
+        return "processor";
+    }
+
+    @Override
     public String getDescription() {
         return "Linux Processor Metrics";
     }

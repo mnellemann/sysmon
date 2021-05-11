@@ -7,6 +7,7 @@ public interface MetricExtension extends ExtensionPoint {
     boolean isSupported();
 
     String getName();
+    String getProvides();
     String getDescription();
 
     MetricResult getMetrics();

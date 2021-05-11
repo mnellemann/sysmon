@@ -1,0 +1,7 @@
+
+System Configuration
+type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
+
+%user  %sys %wait    %idle    physc %entc lbusy  vcsw phint
+----- ----- -----    -----    ----- ----- ----- ----- -----
+ 0.03  0.00  0.00    99.97 0.000000 0.000000  0.03 445478301 18863

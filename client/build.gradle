@@ -1,15 +1,14 @@
 plugins {
     id 'application'
 
-    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id "net.nemerosa.versioning" version "2.14.0"
-    id "nebula.ospackage" version "8.4.1"
+    id "nebula.ospackage" version "8.5.6"
 }
 
 dependencies {
     testImplementation project(':shared')
     implementation project(':shared')
-    implementation project(':plugins')
 
     annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
     implementation group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}"
@@ -48,7 +47,7 @@ ospackage {
     user = 'root'
     packager = "Mark Nellemann <mark.nellemann@gmail.com>"
 
-    into '/opt/sysmon-client'
+    into '/opt/sysmon/client'
 
     from(shadowJar.outputs.files) {
         into 'lib'
@@ -89,4 +88,11 @@ jar {
                 'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ").toString(),
         )
     }
+}
+
+shadowJar {
+    archiveBaseName.set('sysmon-client')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    mergeServiceFiles() // Tell plugin to merge duplicate service files
 }
