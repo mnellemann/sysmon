@@ -32,7 +32,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                 log.info(">>> Enabling extension: " + ext.getDescription());
 
                 // Setup Camel route for this extension
-                from("timer:collect?period=15000")
+                from("timer:collect?period=30000")
                         .bean(ext, "getMetrics")
                         //.doTry()
                         .process(new MetricEnrichProcessor(registry))
