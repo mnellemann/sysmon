@@ -11,12 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class ClientRouteBuilder extends RouteBuilder {
 
@@ -48,7 +46,8 @@ public class ClientRouteBuilder extends RouteBuilder {
                 providers.add(provides);
 
                 // Setup Camel route for this extension
-                from("timer:collect?fixedRate=true&period=30s")
+                // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
+                from("timer:"+provides+"?fixedRate=true&period=10s")
                         .bean(ext, "getMetrics")
                         //.doTry()
                         .process(new MetricEnrichProcessor(registry))

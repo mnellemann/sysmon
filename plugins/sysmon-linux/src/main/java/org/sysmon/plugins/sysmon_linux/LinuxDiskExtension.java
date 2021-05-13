@@ -53,7 +53,7 @@ public class LinuxDiskExtension implements MetricExtension {
         }
         LinuxDiskProcLine proc2 = processFileOutput(readProcFile());
 
-        LinuxDiskStat stat = new LinuxDiskStat(proc2, proc1);
+        LinuxDiskStat stat = new LinuxDiskStat(proc1, proc2);
         System.err.println("FOOBAR");
         return new MetricResult("disk", new Measurement(stat.getTags(), stat.getFields()));
     }

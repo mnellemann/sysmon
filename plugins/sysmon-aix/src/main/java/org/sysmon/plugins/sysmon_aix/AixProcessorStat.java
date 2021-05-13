@@ -38,11 +38,9 @@ public class AixProcessorStat {
 
     AixProcessorStat(List<String> lines) {
 
-        Pattern p;
         for (String line : lines) {
 
             if (line.startsWith("System configuration:")) {
-                p = patternAix;
                 Matcher matcher = patternAix.matcher(line);
                 if (matcher.find() && matcher.groupCount() == 7) {
                     type = matcher.group(1);

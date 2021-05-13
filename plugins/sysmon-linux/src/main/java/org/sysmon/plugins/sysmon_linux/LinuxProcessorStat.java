@@ -11,7 +11,7 @@ public class LinuxProcessorStat {
     private final float idle;
     private final float busy;
 
-    public LinuxProcessorStat(LinuxProcessorProcLine current, LinuxProcessorProcLine previous) {
+    public LinuxProcessorStat(LinuxProcessorProcLine previous, LinuxProcessorProcLine current) {
 
         long workTime = current.getCombinedTime() - previous.getCombinedTime();
 

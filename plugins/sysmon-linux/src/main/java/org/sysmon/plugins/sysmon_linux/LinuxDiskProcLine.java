@@ -1,6 +1,10 @@
 package org.sysmon.plugins.sysmon_linux;
 
 public class LinuxDiskProcLine {
+
+    // Sectors to bytes - each sector is 512 bytes - https://lkml.org/lkml/2015/8/17/269
+    static final private int SECTOR_BYTE_SIZE = 512;
+
     /*
         ==  ===================================
          1  major number
@@ -113,12 +117,12 @@ public class LinuxDiskProcLine {
         return timeSpentOnIo;
     }
 
-    public Long getSectorsRead() {
-        return sectorsRead;
+    public Long getBytesRead() {
+        return sectorsRead * SECTOR_BYTE_SIZE;
     }
 
-    public Long getSectorsWritten() {
-        return sectorsWritten;
+    public Long getBytesWritten() {
+        return sectorsWritten * SECTOR_BYTE_SIZE;
     }
 
     public Long getTimeSpentReading() {

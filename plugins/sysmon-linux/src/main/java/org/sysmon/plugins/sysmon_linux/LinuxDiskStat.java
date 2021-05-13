@@ -21,8 +21,8 @@ public class LinuxDiskStat {
 
         device = proc1.getDevice();
         iotime = proc2.getTimeSpentOnIo() - proc1.getTimeSpentOnIo();
-        writes = proc2.getSectorsWritten() - proc1.getSectorsWritten();
-        reads = proc2.getSectorsRead() - proc1.getSectorsRead();
+        writes = proc2.getBytesWritten() - proc1.getBytesWritten();
+        reads = proc2.getBytesRead() - proc1.getBytesRead();
 
     }
 

@@ -36,8 +36,8 @@ class LinuxDiskTest extends Specification {
         then:
         diskStat.getTags().get("device") == "nvme0n1"
         diskStat.getFields().get("iotime") == 272l
-        diskStat.getFields().get("writes") == 78920l
-        diskStat.getFields().get("reads") == 0l
+        diskStat.getFields().get("writes") == 40407040l
+        diskStat.getFields().get("reads") == 80896l
 
     }
 }

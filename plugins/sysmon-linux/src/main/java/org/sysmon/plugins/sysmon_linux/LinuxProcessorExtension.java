@@ -60,7 +60,7 @@ public class LinuxProcessorExtension implements MetricExtension {
 
         LinuxProcessorProcLine proc2 = processFileOutput(readProcFile());
 
-        LinuxProcessorStat stat = new LinuxProcessorStat(proc2, proc1);
+        LinuxProcessorStat stat = new LinuxProcessorStat(proc1, proc2);
 
         return new MetricResult("processor", new Measurement(stat.getTags(), stat.getFields()));
     }
