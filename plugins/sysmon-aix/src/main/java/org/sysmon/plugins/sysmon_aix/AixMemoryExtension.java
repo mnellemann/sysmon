@@ -1,4 +1,4 @@
-package org.sysmon.plugins.sysmon_linux;
+package org.sysmon.plugins.sysmon_aix;
 
 import org.pf4j.Extension;
 import org.slf4j.Logger;
@@ -12,20 +12,20 @@ import java.util.List;
 import java.util.Map;
 
 @Extension
-public class LinuxMemoryExtension implements MetricExtension {
+public class AixMemoryExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(LinuxMemoryExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(AixMemoryExtension.class);
 
     @Override
     public boolean isSupported() {
 
-        if(!System.getProperty("os.name").toLowerCase().contains("linux")) {
-            log.warn("Requires Linux.");
+        if(!System.getProperty("os.name").toLowerCase().contains("aix")) {
+            log.warn("Requires AIX.");
             return false;
         }
 
-        if(!PluginHelper.canExecute("free")) {
-            log.warn("Requires the 'free' command.");
+        if(!PluginHelper.canExecute("svmon")) {
+            log.warn("Requires the 'svmon' command.");
             return false;
         }
 
@@ -34,7 +34,7 @@ public class LinuxMemoryExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "linux-memory";
+        return "aix-memory";
     }
 
     @Override
@@ -44,14 +44,14 @@ public class LinuxMemoryExtension implements MetricExtension {
 
     @Override
     public String getDescription() {
-        return "Linux Memory Metrics";
+        return "AIX Memory Metrics";
     }
 
     @Override
     public MetricResult getMetrics() {
 
-        List<String> svmon = PluginHelper.executeCommand("free -k");
-        LinuxMemoryStat memoryStat = processCommandOutput(svmon);
+        List<String> svmon = PluginHelper.executeCommand("svmon -G -O unit=KB");
+        AixMemoryStat memoryStat = processCommandOutput(svmon);
 
         Map<String, String> tagsMap = memoryStat.getTags();
         Map<String, Object> fieldsMap = memoryStat.getFields();
@@ -59,8 +59,8 @@ public class LinuxMemoryExtension implements MetricExtension {
         return new MetricResult("memory", new Measurement(tagsMap, fieldsMap));
     }
 
-    protected LinuxMemoryStat processCommandOutput(List<String> inputLines) {
-        return new LinuxMemoryStat(inputLines);
+    protected AixMemoryStat processCommandOutput(List<String> inputLines) {
+        return new AixMemoryStat(inputLines);
     }
 
 

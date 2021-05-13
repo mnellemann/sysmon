@@ -1,6 +1,8 @@
 package org.sysmon.plugins.sysmon_linux;
 
 import org.pf4j.Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sysmon.shared.Measurement;
 import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
@@ -10,25 +12,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Extension
 public class LinuxDiskExtension implements MetricExtension {
 
-    private final static List<String> ignoreList = new ArrayList<String>() {{
-        add("dm-");
-        add("loop");
-    }};
+    private static final Logger log = LoggerFactory.getLogger(LinuxDiskExtension.class);
 
-    private List<LinuxDiskStat> currentDiskStats;
-    private List<LinuxDiskStat> previousDiskStats;
 
     @Override
     public boolean isSupported() {
-        //return System.getProperty("os.name").toLowerCase().contains("linux");
-        return false; // TODO: Not ready yet.
+        return System.getProperty("os.name").toLowerCase().contains("linux");
     }
 
     @Override
@@ -46,75 +40,49 @@ public class LinuxDiskExtension implements MetricExtension {
         return "Linux Disk Metrics";
     }
 
+
     @Override
     public MetricResult getMetrics() {
 
-        MetricResult result = new MetricResult("disk");
+        LinuxDiskProcLine proc1 = processFileOutput(readProcFile());
         try {
-            copyCurrentValues();
-            readProcFile();
-            result.setMeasurement(calculate());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-
-
-    private void readProcFile() throws IOException {
-
-        currentDiskStats = new ArrayList<>();
-        List<String> allLines = Files.readAllLines(Paths.get("/proc/diskstats"), StandardCharsets.UTF_8);
-        for(String line : allLines) {
-            currentDiskStats.add(new LinuxDiskStat(line));
-        }
-
-    }
-
-
-    private void copyCurrentValues() {
-
-        if(currentDiskStats != null && currentDiskStats.size() > 0) {
-            previousDiskStats = new ArrayList<>(currentDiskStats);
-        }
-
-    }
-
-
-    private Measurement calculate() {
-
-        if(previousDiskStats == null || previousDiskStats.size() != currentDiskStats.size()) {
+            Thread.sleep(1 * 1000); // TODO: Configure sample collect time
+        } catch (InterruptedException e) {
+            log.warn("getMetrics() - sleep interrupted");
             return null;
         }
+        LinuxDiskProcLine proc2 = processFileOutput(readProcFile());
 
-        HashMap<String, String> tagsMap = new HashMap<>();
-        HashMap<String, Object> fieldsMap = new HashMap<>();
+        LinuxDiskStat stat = new LinuxDiskStat(proc2, proc1);
+        System.err.println("FOOBAR");
+        return new MetricResult("disk", new Measurement(stat.getTags(), stat.getFields()));
+    }
 
-        for(int i = 0; i < currentDiskStats.size(); i++) {
 
-            LinuxDiskStat curStat = currentDiskStats.get(i);
-            LinuxDiskStat preStat = previousDiskStats.get(i);
+    protected List<String> readProcFile() {
 
-            AtomicBoolean ignore = new AtomicBoolean(false);
-            ignoreList.forEach(str -> {
-                if(curStat.getDevice().startsWith(str)) {
-                    ignore.set(true);
-                }
-            });
+        List<String> allLines = new ArrayList<>();
+        try {
+            allLines = Files.readAllLines(Paths.get("/proc/diskstats"), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+        return allLines;
+    }
 
-            if(!ignore.get()) {
-                fieldsMap.put(curStat.getDevice() + "_iotime", curStat.getTimeSpentOnIo() - preStat.getTimeSpentOnIo());
-                //fieldsMap.put(curStat.getDevice() + "_readtime", curStat.getTimeSpentReading() - preStat.getTimeSpentReading());
-                //fieldsMap.put(curStat.getDevice() + "_writetime", curStat.getTimeSpentWriting() - preStat.getTimeSpentWriting());
-                fieldsMap.put(curStat.getDevice() + "_reads", curStat.getSectorsRead() - preStat.getSectorsRead());
-                fieldsMap.put(curStat.getDevice() + "_writes", curStat.getSectorsWritten() - preStat.getSectorsWritten());
+
+    protected LinuxDiskProcLine processFileOutput(List<String> inputLines) {
+
+        for(String line : inputLines) {
+            String[] splitStr = line.trim().split("\\s+");
+            String device = splitStr[2];
+            if (device.matches("[sv]d[a-z]{1}") || device.matches("nvme[0-9]n[0-9]")) {
+                //log.warn("Going for: " + line);
+                return new LinuxDiskProcLine(line);
             }
-
         }
 
-        return new Measurement(tagsMap, fieldsMap);
+        return null;
     }
 
 }

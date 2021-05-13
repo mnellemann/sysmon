@@ -13,6 +13,7 @@ import org.sysmon.shared.MetricResult;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -26,8 +27,7 @@ public class ClientRouteBuilder extends RouteBuilder {
 
         Registry registry = getContext().getRegistry();
 
-        Path[] pluginpaths = { new File("/opt/sysmon/plugins").toPath() };
-
+        Path[] pluginpaths = { Paths.get(registry.lookupByNameAndType("pluginPath", String.class)) };
         PluginManager pluginManager = new JarPluginManager(pluginpaths);
         pluginManager.loadPlugins();
         pluginManager.startPlugins();

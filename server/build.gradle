@@ -1,3 +1,5 @@
+import org.redline_rpm.header.Os
+
 plugins {
     id 'application'
 
@@ -22,6 +24,8 @@ dependencies {
     implementation group: 'org.apache.camel', name: 'camel-influxdb', version: camelVersion
 }
 
+def projectName = "sysmon-server"
+
 application {
     // Define the main class for the application.
     mainClassName = 'org.sysmon.server.Application'
@@ -34,7 +38,7 @@ tasks.named('test') {
 
 apply plugin: 'nebula.ospackage'
 ospackage {
-    packageName = 'sysmon-server'
+    packageName = projectName
     release = '1'
     user = 'root'
     packager = "Mark Nellemann <mark.nellemann@gmail.com>"
@@ -59,19 +63,19 @@ ospackage {
 
 }
 
-buildRpm {
-    dependsOn startShadowScripts
-    os = "LINUX"
-}
-
-
 buildDeb {
     dependsOn startShadowScripts
 }
 
+buildRpm {
+    dependsOn startShadowScripts
+    os = Os.LINUX
+}
+
 task buildRpmAix(type: Rpm) {
     dependsOn startShadowScripts
-    os "AIX"
+    packageName = "${projectName}-AIX"
+    os = Os.AIX
 }
 
 jar {
@@ -90,7 +94,7 @@ jar {
 }
 
 shadowJar {
-    archiveBaseName.set('sysmon-server')
+    archiveBaseName.set(projectName)
     archiveClassifier.set('')
     archiveVersion.set('')
     mergeServiceFiles() // Tell plugin to merge duplicate service files

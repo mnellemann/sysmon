@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.Properties;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "sysmon-client", mixinStandardHelpOptions = true)
@@ -27,8 +27,8 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-n", "--hostname" }, description = "Client hostname (default: <hostname>).", paramLabel = "<name>")
     private String hostname;
 
-    @CommandLine.Option(names = { "-p", "--plugins" }, description = "Plugin jar path (default: ${DEFAULT-VALUE}).", paramLabel = "<path>", defaultValue = "/opt/sysmon/plugins")
-    private File plugins;
+    @CommandLine.Option(names = { "-p", "--plugin-dir" }, description = "Plugin jar path (default: ${DEFAULT-VALUE}).", paramLabel = "<path>", defaultValue = "/opt/sysmon/plugins")
+    private String pluginPath;
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);
@@ -48,7 +48,13 @@ public class Application implements Callable<Integer> {
             }
         }
 
+        String pf4jPluginsDir = System.getProperty("pf4j.pluginsDir");
+        if(pf4jPluginsDir != null) {
+            pluginPath = pf4jPluginsDir;
+        }
+
         Main main = new Main();
+        main.bind("pluginPath", pluginPath);
         main.bind("myServerUrl", serverUrl.toString());
         main.bind("myHostname", hostname);
         main.configure().addRoutesBuilder(ClientRouteBuilder.class);

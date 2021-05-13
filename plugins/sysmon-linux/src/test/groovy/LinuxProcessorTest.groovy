@@ -24,7 +24,7 @@ class LinuxProcessorTest extends Specification {
     }
 
 
-    void "test processor utlization"() {
+    void "test processor utilization"() {
 
         setup:
         def testFile1 = new File(getClass().getResource('/proc1.txt').toURI())

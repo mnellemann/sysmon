@@ -9,7 +9,9 @@ public class AixDiskExtension implements MetricExtension {
 
     @Override
     public boolean isSupported() {
-        return System.getProperty("os.name").toLowerCase().contains("aix");
+        // TODO: Implement
+        //return System.getProperty("os.name").toLowerCase().contains("aix");
+        return false;
     }
 
     @Override

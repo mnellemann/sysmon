@@ -1,6 +1,9 @@
+import org.redline_rpm.header.Os
+
 plugins {
     id "nebula.ospackage" version "8.5.6"
 }
+
 
 subprojects {
     apply plugin: 'java'
@@ -36,10 +39,9 @@ subprojects {
         into "../output/"
     }
 
-    tasks.assemble.dependsOn {
+    tasks.build.dependsOn {
         copyJar
     }
-
 
     test {
         useJUnitPlatform()
@@ -55,10 +57,12 @@ task customCleanUp(type:Delete) {
 
 tasks.clean.dependsOn(tasks.customCleanUp)
 
+def projectName = "sysmon-plugins"
+
 
 apply plugin: 'nebula.ospackage'
 ospackage {
-    packageName = 'sysmon-plugins'
+    packageName = projectName
     release = '1'
     user = 'root'
     packager = "Mark Nellemann <mark.nellemann@gmail.com>"
@@ -71,11 +75,17 @@ ospackage {
 
 }
 
-buildRpm {
-    dependsOn assemble
-    os = "LINUX"
+buildDeb {
+    subprojects.each { dependsOn("${it.name}:build") }
 }
 
-buildDeb {
-    dependsOn assemble
+buildRpm {
+    subprojects.each { dependsOn("${it.name}:build") }
+    os = Os.LINUX
+}
+
+task buildRpmAix(type: Rpm) {
+    subprojects.each { dependsOn("${it.name}:build") }
+    packageName = "${projectName}-AIX"
+    os = Os.AIX
 }

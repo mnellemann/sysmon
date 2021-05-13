@@ -18,3 +18,17 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
+
+tasks.create("packages") {
+    group "build"
+
+    dependsOn ":client:buildDeb"
+    dependsOn ":client:buildRpm"
+
+    dependsOn ":server:buildDeb"
+    dependsOn ":server:buildRpm"
+
+    dependsOn ":plugins:buildDeb"
+    dependsOn ":plugins:buildRpm"
+
+}

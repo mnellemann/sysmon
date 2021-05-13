@@ -8,7 +8,6 @@ import org.sysmon.shared.MetricExtension;
 import org.sysmon.shared.MetricResult;
 import org.sysmon.shared.PluginHelper;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +21,12 @@ public class AixProcessorExtension implements MetricExtension {
 
         String osArch = System.getProperty("os.arch").toLowerCase();
         if(!osArch.startsWith("ppc64")) {
-            log.warn("Wrong os arch: " + osArch);
+            log.warn("Requires CPU Architecture ppc64 or ppc64le, this is: " + osArch);
             return false;
         }
 
         if(!PluginHelper.canExecute("lparstat")) {
-            log.warn("No lparstat command found.");
+            log.warn("Requires the 'lparstat' command.");
             return false;
         }
 
@@ -52,8 +51,8 @@ public class AixProcessorExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        List<String> vmstat = PluginHelper.executeCommand("lparstat 1 1");
-        AixProcessorStat processorStat = processCommandOutput(vmstat);
+        List<String> lparstat = PluginHelper.executeCommand("lparstat 1 1");
+        AixProcessorStat processorStat = processCommandOutput(lparstat);
 
         Map<String, String> tagsMap = processorStat.getTags();
         Map<String, Object> fieldsMap = processorStat.getFields();
