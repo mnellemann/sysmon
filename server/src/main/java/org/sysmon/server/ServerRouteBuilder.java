@@ -1,5 +1,6 @@
 package org.sysmon.server;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
@@ -32,6 +33,8 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .produces("text/html")
                 .type(MetricResult.class)
                 .route()
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
+                .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
                 .to("seda:inbound")
                 .endRest();
 

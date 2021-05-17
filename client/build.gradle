@@ -17,6 +17,7 @@ dependencies {
 
     annotationProcessor "info.picocli:picocli-codegen:${picocliVersion}"
     implementation "info.picocli:picocli:${picocliVersion}"
+    implementation 'org.tomlj:tomlj:1.0.0'
 
     implementation group: 'org.apache.camel', name: 'camel-core', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-main', version: camelVersion

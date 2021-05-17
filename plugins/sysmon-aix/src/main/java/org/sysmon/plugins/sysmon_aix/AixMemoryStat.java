@@ -15,28 +15,27 @@ public class AixMemoryStat {
 
     private static final Logger log = LoggerFactory.getLogger(AixMemoryStat.class);
 
-    //                size       inuse        free         pin     virtual  available   mmode
-    // memory      4194304     4036532      157772     1854772     2335076    1652640     Ded
-    private final Pattern patternAix = Pattern.compile("^memory\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\S+)");
+    private final Pattern pattern = Pattern.compile("^\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)");
 
     private Long total;
     private Long used;
     private Long free;
+    private Long pin;
     private Long virtual;
     private Long available;
-    private String mode;
+    private Long paged;
 
     AixMemoryStat(List<String> lines) {
         for (String line : lines) {
-            Matcher matcher = patternAix.matcher(line);
+            Matcher matcher = pattern.matcher(line);
             if (matcher.find() && matcher.groupCount() == 7) {
                 total = Long.parseLong(matcher.group(1));
                 used = Long.parseLong(matcher.group(2));
                 free = Long.parseLong(matcher.group(3));
-                //pin = Long.parseLong(matcher.group(4));
+                pin = Long.parseLong(matcher.group(4));
                 virtual = Long.parseLong(matcher.group(5));
                 available = Long.parseLong(matcher.group(6));
-                mode = matcher.group(7);
+                paged = Long.parseLong(matcher.group(7));
                 break;
             }
         }
@@ -45,7 +44,6 @@ public class AixMemoryStat {
 
     public Map<String, String> getTags() {
         Map<String, String> tags = new HashMap<>();
-        tags.put("mode", mode);
         return tags;
     }
 
@@ -59,8 +57,10 @@ public class AixMemoryStat {
         fields.put("total", total);
         fields.put("used", used);
         fields.put("free", free);
+        fields.put("pin", pin);
         fields.put("virtual", virtual);
         fields.put("available", available);
+        fields.put("paged", paged);
         fields.put("usage", usage.doubleValue());
         return fields;
     }

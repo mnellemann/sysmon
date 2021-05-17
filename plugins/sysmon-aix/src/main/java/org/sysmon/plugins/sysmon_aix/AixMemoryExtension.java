@@ -50,7 +50,8 @@ public class AixMemoryExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        List<String> svmon = PluginHelper.executeCommand("svmon -G -O unit=KB");
+        //List<String> svmon = PluginHelper.executeCommand("svmon -G -O unit=KB");
+        List<String> svmon = PluginHelper.executeCommand("svmon -G -O summary=longreal,unit=KB");
         AixMemoryStat memoryStat = processCommandOutput(svmon);
 
         Map<String, String> tagsMap = memoryStat.getTags();

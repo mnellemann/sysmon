@@ -50,7 +50,7 @@ public class AixDiskExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        List<String> iostat = PluginHelper.executeCommand("iostat -d");
+        List<String> iostat = PluginHelper.executeCommand("iostat -d 1 1");
         AixDiskStat diskStat = processCommandOutput(iostat);
 
         Map<String, String> tagsMap = diskStat.getTags();

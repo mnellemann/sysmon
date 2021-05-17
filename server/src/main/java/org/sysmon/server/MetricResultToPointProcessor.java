@@ -46,8 +46,8 @@ public class MetricResultToPointProcessor implements Processor {
             }
         }
 
-
         exchange.getIn().setBody(builder.build());
+
     }
 
 }
