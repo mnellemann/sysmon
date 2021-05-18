@@ -72,16 +72,17 @@ public class LinuxDiskExtension implements MetricExtension {
 
     protected LinuxDiskProcLine processFileOutput(List<String> inputLines) {
 
+        List<String> lines = new ArrayList<>(inputLines.size());
         for(String line : inputLines) {
             String[] splitStr = line.trim().split("\\s+");
             String device = splitStr[2];
             if (device.matches("[sv]d[a-z]{1}") || device.matches("nvme[0-9]n[0-9]")) {
                 //log.warn("Going for: " + line);
-                return new LinuxDiskProcLine(line);
+                lines.add(line);
             }
         }
 
-        return null;
+        return new LinuxDiskProcLine(lines);
     }
 
 }

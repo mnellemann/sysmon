@@ -1,9 +1,17 @@
 package org.sysmon.plugins.sysmon_linux;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
 public class LinuxDiskProcLine {
 
     // Sectors to bytes - each sector is 512 bytes - https://lkml.org/lkml/2015/8/17/269
-    static final private int SECTOR_BYTE_SIZE = 512;
+    private static final int SECTOR_BYTE_SIZE = 512;
+
+    private static final Logger log = LoggerFactory.getLogger(LinuxDiskProcLine.class);
+
 
     /*
         ==  ===================================
@@ -41,76 +49,71 @@ public class LinuxDiskProcLine {
 		==  =====================================
     */
 
-    private final int major;
-    private final int minor;
-    private final String device;                // device name
-    private final Long readsCompleted;          // successfully
-    private final Long readsMerged;
-    private final Long sectorsRead;             // 512 bytes pr. sector
-    private final Long timeSpentReading;        // ms
-    private final Long writesCompleted;         // successfully
-    private final Long writesMerged;
-    private final Long sectorsWritten;          // 512 bytes pr. sector
-    private final Long timeSpentWriting;        // ms
-    private final Long ioInProgress;
-    private final Long timeSpentOnIo;           // ms
-    private final Long timeSpentOnIoWeighted;
+    private Long readsCompleted = 0l;          // successfully
+    private Long readsMerged = 0l;
+    private Long sectorsRead = 0l;             // 512 bytes pr. sector
+    private Long timeSpentReading = 0l;        // ms
+    private Long writesCompleted = 0l;         // successfully
+    private Long writesMerged = 0l;
+    private Long sectorsWritten = 0l;          // 512 bytes pr. sector
+    private Long timeSpentWriting = 0l;        // ms
+    private Long ioInProgress = 0l;
+    private Long timeSpentOnIo = 0l;           // ms
+    private Long timeSpentOnIoWeighted = 0l;
 
-    private final Long discardsCompleted;       // successfully
-    private final Long discardsMerged;
-    private final Long sectorsDiscarded;        // 512 bytes pr. sector
-    private final Long timeSpentDiscarding;     // ms
+    private Long discardsCompleted = 0l;       // successfully
+    private Long discardsMerged = 0l;
+    private Long sectorsDiscarded = 0l;        // 512 bytes pr. sector
+    private Long timeSpentDiscarding = 0l;     // ms
 
-    private final Long flushRequestsCompleted;
-    private final Long timeSpentFlushing;       // ms
+    private Long flushRequestsCompleted = 0l;
+    private Long timeSpentFlushing = 0l;       // ms
 
 
-    LinuxDiskProcLine(String procString) {
+    LinuxDiskProcLine(List<String> procLines) {
 
-        String[] splitStr = procString.trim().split("\\s+");
-        if(splitStr.length < 14) {
-            throw new UnsupportedOperationException("Linux proc DISK string error: " + procString);
+        for(String procLine : procLines) {
+
+            String[] splitStr = procLine.trim().split("\\s+");
+            if (splitStr.length < 14) {
+                throw new UnsupportedOperationException("Linux proc DISK string error: " + procLine);
+            }
+
+            //this.major = Integer.parseInt(splitStr[0]);
+            //this.minor = Integer.parseInt(splitStr[1]);
+            //this.device = splitStr[2];
+            this.readsCompleted += Long.parseLong(splitStr[3]);
+            this.readsMerged += Long.parseLong(splitStr[4]);
+            this.sectorsRead += Long.parseLong(splitStr[5]);
+            this.timeSpentReading += Long.parseLong(splitStr[6]);
+            this.writesCompleted += Long.parseLong(splitStr[7]);
+            this.writesMerged += Long.parseLong(splitStr[8]);
+            this.sectorsWritten += Long.parseLong(splitStr[9]);
+            this.timeSpentWriting += Long.parseLong(splitStr[10]);
+            this.ioInProgress += Long.parseLong(splitStr[11]);
+            this.timeSpentOnIo += Long.parseLong(splitStr[12]);
+            this.timeSpentOnIoWeighted += Long.parseLong(splitStr[13]);
+
+            if (splitStr.length >= 18) {
+                this.discardsCompleted += Long.parseLong(splitStr[10]);
+                this.discardsMerged += Long.parseLong(splitStr[11]);
+                this.sectorsDiscarded += Long.parseLong(splitStr[12]);
+                this.timeSpentDiscarding += Long.parseLong(splitStr[13]);
+            } else {
+                this.discardsCompleted = null;
+                this.discardsMerged = null;
+                this.sectorsDiscarded = null;
+                this.timeSpentDiscarding = null;
+            }
+
+            if (splitStr.length == 20) {
+                this.flushRequestsCompleted += Long.parseLong(splitStr[14]);
+                this.timeSpentFlushing += Long.parseLong(splitStr[15]);
+            } else {
+                this.flushRequestsCompleted = null;
+                this.timeSpentFlushing = null;
+            }
         }
-
-        this.major = Integer.parseInt(splitStr[0]);
-        this.minor = Integer.parseInt(splitStr[1]);
-        this.device = splitStr[2];
-        this.readsCompleted = Long.parseLong(splitStr[3]);
-        this.readsMerged = Long.parseLong(splitStr[4]);
-        this.sectorsRead = Long.parseLong(splitStr[5]);
-        this.timeSpentReading = Long.parseLong(splitStr[6]);
-        this.writesCompleted = Long.parseLong(splitStr[7]);
-        this.writesMerged = Long.parseLong(splitStr[8]);
-        this.sectorsWritten = Long.parseLong(splitStr[9]);
-        this.timeSpentWriting = Long.parseLong(splitStr[10]);
-        this.ioInProgress = Long.parseLong(splitStr[11]);
-        this.timeSpentOnIo = Long.parseLong(splitStr[12]);
-        this.timeSpentOnIoWeighted = Long.parseLong(splitStr[13]);
-
-        if(splitStr.length >= 18) {
-            this.discardsCompleted = Long.parseLong(splitStr[10]);
-            this.discardsMerged = Long.parseLong(splitStr[11]);
-            this.sectorsDiscarded = Long.parseLong(splitStr[12]);
-            this.timeSpentDiscarding = Long.parseLong(splitStr[13]);
-        } else {
-            this.discardsCompleted = null;
-            this.discardsMerged = null;
-            this.sectorsDiscarded = null;
-            this.timeSpentDiscarding = null;
-        }
-
-        if(splitStr.length == 20) {
-            this.flushRequestsCompleted = Long.parseLong(splitStr[14]);
-            this.timeSpentFlushing = Long.parseLong(splitStr[15]);
-        } else {
-            this.flushRequestsCompleted = null;
-            this.timeSpentFlushing = null;
-        }
-
-    }
-
-    public String getDevice() {
-        return device;
     }
 
     public Long getTimeSpentOnIo() {

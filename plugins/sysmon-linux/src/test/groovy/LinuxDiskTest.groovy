@@ -16,8 +16,7 @@ class LinuxDiskTest extends Specification {
         LinuxDiskProcLine procLine = extension.processFileOutput(lines)
 
         then:
-        procLine.getDevice() == "nvme0n1"
-        procLine.getTimeSpentOnIo() == 79560l
+        procLine.getTimeSpentOnIo() == 11145860l
     }
 
 
@@ -34,10 +33,9 @@ class LinuxDiskTest extends Specification {
         LinuxDiskStat diskStat = new LinuxDiskStat(procLine1, procLine2)
 
         then:
-        diskStat.getTags().get("device") == "nvme0n1"
-        diskStat.getFields().get("iotime") == 272l
-        diskStat.getFields().get("writes") == 40407040l
-        diskStat.getFields().get("reads") == 80896l
+        diskStat.getFields().get("iotime") == 180l
+        diskStat.getFields().get("writes") == 108371968l
+        diskStat.getFields().get("reads") == 69632l
 
     }
 }

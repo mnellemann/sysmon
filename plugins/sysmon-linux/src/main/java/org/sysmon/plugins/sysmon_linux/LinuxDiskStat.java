@@ -19,7 +19,6 @@ public class LinuxDiskStat {
 
     LinuxDiskStat(LinuxDiskProcLine proc1, LinuxDiskProcLine proc2) {
 
-        device = proc1.getDevice();
         iotime = proc2.getTimeSpentOnIo() - proc1.getTimeSpentOnIo();
         writes = proc2.getBytesWritten() - proc1.getBytesWritten();
         reads = proc2.getBytesRead() - proc1.getBytesRead();
@@ -28,7 +27,6 @@ public class LinuxDiskStat {
 
     public Map<String, String> getTags() {
         Map<String, String> tags = new HashMap<>();
-        tags.put("device", device);
         return tags;
     }
 
