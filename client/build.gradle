@@ -32,7 +32,7 @@ def projectName = "sysmon-client"
 
 application {
     // Define the main class for the application.
-    mainClassName = 'org.sysmon.client.Application'
+    mainClass.set('sysmon.client.Application')
 }
 
 run {

@@ -28,7 +28,7 @@ def projectName = "sysmon-server"
 
 application {
     // Define the main class for the application.
-    mainClassName = 'org.sysmon.server.Application'
+    mainClass.set('sysmon.server.Application')
 }
 
 tasks.named('test') {

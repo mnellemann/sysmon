@@ -1,6 +1,6 @@
-# System Monitor / System Observer
+# System Monitor
 
-... or some better name.
+Java based system monitoring solution with support for plugins.
 
 
 ## Client
