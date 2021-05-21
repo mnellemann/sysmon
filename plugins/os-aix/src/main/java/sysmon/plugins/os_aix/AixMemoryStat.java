@@ -1,10 +1,5 @@
 package sysmon.plugins.os_aix;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,17 +8,15 @@ import java.util.regex.Pattern;
 
 public class AixMemoryStat {
 
-    private static final Logger log = LoggerFactory.getLogger(AixMemoryStat.class);
-
     private final Pattern pattern = Pattern.compile("^\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)");
 
-    private Long total;
-    private Long used;
-    private Long free;
-    private Long pin;
-    private Long virtual;
-    private Long available;
-    private Long paged;
+    private long total;
+    private long used;
+    private long free;
+    private long pin;
+    private long virtual;
+    private long available;
+    private long paged;
 
     AixMemoryStat(List<String> lines) {
         for (String line : lines) {
@@ -43,15 +36,14 @@ public class AixMemoryStat {
 
 
     public Map<String, String> getTags() {
-        Map<String, String> tags = new HashMap<>();
-        return tags;
+        return new HashMap<>();
     }
 
 
     public Map<String, Object> getFields() {
 
-        double tmp = ((double) (total - available)  / total ) * 100;
-        BigDecimal usage = new BigDecimal(tmp).setScale(2, RoundingMode.HALF_UP);
+        float usage = ((float) (total - available)  / total ) * 100;
+        //BigDecimal usage = new BigDecimal(tmp).setScale(2, RoundingMode.HALF_UP);
 
         Map<String, Object> fields = new HashMap<>();
         fields.put("total", total);
@@ -61,7 +53,7 @@ public class AixMemoryStat {
         fields.put("virtual", virtual);
         fields.put("available", available);
         fields.put("paged", paged);
-        fields.put("usage", usage.doubleValue());
+        fields.put("usage", usage);
         return fields;
     }
 

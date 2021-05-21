@@ -1,8 +1,5 @@
 package sysmon.plugins.os_aix;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AixProcessorStat {
-
-    private static final Logger log = LoggerFactory.getLogger(AixProcessorStat.class);
 
     // System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
     private final Pattern patternAix = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
@@ -22,18 +17,18 @@ public class AixProcessorStat {
 
     private String type;
     private String mode;
-    private Integer smt;
-    private Integer lcpu;
-    private Integer psize;
-    private Float ent;
+    private int smt;
+    private int lcpu;
+    private int psize;
+    private float ent;
 
-    private final Float user;   // Indicates the percentage of the entitled processing capacity used while executing at the user level (application).
-    private final Float sys;    // Indicates the percentage of the entitled processing capacity used while executing at the system level (kernel).
-    private final Float wait;   // Indicates the percentage of the entitled processing capacity unused while the partition was idle and had outstanding disk I/O request(s).
-    private final Float idle;   // Indicates the percentage of the entitled processing capacity unused while the partition was idle and did not have any outstanding disk I/O request.
-    private final Float physc;  // Indicates the number of physical processors consumed.
-    private final Float entc;   // Indicates the percentage of the entitled capacity consumed.
-    private final Float lbusy;  // Indicates the percentage of logical processor(s) utilization that occurred while executing at the user and system level.
+    private final float user;   // Indicates the percentage of the entitled processing capacity used while executing at the user level (application).
+    private final float sys;    // Indicates the percentage of the entitled processing capacity used while executing at the system level (kernel).
+    private final float wait;   // Indicates the percentage of the entitled processing capacity unused while the partition was idle and had outstanding disk I/O request(s).
+    private final float idle;   // Indicates the percentage of the entitled processing capacity unused while the partition was idle and did not have any outstanding disk I/O request.
+    private final float physc;  // Indicates the number of physical processors consumed.
+    private final float entc;   // Indicates the percentage of the entitled capacity consumed.
+    private final float lbusy;  // Indicates the percentage of logical processor(s) utilization that occurred while executing at the user and system level.
 
 
     AixProcessorStat(List<String> lines) {
@@ -54,7 +49,6 @@ public class AixProcessorStat {
 
             if (line.startsWith("type=")) {
                 //type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
-
                 Matcher matcher = patternLinux.matcher(line);
                 if (matcher.find() && matcher.groupCount() == 7) {
                     type = matcher.group(1);
@@ -84,31 +78,31 @@ public class AixProcessorStat {
 
     }
 
-    public Float getUser() {
+    public float getUser() {
         return user;
     }
 
-    public Float getSys() {
+    public float getSys() {
         return sys;
     }
 
-    public Float getIdle() {
+    public float getIdle() {
         return idle;
     }
 
-    public Float getWait() {
+    public float getWait() {
         return wait;
     }
 
-    public Float getPhysc() {
+    public float getPhysc() {
         return physc;
     }
 
-    public Float getEntc() {
+    public float getEntc() {
         return entc;
     }
 
-    public Float getLbusy() {
+    public float getLbusy() {
         return lbusy;
     }
 
@@ -117,8 +111,7 @@ public class AixProcessorStat {
     }
 
     public Map<String, String> getTags() {
-        Map<String, String> tags = new HashMap<>();
-        return tags;
+        return new HashMap<>();
     }
 
     public Map<String, Object> getFields() {

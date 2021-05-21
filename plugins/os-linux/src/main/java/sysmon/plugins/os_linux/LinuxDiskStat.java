@@ -8,26 +8,23 @@ import java.util.Map;
 
 public class LinuxDiskStat {
 
-    private static final Logger log = LoggerFactory.getLogger(LinuxDiskStat.class);
-
     private String device;
     private final long iotime;
     private final long reads;
     private final long writes;
-    private final double kbps;
-    private final double tps;
+    private final long kbps;
+    private final long tps;
 
     LinuxDiskStat(LinuxDiskProcLine proc1, LinuxDiskProcLine proc2) {
         iotime = proc2.getTimeSpentOnIo() - proc1.getTimeSpentOnIo();
         writes = proc2.getBytesWritten() - proc1.getBytesWritten();
         reads = proc2.getBytesRead() - proc1.getBytesRead();
-        kbps = ((double) writes + reads) / 1024;
+        kbps = (writes + reads) / 1024;
         tps = proc2.getTransactions() - proc1.getTransactions();
     }
 
     public Map<String, String> getTags() {
-        Map<String, String> tags = new HashMap<>();
-        return tags;
+        return new HashMap<>();
     }
 
     public Map<String, Object> getFields() {

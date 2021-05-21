@@ -15,14 +15,14 @@ class AixMemoryTest extends Specification {
         AixMemoryStat stats = extension.processCommandOutput(lines)
 
         then:
-        stats.getFields().get("total") == 4194304l
-        stats.getFields().get("used") == 4065060l
-        stats.getFields().get("free") == 129244l
-        stats.getFields().get("pin") == 1878240l
-        stats.getFields().get("virtual") == 2784988l
-        stats.getFields().get("available") == 1058012l
-        stats.getFields().get("paged") == 524288l
-        stats.getFields().get("usage") == 74.78d
+        stats.getFields().get("total") == 4194304L
+        stats.getFields().get("used") == 4065060L
+        stats.getFields().get("free") == 129244L
+        stats.getFields().get("pin") == 1878240L
+        stats.getFields().get("virtual") == 2784988L
+        stats.getFields().get("available") == 1058012L
+        stats.getFields().get("paged") == 524288L
+        stats.getFields().get("usage") == 74.775024f
 
     }
 

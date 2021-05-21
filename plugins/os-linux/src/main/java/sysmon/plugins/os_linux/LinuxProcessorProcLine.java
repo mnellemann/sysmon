@@ -3,16 +3,16 @@ package sysmon.plugins.os_linux;
 public class LinuxProcessorProcLine {
 
     private final String cpuName;
-    private final Long userTime;
-    private final Long niceTime;
-    private final Long systemTime;
-    private final Long idleTime;
-    private final Long ioWaitTime;
-    private final Long irqTime;
-    private final Long softIrqTime;
-    private final Long stealTime;
-    private final Long guestTime;
-    private final Long guestNiceTime;
+    private final long userTime;
+    private final long niceTime;
+    private final long systemTime;
+    private final long idleTime;
+    private final long ioWaitTime;
+    private final long irqTime;
+    private final long softIrqTime;
+    private final long stealTime;
+    private final long guestTime;
+    private final long guestNiceTime;
 
 
     public LinuxProcessorProcLine(String procString) {
@@ -40,55 +40,55 @@ public class LinuxProcessorProcLine {
         return cpuName;
     }
 
-    public Long getUserTime() {
+    public long getUserTime() {
         return userTime;
     }
 
-    public Long getNiceTime() {
+    public long getNiceTime() {
         return niceTime;
     }
 
-    public Long getSystemTime() {
+    public long getSystemTime() {
         return systemTime;
     }
 
-    public Long getIdleTime() {
+    public long getIdleTime() {
         return idleTime;
     }
 
-    public Long getIoWaitTime() {
+    public long getIoWaitTime() {
         return ioWaitTime;
     }
 
-    public Long getIrqTime() {
+    public long getIrqTime() {
         return irqTime;
     }
 
-    public Long getSoftIrqTime() {
+    public long getSoftIrqTime() {
         return softIrqTime;
     }
 
-    public Long getStealTime() {
+    public long getStealTime() {
         return stealTime;
     }
 
-    public Long getGuestTime() {
+    public long getGuestTime() {
         return guestTime;
     }
 
-    public Long getGuestNiceTime() {
+    public long getGuestNiceTime() {
         return guestNiceTime;
     }
 
-    public Long getCombinedIdleTime() {
+    public long getCombinedIdleTime() {
         return idleTime + ioWaitTime;
     }
 
-    public Long getCombinedWorkTime() {
+    public long getCombinedWorkTime() {
         return userTime + niceTime + systemTime + irqTime + softIrqTime + stealTime + guestTime + guestNiceTime;
     }
 
-    public Long getCombinedTime() {
+    public long getCombinedTime() {
         return getCombinedIdleTime() + getCombinedWorkTime();
     }
 

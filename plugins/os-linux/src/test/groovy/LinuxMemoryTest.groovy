@@ -21,7 +21,7 @@ class LinuxMemoryTest extends Specification {
         stats.getFields().get("shared") == 639780l
         stats.getFields().get("buffers") == 5574480l
         stats.getFields().get("available") == 9192992l
-        stats.getFields().get("usage") == 42.79d
+        stats.getFields().get("usage") == 42.79113f
 
     }
 

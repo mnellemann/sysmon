@@ -18,8 +18,8 @@ class AixDiskTest extends Specification {
         //stats.getTags().get("device") == "hdisk0"
         stats.getFields().get("reads") == 757760L
         stats.getFields().get("writes") == 12288L
-        stats.getFields().get("kbps") == 752.0F
-        stats.getFields().get("tps") == 81.0F
+        stats.getFields().get("kbps") == 752L
+        stats.getFields().get("tps") == 81L
 
     }
 
