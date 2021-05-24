@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -66,6 +67,17 @@ public class PluginHelper {
         return Stream.of(System.getenv("PATH").split(Pattern.quote(File.pathSeparator)))
                 .map(Paths::get)
                 .anyMatch(path -> Files.exists(path.resolve(cmd)));
+    }
+
+
+    public static List<String> readFile(String filename) {
+        List<String> allLines = new ArrayList<>();
+        try {
+            allLines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+        return allLines;
     }
 
 }

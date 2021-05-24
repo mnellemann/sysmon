@@ -70,7 +70,7 @@ public class LinuxDiskProcLine {
     //private Long timeSpentFlushing = 0L;       // ms
 
 
-    LinuxDiskProcLine(List<String> procLines) {
+    public LinuxDiskProcLine(List<String> procLines) {
 
         for(String procLine : procLines) {
 

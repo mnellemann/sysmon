@@ -13,7 +13,7 @@ public class LinuxMemoryStat {
     Mem:       16069172     5896832     4597860      639780     5574480     9192992
     Swap:       3985404           0     3985404
      */
-    private final Pattern pattern = Pattern.compile("^Mem:\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)");
+    private static final Pattern pattern = Pattern.compile("^Mem:\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)");
 
     private long total;
     private long used;
