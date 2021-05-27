@@ -15,14 +15,38 @@ subprojects {
         testImplementation project(':shared')
 
         implementation project(':shared')
+        implementation "org.slf4j:slf4j-api:${slf4jVersion}"
         implementation(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}") {
             exclude(group: "org.slf4j")
         }
         annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
-        implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     }
 
+/*
     jar {
+        manifest {
+            attributes(
+                    'Plugin-Id'         : "${pluginId}",
+                    'Plugin-Class'      : "${pluginClass}",
+                    'Plugin-Version'    : "${pluginVersion}",
+                    'Plugin-Provider'   : "${pluginProvider}",
+                    'Plugin-Description': "${pluginDescription}"
+            )
+        }
+
+    }*/
+
+    task uberJar(type: Jar) {
+        from sourceSets.main.output
+        dependsOn configurations.runtimeClasspath
+        from {
+            configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect {
+                zipTree(it).matching {
+                    exclude 'org/slf4j/**'
+                }
+            }
+        }
+
         manifest {
             attributes(
                     'Plugin-Id'         : "${pluginId}",
@@ -34,12 +58,13 @@ subprojects {
         }
     }
 
-    task copyJar(type: Copy, dependsOn:[jar]) {
-        from jar // here it automatically reads jar file produced from jar task
+    task copyJar(type: Copy, dependsOn: ['uberJar']) {
+        from jar
         into "../output/"
     }
 
     tasks.build.dependsOn {
+        uberJar
         copyJar
     }
 
