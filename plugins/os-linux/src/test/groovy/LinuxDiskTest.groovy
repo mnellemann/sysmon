@@ -8,7 +8,7 @@ class LinuxDiskTest extends Specification {
     void "test proc file processing"() {
 
         setup:
-        def testFile = new File(getClass().getResource('/diskstats1.txt').toURI())
+        def testFile = new File(getClass().getResource('/proc_diskstats1.txt').toURI())
         List<String> lines = testFile.readLines("UTF-8")
 
         when:
@@ -23,8 +23,8 @@ class LinuxDiskTest extends Specification {
     void "test disk utilization"() {
 
         setup:
-        def testFile1 = new File(getClass().getResource('/diskstats1.txt').toURI())
-        def testFile2 = new File(getClass().getResource('/diskstats2.txt').toURI())
+        def testFile1 = new File(getClass().getResource('/proc_diskstats1.txt').toURI())
+        def testFile2 = new File(getClass().getResource('/proc_diskstats2.txt').toURI())
         LinuxDiskExtension extension = new LinuxDiskExtension()
         LinuxDiskProcLine procLine1 = extension.processFileOutput(testFile1.readLines())
         LinuxDiskProcLine procLine2 = extension.processFileOutput(testFile2.readLines())

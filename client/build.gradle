@@ -44,6 +44,26 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+jar {
+    manifest {
+        attributes(
+                'Created-By'     : "Gradle ${gradle.gradleVersion}",
+                'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+                'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-User'     : System.properties['user.name'],
+                'Build-Version'  : versioning.info.tag ?: (versioning.info.branch + "-" + versioning.info.build),
+                'Build-Revision' : versioning.info.commit,
+                'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ").toString(),
+        )
+    }
+}
+
+shadowJar {
+    archiveBaseName.set(projectName)
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    mergeServiceFiles() // Tell plugin to merge duplicate service files
+}
 
 apply plugin: 'nebula.ospackage'
 ospackage {
@@ -85,25 +105,4 @@ task buildRpmAix(type: Rpm) {
     dependsOn startShadowScripts
     packageName = "${projectName}-AIX"
     os = Os.AIX
-}
-
-jar {
-    manifest {
-        attributes(
-                'Created-By'     : "Gradle ${gradle.gradleVersion}",
-                'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
-                'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
-                'Build-User'     : System.properties['user.name'],
-                'Build-Version'  : versioning.info.tag ?: (versioning.info.branch + "-" + versioning.info.build),
-                'Build-Revision' : versioning.info.commit,
-                'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ").toString(),
-        )
-    }
-}
-
-shadowJar {
-    archiveBaseName.set(projectName)
-    archiveClassifier.set('')
-    archiveVersion.set('')
-    mergeServiceFiles() // Tell plugin to merge duplicate service files
 }

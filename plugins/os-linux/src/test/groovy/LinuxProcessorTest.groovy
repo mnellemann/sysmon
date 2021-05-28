@@ -8,7 +8,7 @@ class LinuxProcessorTest extends Specification {
     void "test proc file processing"() {
 
         setup:
-        def testFile = new File(getClass().getResource('/proc1.txt').toURI())
+        def testFile = new File(getClass().getResource('/proc_stats1.txt').toURI())
         List<String> lines = testFile.readLines("UTF-8")
 
         when:
@@ -27,8 +27,8 @@ class LinuxProcessorTest extends Specification {
     void "test processor utilization"() {
 
         setup:
-        def testFile1 = new File(getClass().getResource('/proc1.txt').toURI())
-        def testFile2 = new File(getClass().getResource('/proc2.txt').toURI())
+        def testFile1 = new File(getClass().getResource('/proc_stats1.txt').toURI())
+        def testFile2 = new File(getClass().getResource('/proc_stats2.txt').toURI())
         LinuxProcessorProcLine processorProcLine1 = new LinuxProcessorProcLine(testFile1.readLines().get(0))
         LinuxProcessorProcLine processorProcLine2 = new LinuxProcessorProcLine(testFile2.readLines().get(0))
 
