@@ -4,8 +4,8 @@ plugins {
     id "nebula.ospackage" version "8.5.6"
 }
 
-
 subprojects {
+
     apply plugin: 'java'
     apply plugin: 'groovy'
 
@@ -20,6 +20,7 @@ subprojects {
         }
         annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
         implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+
     }
 
     jar {
@@ -32,9 +33,17 @@ subprojects {
                     'Plugin-Description': "${pluginDescription}"
             )
         }
+
+
     }
 
-    task copyJar(type: Copy, dependsOn:[jar]) {
+    task fatJar(type: Jar) {
+        duplicatesStrategy(DuplicatesStrategy.INCLUDE)
+        from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+        with jar
+    }
+
+    task copyJar(type: Copy, dependsOn:[fatJar]) {
         from jar // here it automatically reads jar file produced from jar task
         into "../output/"
     }

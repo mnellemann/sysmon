@@ -45,23 +45,12 @@ public class LinuxNetworkExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        // LinuxNetworkDevStat = 2 x reading from /proc/net/dev ?
-        LinuxNetworkDevProcLine proc1 = processDevOutput(PluginHelper.readFile("/proc/net/dev"));
-        try {
-            Thread.sleep(1 * 1000); // TODO: Configure sample collect time
-        } catch (InterruptedException e) {
-            log.warn("getMetrics() - sleep interrupted");
-            return null;
-        }
-        LinuxNetworkDevProcLine proc2 = processDevOutput(PluginHelper.readFile("/proc/net/dev"));
+        LinuxNetworkSockStat sockStat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
+        LinuxNetworkDevStat devStat = processDevOutput(PluginHelper.readFile("/proc/net/dev"));
 
-        // LinuxNetworkSockStat = 1 x reading from /proc/net/sockstats
-        LinuxNetworkSockStat stat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
-
-
-        Map<String, String> tagsMap = stat.getTags();
-        Map<String, Object> fieldsMap = stat.getFields();
-
+        Map<String, String> tagsMap = sockStat.getTags();
+        Map<String, Object> fieldsMap = sockStat.getFields();
+        fieldsMap.putAll(devStat.getFields());
 
         return new MetricResult("network", new Measurement(tagsMap, fieldsMap));
     }
@@ -70,8 +59,8 @@ public class LinuxNetworkExtension implements MetricExtension {
         return new LinuxNetworkSockStat(inputLines);
     }
 
-    protected LinuxNetworkDevProcLine processDevOutput(List<String> inputLines) {
-        return new LinuxNetworkDevProcLine(inputLines);
+    protected LinuxNetworkDevStat processDevOutput(List<String> inputLines) {
+        return new LinuxNetworkDevStat(inputLines);
     }
 
 

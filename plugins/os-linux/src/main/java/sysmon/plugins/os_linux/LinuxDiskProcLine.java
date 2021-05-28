@@ -49,25 +49,25 @@ public class LinuxDiskProcLine {
 		==  =====================================
     */
 
-    private Long readsCompleted = 0L;          // successfully
-    //private Long readsMerged = 0L;
-    private Long sectorsRead = 0L;             // 512 bytes pr. sector
-    private Long timeSpentReading = 0L;        // ms
-    private Long writesCompleted = 0L;         // successfully
-    //private Long writesMerged = 0L;
-    private Long sectorsWritten = 0L;          // 512 bytes pr. sector
-    private Long timeSpentWriting = 0L;        // ms
-    //private Long ioInProgress = 0L;
-    private Long timeSpentOnIo = 0L;           // ms
-    //private Long timeSpentOnIoWeighted = 0L;
+    private long readsCompleted;          // successfully
+    //private long readsMerged;
+    private long sectorsRead;             // 512 bytes pr. sector
+    private long timeSpentReading;        // ms
+    private long writesCompleted;         // successfully
+    //private long writesMerged;
+    private long sectorsWritten;          // 512 bytes pr. sector
+    private long timeSpentWriting;        // ms
+    //private long ioInProgress;
+    private long timeSpentOnIo;           // ms
+    //private long timeSpentOnIoWeighted;
 
-    //private Long discardsCompleted = 0L;       // successfully
-    //private Long discardsMerged = 0L;
-    //private Long sectorsDiscarded = 0L;        // 512 bytes pr. sector
-    //private Long timeSpentDiscarding = 0L;     // ms
+    //private long discardsCompleted;       // successfully
+    //private long discardsMerged;
+    //private long sectorsDiscarded;        // 512 bytes pr. sector
+    //private long timeSpentDiscarding;     // ms
 
-    //private Long flushRequestsCompleted = 0L;
-    //private Long timeSpentFlushing = 0L;       // ms
+    //private long flushRequestsCompleted;
+    //private long timeSpentFlushing;       // ms
 
 
     public LinuxDiskProcLine(List<String> procLines) {
