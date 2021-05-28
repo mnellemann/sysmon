@@ -56,6 +56,8 @@ public class ClientRouteBuilder extends RouteBuilder {
                             .stop()
                         .otherwise()
                             .to("seda:metrics");
+            } else {
+                log.info(">>> Skipping extension: " + ext.getDescription());
             }
         }
 

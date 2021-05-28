@@ -1,0 +1,7 @@
+plugins {
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/net.sf.jt400/jt400
+    implementation group: 'net.sf.jt400', name: 'jt400', version: '10.6'
+}
