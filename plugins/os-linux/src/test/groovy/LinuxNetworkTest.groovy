@@ -1,5 +1,4 @@
 import spock.lang.Specification
-import sysmon.plugins.os_linux.LinuxNetworkDevStat
 import sysmon.plugins.os_linux.LinuxNetworkExtension
 import sysmon.plugins.os_linux.LinuxNetworkSockStat
 
@@ -26,45 +25,5 @@ class LinuxNetworkTest extends Specification {
         stats.getFields().get("udp_mem") == 10L
 
     }
-
-
-    void "test /proc/net/dev parsing"() {
-
-        setup:
-        def testFile = new File(getClass().getResource('/proc_net_dev1.txt').toURI())
-        List<String> lines = testFile.readLines("UTF-8")
-
-        when:
-        LinuxNetworkExtension extension = new LinuxNetworkExtension()
-        LinuxNetworkDevStat procLine = extension.processDevOutput(lines)
-
-        then:
-        procLine.getRxBytes() == 663911036L
-        procLine.getRxPackets() == 525522L
-        procLine.getRxErrs() == 0L
-        procLine.getTxBytes() == 63084294L
-        procLine.getTxPackets() == 472869L
-        procLine.getTxErrs() == 0L
-    }
-
-    /*
-    void "test dev utilization"() {
-
-        setup:
-        def testFile1 = new File(getClass().getResource('/proc_net_dev1.txt').toURI())
-        def testFile2 = new File(getClass().getResource('/proc_net_dev2.txt').toURI())
-        LinuxNetworkExtension extension = new LinuxNetworkExtension()
-        LinuxNetworkDevStat procLine1 = extension.processDevOutput(testFile1.readLines())
-        LinuxNetworkDevStat procLine2 = extension.processDevOutput(testFile2.readLines())
-
-        when:
-        LinuxNetworkDevStat networkDevStat = new LinuxNetworkDevStat(procLine1, procLine2)
-
-        then:
-        networkDevStat.getFields().get("rxPackets") == 223L
-        networkDevStat.getFields().get("rxBytes") == 31501L
-        networkDevStat.getFields().get("txBytes") == 46460L
-        networkDevStat.getFields().get("txPackets") == 341L
-    }*/
 
 }

@@ -20,6 +20,11 @@ subprojects {
             exclude(group: "org.slf4j")
         }
         annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
+
+        implementation(group: 'com.github.oshi', name: 'oshi-core', version: "5.7.3")  {
+            exclude(group: "org.slf4j")
+        }
+
     }
 
 /*

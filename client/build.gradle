@@ -19,6 +19,10 @@ dependencies {
     implementation "info.picocli:picocli:${picocliVersion}"
     implementation 'org.tomlj:tomlj:1.0.0'
 
+    implementation(group: 'com.github.oshi', name: 'oshi-core', version: "5.7.3")  {
+        exclude(group: "org.slf4j")
+    }
+
     implementation group: 'org.apache.camel', name: 'camel-core', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-main', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-http', version: camelVersion

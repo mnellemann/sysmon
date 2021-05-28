@@ -40,7 +40,7 @@ public class AixProcessorExtension implements MetricExtension {
 
     @Override
     public String getProvides() {
-        return "processor";
+        return "processor-lpar";
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AixProcessorExtension implements MetricExtension {
         Map<String, String> tagsMap = processorStat.getTags();
         Map<String, Object> fieldsMap = processorStat.getFields();
 
-        return new MetricResult("processor", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult("processor_lpar", new Measurement(tagsMap, fieldsMap));
     }
 
 

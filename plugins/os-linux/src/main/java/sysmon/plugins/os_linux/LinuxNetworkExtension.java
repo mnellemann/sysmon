@@ -29,39 +29,33 @@ public class LinuxNetworkExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "linux-network";
+        return "linux-network-sockets";
     }
 
     @Override
     public String getProvides() {
-        return "network";
+        return "network-sockets";
     }
 
     @Override
     public String getDescription() {
-        return "Linux Network Metrics";
+        return "Linux Network Socket Metrics";
     }
 
     @Override
     public MetricResult getMetrics() {
 
         LinuxNetworkSockStat sockStat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
-        LinuxNetworkDevStat devStat = processDevOutput(PluginHelper.readFile("/proc/net/dev"));
 
         Map<String, String> tagsMap = sockStat.getTags();
         Map<String, Object> fieldsMap = sockStat.getFields();
-        fieldsMap.putAll(devStat.getFields());
 
-        return new MetricResult("network", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult("network_sockets", new Measurement(tagsMap, fieldsMap));
+
     }
 
     protected LinuxNetworkSockStat processSockOutput(List<String> inputLines) {
         return new LinuxNetworkSockStat(inputLines);
     }
-
-    protected LinuxNetworkDevStat processDevOutput(List<String> inputLines) {
-        return new LinuxNetworkDevStat(inputLines);
-    }
-
 
 }
