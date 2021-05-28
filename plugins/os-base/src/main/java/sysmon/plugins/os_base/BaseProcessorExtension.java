@@ -90,11 +90,13 @@ public class BaseProcessorExtension implements MetricExtension {
         long nonBusy = idle + iowait;
         long total = busy + nonBusy;
 
+        /*
         log.info("idle: " + idle);
         log.info("iowait: " + iowait);
         log.info("busy: " + busy);
         log.info("nonBusy: " + nonBusy);
         log.info("total: " + total);
+         */
 
         fieldsMap.put("user", (float) user / (float) total);
         fieldsMap.put("iowait", (float) iowait / (float) total);
@@ -102,7 +104,7 @@ public class BaseProcessorExtension implements MetricExtension {
         fieldsMap.put("busy", (float) busy / (float) total);
         fieldsMap.put("system", (float) system / (float) total);
 
-        log.info(fieldsMap.toString());
+        //log.info(fieldsMap.toString());
         return new MetricResult("processor", new Measurement(tagsMap, fieldsMap));
     }
 
