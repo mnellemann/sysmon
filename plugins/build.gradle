@@ -42,7 +42,12 @@ subprojects {
         from {
             configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect {
                 zipTree(it).matching {
+                    exclude 'org/pf4j/**'
                     exclude 'org/slf4j/**'
+                    exclude 'sysmon/shared/**'
+                    exclude 'META-INF/AL2.0'
+                    exclude 'META-INF/LGPL2.1'
+                    exclude 'META-INF/LICENSE'
                 }
             }
         }

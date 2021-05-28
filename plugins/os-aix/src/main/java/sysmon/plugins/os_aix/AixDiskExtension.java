@@ -40,10 +40,9 @@ public class AixDiskExtension implements MetricExtension {
 
 
     public AixDiskExtension() {
-
         systemInfo = new SystemInfo();
         hardwareAbstractionLayer = systemInfo.getHardware();
-
+        log.warn(systemInfo.getOperatingSystem().toString());
     }
 
 
