@@ -50,6 +50,7 @@ public class LinuxNetworkExtension implements MetricExtension {
         Map<String, String> tagsMap = sockStat.getTags();
         Map<String, Object> fieldsMap = sockStat.getFields();
 
+        log.debug(fieldsMap.toString());
         return new MetricResult("network_sockets", new Measurement(tagsMap, fieldsMap));
 
     }

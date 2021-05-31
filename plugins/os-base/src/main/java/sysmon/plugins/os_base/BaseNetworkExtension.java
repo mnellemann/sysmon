@@ -83,6 +83,7 @@ public class BaseNetworkExtension implements MetricExtension {
         fieldsMap.put("rxErrors", rxErrs);
         fieldsMap.put("txErrors", txErrs);
 
+        log.debug(fieldsMap.toString());
         return new MetricResult("network", new Measurement(tagsMap, fieldsMap));
     }
 

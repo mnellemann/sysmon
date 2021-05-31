@@ -81,6 +81,7 @@ public class BaseDiskExtension implements MetricExtension {
         fieldsMap.put("iotime", transferTime);
         fieldsMap.put("queue", queueLength);
 
+        log.debug(fieldsMap.toString());
         return new MetricResult("disk", new Measurement(tagsMap, fieldsMap));
     }
 

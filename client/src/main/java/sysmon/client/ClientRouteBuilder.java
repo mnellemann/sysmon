@@ -52,7 +52,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                         //.doTry()
                         .process(new MetricEnrichProcessor(registry))
                         .choice().when(exchangeProperty("skip").isEqualTo(true))
-                            .log("Skipping empty: ${body}")
+                            .log("Skipping empty measurement.")
                             .stop()
                         .otherwise()
                             .to("seda:metrics");

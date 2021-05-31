@@ -65,6 +65,7 @@ public class BaseMemoryExtension implements MetricExtension {
         fieldsMap.put("paged", hardwareAbstractionLayer.getMemory().getPageSize());
         fieldsMap.put("virtual", hardwareAbstractionLayer.getMemory().getVirtualMemory().getVirtualInUse());
 
+        log.debug(fieldsMap.toString());
         return new MetricResult("memory", new Measurement(tagsMap, fieldsMap));
     }
 
