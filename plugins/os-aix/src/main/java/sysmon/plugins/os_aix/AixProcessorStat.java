@@ -1,5 +1,8 @@
 package sysmon.plugins.os_aix;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +11,13 @@ import java.util.regex.Pattern;
 
 public class AixProcessorStat {
 
+    private static final Logger log = LoggerFactory.getLogger(AixProcessorStat.class);
+
     // System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
-    private final Pattern patternAix = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
+    private final Pattern patternAixShared = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
+
+    // System configuration: type=Dedicated mode=Donating smt=8 lcpu=16 mem=4096MB
+    private final Pattern patternAixDedicated = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB");
 
     // type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
     private final Pattern patternLinux = Pattern.compile("^type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+) kB cpus=(\\d+) ent=(\\d+\\.?\\d*)");
@@ -36,7 +44,7 @@ public class AixProcessorStat {
         for (String line : lines) {
 
             if (line.startsWith("System configuration:")) {
-                Matcher matcher = patternAix.matcher(line);
+                Matcher matcher = patternAixShared.matcher(line);
                 if (matcher.find() && matcher.groupCount() == 7) {
                     type = matcher.group(1);
                     mode = matcher.group(2);
@@ -44,6 +52,13 @@ public class AixProcessorStat {
                     lcpu = Integer.parseInt(matcher.group(4));
                     psize = Integer.parseInt(matcher.group(5));
                     ent = Float.parseFloat(matcher.group(7));
+                }
+                matcher = patternAixDedicated.matcher(line);
+                if (matcher.find() && matcher.groupCount() == 5) {
+                    type = matcher.group(1);
+                    mode = matcher.group(2);
+                    smt = Integer.parseInt(matcher.group(3));
+                    lcpu = Integer.parseInt(matcher.group(4));
                 }
             }
 
@@ -64,7 +79,8 @@ public class AixProcessorStat {
 
         String lparstat = lines.get(lines.size() -1);
         String[] splitStr = lparstat.trim().split("\\s+");
-        if(splitStr.length < 9) {
+        if(type.equalsIgnoreCase("shared") && splitStr.length < 9 ||
+                type.equalsIgnoreCase("dedicated") && splitStr.length < 8) {
             throw new UnsupportedOperationException("lparstat string error: " + lparstat);
         }
 
@@ -73,9 +89,13 @@ public class AixProcessorStat {
         this.wait = Float.parseFloat(splitStr[2]);
         this.idle = Float.parseFloat(splitStr[3]);
         this.physc = Float.parseFloat(splitStr[4]);
-        this.entc = Float.parseFloat(splitStr[5]);
-        this.lbusy = Float.parseFloat(splitStr[6]);
-
+        if(type.equalsIgnoreCase("shared")) {
+            this.entc = Float.parseFloat(splitStr[5]);
+            this.lbusy = Float.parseFloat(splitStr[6]);
+        } else {
+            this.entc = 0f;
+            this.lbusy = 0f;
+        }
     }
 
     public float getUser() {
