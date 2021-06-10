@@ -1,5 +1,5 @@
 import spock.lang.Specification
-import sysmon.plugins.os_linux.LinuxNetworkExtension
+import sysmon.plugins.os_linux.LinuxSockstatExtension
 import sysmon.plugins.os_linux.LinuxNetworkSockStat
 
 class LinuxNetworkTest extends Specification {
@@ -11,7 +11,7 @@ class LinuxNetworkTest extends Specification {
         List<String> lines = testFile.readLines("UTF-8")
 
         when:
-        LinuxNetworkExtension extension = new LinuxNetworkExtension()
+        LinuxSockstatExtension extension = new LinuxSockstatExtension()
         LinuxNetworkSockStat stats = extension.processSockOutput(lines)
 
         then:

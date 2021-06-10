@@ -7,12 +7,11 @@ class AixProcessorTest extends Specification {
     void "test AIX lparstat shared output processing"() {
 
         setup:
-        def testFile = new File(getClass().getResource('/lparstat-aix-shared.txt').toURI())
-        List<String> lines = testFile.readLines("UTF-8")
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-shared.txt');
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()
-        AixProcessorStat stats = extension.processCommandOutput(lines)
+        AixProcessorStat stats = extension.processCommandOutput(inputStream)
 
         then:
         stats.getUser() == 83.7f
@@ -27,12 +26,11 @@ class AixProcessorTest extends Specification {
     void "test AIX lparstat dedicated output processing"() {
 
         setup:
-        def testFile = new File(getClass().getResource('/lparstat-aix-dedicated.txt').toURI())
-        List<String> lines = testFile.readLines("UTF-8")
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-dedicated.txt');
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()
-        AixProcessorStat stats = extension.processCommandOutput(lines)
+        AixProcessorStat stats = extension.processCommandOutput(inputStream)
 
         then:
         stats.getUser() == 0.1f
@@ -47,12 +45,11 @@ class AixProcessorTest extends Specification {
     void "test Linux lparstat output processing"() {
 
         setup:
-        def testFile = new File(getClass().getResource('/lparstat-linux.txt').toURI())
-        List<String> lines = testFile.readLines("UTF-8")
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-linux.txt');
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()
-        AixProcessorStat stats = extension.processCommandOutput(lines)
+        AixProcessorStat stats = extension.processCommandOutput(inputStream)
 
         then:
         stats.getUser() == 0.03f
@@ -64,7 +61,5 @@ class AixProcessorTest extends Specification {
         stats.getFields().get("type") == "Shared"
 
     }
-
-    // java.lang.UnsupportedOperationException: lparstat string error:   2.2   1.2    0.0   96.6  0.28  1100   132  24.23
 
 }

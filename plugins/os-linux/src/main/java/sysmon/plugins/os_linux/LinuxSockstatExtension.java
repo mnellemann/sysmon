@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 @Extension
-public class LinuxNetworkExtension implements MetricExtension {
+public class LinuxSockstatExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(LinuxNetworkExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(LinuxSockstatExtension.class);
 
     @Override
     public boolean isSupported() {

@@ -3,6 +3,10 @@ package sysmon.plugins.os_aix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +43,12 @@ public class AixProcessorStat {
     private final float lbusy;  // Indicates the percentage of logical processor(s) utilization that occurred while executing at the user and system level.
 
 
-    AixProcessorStat(List<String> lines) {
+    public AixProcessorStat(InputStream inputStream) throws IOException {
 
-        for (String line : lines) {
+        String lastLine = null;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        while(reader.ready()) {
+            String line = reader.readLine();
 
             if (line.startsWith("System configuration:")) {
                 Matcher matcher = patternAixShared.matcher(line);
@@ -75,13 +82,14 @@ public class AixProcessorStat {
                 }
             }
 
+            lastLine = line;
         }
 
-        String lparstat = lines.get(lines.size() -1);
-        String[] splitStr = lparstat.trim().split("\\s+");
+        //String lparstat = lines.get(lines.size() -1);
+        String[] splitStr = lastLine.trim().split("\\s+");
         if(type.equalsIgnoreCase("shared") && splitStr.length < 9 ||
                 type.equalsIgnoreCase("dedicated") && splitStr.length < 8) {
-            throw new UnsupportedOperationException("lparstat string error: " + lparstat);
+            throw new UnsupportedOperationException("lparstat string error: " + lastLine);
         }
 
         this.user = Float.parseFloat(splitStr[0]);
@@ -96,6 +104,8 @@ public class AixProcessorStat {
             this.entc = 0f;
             this.lbusy = 0f;
         }
+
+        inputStream.close();
     }
 
     public float getUser() {

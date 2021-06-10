@@ -28,20 +28,6 @@ subprojects {
 
     }
 
-/*
-    jar {
-        manifest {
-            attributes(
-                    'Plugin-Id'         : "${pluginId}",
-                    'Plugin-Class'      : "${pluginClass}",
-                    'Plugin-Version'    : "${pluginVersion}",
-                    'Plugin-Provider'   : "${pluginProvider}",
-                    'Plugin-Description': "${pluginDescription}"
-            )
-        }
-
-    }*/
-
     task uberJar(type: Jar) {
         from sourceSets.main.output
         dependsOn configurations.runtimeClasspath
@@ -62,8 +48,8 @@ subprojects {
             attributes(
                     'Plugin-Id'         : "${pluginId}",
                     'Plugin-Class'      : "${pluginClass}",
-                    'Plugin-Version'    : "${pluginVersion}",
-                    'Plugin-Provider'   : "${pluginProvider}",
+                    'Plugin-Version'    : "${version}",
+                    'Plugin-Provider'   : "System Monitor",
                     'Plugin-Description': "${pluginDescription}"
             )
         }

@@ -1,0 +1,157 @@
+icmp:
+        12 calls to icmp_error
+        0 errors not generated because old message was icmp
+        Output histogram:
+                destination unreachable: 12
+        0 messages with bad code fields
+        0 messages < minimum length
+        0 bad checksums
+        0 messages with bad length
+        Input histogram:
+                destination unreachable: 3
+        0 message responses generated
+igmp:
+        0 messages received
+        0 messages received with too few bytes
+        0 messages received with bad checksum
+        0 membership queries received
+        0 membership queries received with invalid field(s)
+        0 membership reports received
+        0 membership reports received with invalid field(s)
+        0 membership reports received for groups to which we belong
+        2 membership reports sent
+tcp:
+        31274 packets sent
+                27328 data packets (82928168 bytes)
+                86 data packets (108992 bytes) retransmitted
+                2938 ack-only packets (2698 delayed)
+                0 URG only packets
+                0 window probe packets
+                784 window update packets
+                138 control packets
+                3812 large sends
+                74913716 bytes sent using largesend
+                64069 bytes is the biggest largesend
+        39830 packets received
+                22701 acks (for 82928732 bytes)
+                112 duplicate acks
+                0 acks for unsent data
+                15579 packets (5876585 bytes) received in-sequence
+                62 completely duplicate packets (320 bytes)
+                57 old duplicate packets
+                0 packets with some dup. data (0 bytes duped)
+                75 out-of-order packets (6408 bytes)
+                0 packets (0 bytes) of data after window
+                0 window probes
+                1723 window update packets
+                0 packets received after close
+                0 packets with bad hardware assisted checksum
+                0 discarded for bad checksums
+                0 discarded for bad header offset fields
+                0 discarded because packet too short
+                1 discarded by listeners
+                0 discarded due to listener's queue full
+                3207 ack packet headers correctly predicted
+                15050 data packet headers correctly predicted
+        63 connection requests
+        23 connection accepts
+        85 connections established (including accepts)
+        114 connections closed (including 0 drops)
+        0 connections with ECN capability
+        0 times responded to ECN
+        0 embryonic connections dropped
+        20314 segments updated rtt (of 16791 attempts)
+        0 segments with congestion window reduced bit set
+        0 segments with congestion experienced bit set
+        0 resends due to path MTU discovery
+        2 path MTU discovery terminations due to retransmits
+        25 retransmit timeouts
+                0 connections dropped by rexmit timeout
+        4 fast retransmits
+                1 when congestion window less than 4 segments
+        28 newreno retransmits
+        4 times avoided false fast retransmits
+        0 persist timeouts
+                0 connections dropped due to persist timeout
+        0 keepalive timeouts
+                0 keepalive probes sent
+                0 connections dropped by keepalive
+        0 times SACK blocks array is extended
+        0 times SACK holes array is extended
+        0 packets dropped due to memory allocation failure
+        0 connections in timewait reused
+        0 delayed ACKs for SYN
+        0 delayed ACKs for FIN
+        0 send_and_disconnects
+        0 spliced connections
+        0 spliced connections closed
+        0 spliced connections reset
+        0 spliced connections timeout
+        0 spliced connections persist timeout
+        0 spliced connections keepalive timeout
+        0 TCP checksum offload disabled during retransmit
+        0 Connections dropped due to bad ACKs
+        0 Connections dropped due to duplicate SYN packets
+        0 fastpath loopback connections
+        0 fastpath loopback sent packets (0 bytes)
+        0 fastpath loopback received packets (0 bytes)
+        0 fake SYN segments dropped
+        0 fake RST segments dropped
+        0 data injection segments dropped
+        0 TCPTR maximum connections dropped
+        0 TCPTR connections dropped for no memory
+        0 TCPTR maximum per host connections dropped
+        0 connections dropped due to max assembly queue depth
+udp:
+        34559 datagrams received
+        0 incomplete headers
+        0 bad data length fields
+        0 bad checksums
+        1849 dropped due to no socket
+        8218 broadcast/multicast datagrams dropped due to no socket
+        0 socket buffer overflows
+        24492 delivered
+        26332 datagrams output
+ip:
+        76229 total packets received
+        0 bad header checksums
+        0 with size smaller than minimum
+        0 with data size < data length
+        0 with header length < data size
+        0 with data length < header length
+        0 with bad options
+        0 with incorrect version number
+        0 fragments received
+        0 fragments dropped (dup or out of space)
+        0 fragments dropped after timeout
+        0 packets reassembled ok
+        72552 packets for this host
+        3 packets for unknown/unsupported protocol
+        24 packets forwarded
+        0 packets not forwardable
+        0 redirects sent
+        55784 packets sent from this host
+        0 packets sent with fabricated ip header
+        0 output packets dropped due to no bufs, etc.
+        0 output packets discarded due to no route
+        0 output datagrams fragmented
+        0 fragments created
+        0 datagrams that can't be fragmented
+        0 IP Multicast packets dropped due to no receiver
+        0 successful path MTU discovery cycles
+        0 path MTU rediscovery cycles attempted
+        0 path MTU discovery no-response estimates
+        0 path MTU discovery response timeouts
+        0 path MTU discovery decreases detected
+        0 path MTU discovery packets sent
+        0 path MTU discovery memory allocation failures
+        0 ipintrq overflows
+        0 with illegal source
+        0 packets processed by threads
+        0 packets dropped by threads
+        0 packets dropped due to the full socket receive buffer
+        0 dead gateway detection packets sent
+        0 dead gateway detection packet allocation failures
+        0 dead gateway detection gateway allocation failures
+        0 incoming packets dropped due to MLS filters
+        0 packets not sent due to MLS filters
