@@ -24,22 +24,13 @@ public class BaseProcessorExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseProcessorExtension.class);
 
-    private SystemInfo systemInfo;
     private HardwareAbstractionLayer hardwareAbstractionLayer;
     private long[] oldTicks;
 
     @Override
     public boolean isSupported() {
-
-        try {
-            systemInfo = new SystemInfo();
-            hardwareAbstractionLayer = systemInfo.getHardware();
-            return true;
-        } catch (UnsupportedOperationException e) {
-            log.warn(e.getMessage());
-        }
-
-        return false;
+        hardwareAbstractionLayer = BasePlugin.getHardwareAbstractionLayer();
+        return hardwareAbstractionLayer != null;
     }
 
     @Override

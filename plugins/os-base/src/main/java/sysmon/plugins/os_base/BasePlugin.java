@@ -4,14 +4,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
+import oshi.SystemInfo;
+import oshi.hardware.HardwareAbstractionLayer;
 
 
 public class BasePlugin extends Plugin {
 
     private static final Logger log = LoggerFactory.getLogger(BasePlugin.class);
 
+    private static SystemInfo systemInfo;
+    private static HardwareAbstractionLayer hardwareAbstractionLayer;
+
     public BasePlugin(PluginWrapper wrapper) {
         super(wrapper);
+    }
+
+    public static HardwareAbstractionLayer getHardwareAbstractionLayer() {
+
+        try {
+            if(systemInfo == null) {
+                systemInfo = new SystemInfo();
+            }
+            if(hardwareAbstractionLayer == null) {
+                hardwareAbstractionLayer = systemInfo.getHardware();
+            }
+
+        } catch (UnsupportedOperationException e) {
+            log.warn(e.getMessage());
+        }
+
+        return hardwareAbstractionLayer;
     }
 
 }

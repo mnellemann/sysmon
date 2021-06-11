@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-@Extension
+// Disabled
+//@Extension
 public class AixNetstatExtension implements MetricExtension  {
 
     private static final Logger log = LoggerFactory.getLogger(AixNetstatExtension.class);
