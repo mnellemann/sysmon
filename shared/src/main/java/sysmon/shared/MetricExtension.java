@@ -2,6 +2,8 @@ package sysmon.shared;
 
 import org.pf4j.ExtensionPoint;
 
+import java.io.IOException;
+
 public interface MetricExtension extends ExtensionPoint {
 
     boolean isSupported();
@@ -10,5 +12,5 @@ public interface MetricExtension extends ExtensionPoint {
     String getProvides();
     String getDescription();
 
-    MetricResult getMetrics();
+    MetricResult getMetrics() throws Exception;
 }

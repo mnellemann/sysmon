@@ -1,0 +1,10 @@
+[Unit]
+Description=Sysmon Client Service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStart=/opt/sysmon/client/bin/client -s http://10.20.30.40:9925/metrics
+
+[Install]
+WantedBy=default.target

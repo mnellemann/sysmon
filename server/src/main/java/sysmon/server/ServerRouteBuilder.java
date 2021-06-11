@@ -36,9 +36,11 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .to("seda:inbound")
                 .endRest();
 
+
         //from("seda:inbound").log("Got metric from: ${header.component}").to("mock:sink");
 
-        from("seda:inbound")
+        // TODO: Make 'concurrentConsumers' configurable
+        from("seda:inbound?concurrentConsumers=5")
                 .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
                     .process(new MetricResultToPointProcessor())

@@ -21,7 +21,7 @@ public class ClientRouteBuilder extends RouteBuilder {
     private static final Logger log = LoggerFactory.getLogger(ClientRouteBuilder.class);
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
 
         Registry registry = getContext().getRegistry();
 
@@ -45,24 +45,30 @@ public class ClientRouteBuilder extends RouteBuilder {
                 log.info(">>> Enabling extension: " + ext.getDescription());
                 providers.add(provides);
 
+
+                // TODO: Make timer thread configurable
+
                 // Setup Camel route for this extension
                 // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
-                from("timer:"+provides+"?fixedRate=true&period=30s")
+                //from("timer:"+provides+"?fixedRate=true&period=30s")
+                from("timer:extensions?fixedRate=true&period=30s")
                         .bean(ext, "getMetrics")
                         //.doTry()
                         .process(new MetricEnrichProcessor(registry))
                         .choice().when(exchangeProperty("skip").isEqualTo(true))
-                            .log("Skipping empty: ${body}")
+                            .log("Skipping empty measurement.")
                             .stop()
                         .otherwise()
-                            .to("seda:metrics");
+                            .to("seda:metrics?discardWhenFull=true");
             } else {
-                log.info(">>> Skipping extension: " + ext.getDescription());
+                log.info(">>> Skipping extension (not supported here): " + ext.getDescription());
             }
+
         }
 
 
-        from("seda:metrics")
+        // TODO: Make 'concurrentConsumers' configurable
+        from("seda:metrics?concurrentConsumers=1")
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 //.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                 .doTry()

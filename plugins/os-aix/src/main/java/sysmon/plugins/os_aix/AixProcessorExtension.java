@@ -8,6 +8,8 @@ import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 import sysmon.shared.PluginHelper;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class AixProcessorExtension implements MetricExtension {
 
     @Override
     public String getProvides() {
-        return "processor";
+        return "processor-lpar";
     }
 
     @Override
@@ -49,20 +51,23 @@ public class AixProcessorExtension implements MetricExtension {
     }
 
     @Override
-    public MetricResult getMetrics() {
+    public MetricResult getMetrics() throws Exception {
 
-        List<String> lparstat = PluginHelper.executeCommand("lparstat 1 1");
-        AixProcessorStat processorStat = processCommandOutput(lparstat);
+        Map<String, String> tagsMap = null;
+        Map<String, Object> fieldsMap = null;
 
-        Map<String, String> tagsMap = processorStat.getTags();
-        Map<String, Object> fieldsMap = processorStat.getFields();
+        try (InputStream buf = PluginHelper.executeCommand("lparstat 1 1")) {
+            AixProcessorStat processorStat = processCommandOutput(buf);
+            tagsMap = processorStat.getTags();
+            fieldsMap = processorStat.getFields();
+        }
 
-        return new MetricResult("processor", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult("processor_lpar", new Measurement(tagsMap, fieldsMap));
     }
 
 
-    protected AixProcessorStat processCommandOutput(List<String> inputLines) {
-        return new AixProcessorStat(inputLines);
+    protected AixProcessorStat processCommandOutput(InputStream input) throws IOException {
+        return new AixProcessorStat(input);
     }
 
 

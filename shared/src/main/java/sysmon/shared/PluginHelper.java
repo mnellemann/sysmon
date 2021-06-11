@@ -3,10 +3,7 @@ package sysmon.shared;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,10 +20,9 @@ public class PluginHelper {
             .toLowerCase().startsWith("windows");
 
 
-    public static List<String> executeCommand(String... cmd) {
+    public static InputStream executeCommand(String... cmd) {
 
-        List<String> outputLines = new ArrayList<>();
-
+        InputStream inputStream = null;
         ProcessBuilder builder = new ProcessBuilder();
         if (isWindows) {
             builder.command("cmd.exe", "/c");
@@ -40,15 +36,8 @@ public class PluginHelper {
 
         builder.directory(new File(System.getProperty("user.home")));
         try {
-
             Process process = builder.start();
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                outputLines.add(line);
-            }
+            inputStream = process.getInputStream();
 
             int exitCode = process.waitFor();
             if(exitCode > 0) {
@@ -59,7 +48,7 @@ public class PluginHelper {
             e.printStackTrace();
         }
 
-        return outputLines;
+        return inputStream;
     }
 
 

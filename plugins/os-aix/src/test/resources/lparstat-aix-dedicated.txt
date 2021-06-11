@@ -1,0 +1,6 @@
+
+System configuration: type=Dedicated mode=Donating smt=8 lcpu=16 mem=4096MB
+
+%user  %sys  %wait  %idle physc  vcsw   %nsp  %utcyc
+----- ----- ------ ------ ----- ----- ----- ------
+  0.1   0.2    0.0   99.7  0.07 1014627468   132  24.21

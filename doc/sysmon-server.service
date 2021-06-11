@@ -1,0 +1,10 @@
+[Unit]
+Description=Sysmon Server Service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStart=/opt/sysmon/server/bin/server
+
+[Install]
+WantedBy=default.target
