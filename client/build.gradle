@@ -19,7 +19,7 @@ dependencies {
     implementation "info.picocli:picocli:${picocliVersion}"
     implementation 'org.tomlj:tomlj:1.0.0'
 
-    implementation(group: 'com.github.oshi', name: 'oshi-core', version: "5.7.3")  {
+    runtimeOnly(group: 'com.github.oshi', name: 'oshi-core', version: oshiVersion)  {
         exclude(group: "org.slf4j")
     }
 

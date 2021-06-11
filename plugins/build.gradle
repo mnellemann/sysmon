@@ -22,7 +22,7 @@ subprojects {
         }
         annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
 
-        implementation(group: 'com.github.oshi', name: 'oshi-core', version: "5.7.3")  {
+        compileOnly(group: 'com.github.oshi', name: 'oshi-core', version: oshiVersion)  {
             exclude(group: "org.slf4j")
         }
 
