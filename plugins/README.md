@@ -1,3 +1,3 @@
-# Plugins
+# System Monitor Plugins
 
-Collections of base plugins.
+Collection of sysmon plugins.
