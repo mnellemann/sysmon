@@ -41,8 +41,8 @@ public class Application implements Callable<Integer> {
             try {
                 hostname = InetAddress.getLocalHost().getHostName();
             } catch (UnknownHostException e) {
-                log.warn(e.getMessage());
-                hostname = "unknown";
+                System.err.println("Could not detect hostname. Use the '-n' or '--hostname' option to specify it.");
+                return -1;
             }
         }
 
