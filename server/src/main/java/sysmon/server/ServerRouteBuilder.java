@@ -13,17 +13,19 @@ public class ServerRouteBuilder extends RouteBuilder {
 
         Registry registry = getContext().getRegistry();
 
-        restConfiguration().component("jetty")
+        restConfiguration().component("netty-http")
                 .bindingMode(RestBindingMode.auto)
                 .host(registry.lookupByNameAndType("http.host", String.class))
                 .port(registry.lookupByNameAndType("http.port", Integer.class));
 
+        /*
         rest()
                 .get("/")
                 .produces("text/html")
                 .route()
                 .to("log:stdout")
                 .endRest();
+         */
 
         rest()
                 .post("/metrics")
@@ -36,15 +38,11 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .to("seda:inbound")
                 .endRest();
 
-
-        //from("seda:inbound").log("Got metric from: ${header.component}").to("mock:sink");
-
-        // TODO: Make 'concurrentConsumers' configurable
-        from("seda:inbound?concurrentConsumers=5")
+        fromF("seda:inbound?concurrentConsumers=%s", registry.lookupByNameAndType("threads", Integer.class))
                 .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
                     .process(new MetricResultToPointProcessor())
-                    .to("influxdb://ref.myInfluxConnection?databaseName=sysmon&retentionPolicy=autogen")
+                    .toF("influxdb://ref.myInfluxConnection?databaseName=%s&retentionPolicy=autogen", "sysmon")
                 .doCatch(Exception.class)
                     .log("Error storing metric to InfluxDB: ${exception}")
                 .end();
