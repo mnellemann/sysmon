@@ -1,7 +1,4 @@
 # IBM i Plugin
 
-## Processor Extension
+TODO. Nothing here yet.
 
-## Memory Extension
-
-## Disk Extension

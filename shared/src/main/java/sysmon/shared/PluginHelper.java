@@ -45,7 +45,7 @@ public class PluginHelper {
             }
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.warn("executeCommand() - exception: " + e.getMessage());
         }
 
         return inputStream;
