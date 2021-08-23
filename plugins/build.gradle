@@ -1,7 +1,7 @@
 import org.redline_rpm.header.Os
 
 plugins {
-    id "nebula.ospackage" version "8.5.6"
+    id "nebula.ospackage" version "8.6.1"
 }
 
 
