@@ -2,7 +2,9 @@ package sysmon.server;
 
 import org.apache.camel.main.Main;
 import org.influxdb.InfluxDB;
+import org.influxdb.InfluxDBException;
 import org.influxdb.InfluxDBFactory;
+import org.influxdb.dto.Query;
 import picocli.CommandLine;
 
 import java.io.IOException;
@@ -21,8 +23,8 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-p", "--influxdb-pass" }, description = "InfluxDB Password (default: ${DEFAULT-VALUE}).", defaultValue = "", paramLabel = "<pass>")
     private String influxPass;
 
-    //@CommandLine.Option(names = { "-d", "--influxdb-db" }, description = "InfluxDB Database (default: ${DEFAULT-VALUE}).", defaultValue = "", paramLabel = "<name>")
-    //private String influxName = "sysmon";
+    @CommandLine.Option(names = { "-d", "--influxdb-db" }, description = "InfluxDB Database (default: ${DEFAULT-VALUE}).", defaultValue = "sysmon", paramLabel = "<db>")
+    private String influxName;
 
     @CommandLine.Option(names = { "-H", "--server-host" }, description = "Server listening address (default: ${DEFAULT-VALUE}).", paramLabel = "<addr>")
     private String listenHost = "0.0.0.0";
@@ -42,20 +44,21 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
 
+        InfluxDB influxDB = InfluxDBFactory.connect(influxUrl.toString(), influxUser, influxPass);
         /*
-        Properties properties = new Properties();
-        properties.put("http.host", listenHost);
-        properties.put("http.port", listenPort);
-*/
-        InfluxDB influxConnectionBean = InfluxDBFactory.connect(influxUrl.toString(), influxUser, influxPass);
+        try {
+            influxDB.query(new Query("CREATE DATABASE " + influxName));
+        } catch (InfluxDBException e) {
+            System.err.println(e.getMessage());
+            return -1;
+        }*/
 
         Main main = new Main();
-        main.bind("myInfluxConnection", influxConnectionBean);
+        main.bind("myInfluxConnection", influxDB);
         main.bind("http.host", listenHost);
         main.bind("http.port", listenPort);
-        //main.bind("properties", properties);
         main.bind("threads", threads);
-        //main.bind("influxdb_name", influxName);
+        main.bind("dbname", influxName);
         main.configure().addRoutesBuilder(ServerRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)

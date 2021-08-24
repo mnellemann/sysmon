@@ -1,0 +1,33 @@
+---
+#
+# Example ansible playbook for timezone and NTP setup on AIX.
+#
+# ansible-playbook -i aixhost, -u root  timezone-aix.yml
+#
+
+- name: "Timezone and NTP on AIX"
+  hosts: all
+  gather_facts: no
+  vars:
+    timezone: Europe/Copenhagen
+    ntp_server: dk.pool.ntp.org
+
+  tasks:
+
+    - name: Configure timezone
+      ansible.builtin.replace:
+        path: /etc/environment
+        regexp: '^TZ=(.*)$'
+        replace: "TZ={{ timezone }}"
+
+    - name: Update time from NTP server
+      ansible.builtin.command: "env TZ={{ timezone }} /usr/sbin/ntpdate {{ ntp_server }}"
+
+    - name: Create cron entry for updating time periodically
+      ansible.builtin.cron:
+        name: ntpdate
+        weekday: "*"
+        minute: "1"
+        hour: "*"
+        user: root
+        job: "/usr/sbin/ntpdate {{ ntp_server }}"

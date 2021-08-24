@@ -2,6 +2,7 @@ package sysmon.server;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.influxdb.InfluxDbConstants;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
 import sysmon.shared.MetricResult;
@@ -11,7 +12,9 @@ public class ServerRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        Registry registry = getContext().getRegistry();
+        final Registry registry = getContext().getRegistry();
+        final String dbname = registry.lookupByNameAndType("dbname", String.class);
+        final Integer threads = registry.lookupByNameAndType("threads", Integer.class);
 
         restConfiguration().component("netty-http")
                 .bindingMode(RestBindingMode.auto)
@@ -38,11 +41,11 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .to("seda:inbound")
                 .endRest();
 
-        fromF("seda:inbound?concurrentConsumers=%s", registry.lookupByNameAndType("threads", Integer.class))
+        fromF("seda:inbound?concurrentConsumers=%s", threads)
                 .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
                     .process(new MetricResultToPointProcessor())
-                    .toF("influxdb://ref.myInfluxConnection?databaseName=%s&retentionPolicy=autogen", "sysmon")
+                    .toF("influxdb://ref.myInfluxConnection?databaseName=%s&retentionPolicy=autogen", dbname)
                 .doCatch(Exception.class)
                     .log("Error storing metric to InfluxDB: ${exception}")
                 .end();
