@@ -56,7 +56,7 @@ public class AixProcessorExtension implements MetricExtension {
         Map<String, String> tagsMap = null;
         Map<String, Object> fieldsMap = null;
 
-        try (InputStream buf = PluginHelper.executeCommand("lparstat 1 1")) {
+        try (InputStream buf = PluginHelper.executeCommand("lparstat 5 1")) {
             AixProcessorStat processorStat = processCommandOutput(buf);
             tagsMap = processorStat.getTags();
             fieldsMap = processorStat.getFields();
