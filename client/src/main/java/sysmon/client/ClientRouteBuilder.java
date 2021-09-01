@@ -59,6 +59,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                             .log("Skipping empty measurement.")
                             .stop()
                         .otherwise()
+                            .log(">>> ${body}")
                             .to("seda:metrics?discardWhenFull=true");
             } else {
                 log.info(">>> Skipping extension (not supported here): " + ext.getDescription());
