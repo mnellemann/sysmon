@@ -29,7 +29,7 @@ public class BaseNetworkExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base-network";
+        return "base_network";
     }
 
     @Override
@@ -52,8 +52,8 @@ public class BaseNetworkExtension implements MetricExtension {
         long txPackets = 0L;
         long txErrs = 0L;
 
-        Map<String, String> tagsMap = new HashMap<>();
-        Map<String, Object> fieldsMap = new HashMap<>();
+        HashMap<String, String> tagsMap = new HashMap<>();
+        HashMap<String, Object> fieldsMap = new HashMap<>();
 
         List<NetworkIF> interfaces = hardwareAbstractionLayer.getNetworkIFs();
         for(NetworkIF netif : interfaces) {
@@ -75,7 +75,7 @@ public class BaseNetworkExtension implements MetricExtension {
         fieldsMap.put("txErrors", txErrs);
 
         log.debug(fieldsMap.toString());
-        return new MetricResult("network", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 }

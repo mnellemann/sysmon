@@ -10,6 +10,7 @@ import sysmon.shared.PluginHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 // Disabled
@@ -36,12 +37,12 @@ public class LinuxNetstatExtension implements MetricExtension  {
 
     @Override
     public String getName() {
-        return "linux-network-netstat";
+        return "linux_network_netstat";
     }
 
     @Override
     public String getProvides() {
-        return "network-netstat";
+        return "network_netstat";
     }
 
     @Override
@@ -52,8 +53,8 @@ public class LinuxNetstatExtension implements MetricExtension  {
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        Map<String, String> tagsMap = null;
-        Map<String, Object> fieldsMap = null;
+        HashMap<String, String> tagsMap = null;
+        HashMap<String, Object> fieldsMap = null;
 
         try (InputStream inputStream = PluginHelper.executeCommand("netstat -s")) {
             LinuxNetstatParser parser = processCommandOutput(inputStream);
@@ -62,7 +63,7 @@ public class LinuxNetstatExtension implements MetricExtension  {
         }
 
         log.debug(fieldsMap.toString());
-        return new MetricResult("network_netstat", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 

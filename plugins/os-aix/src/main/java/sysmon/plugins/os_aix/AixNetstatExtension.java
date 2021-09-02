@@ -10,6 +10,7 @@ import sysmon.shared.PluginHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 // Disabled
@@ -36,12 +37,12 @@ public class AixNetstatExtension implements MetricExtension  {
 
     @Override
     public String getName() {
-        return "aix-network-netstat";
+        return "aix_network_netstat";
     }
 
     @Override
     public String getProvides() {
-        return "network-netstat";
+        return "network_netstat";
     }
 
     @Override
@@ -52,8 +53,8 @@ public class AixNetstatExtension implements MetricExtension  {
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        Map<String, String> tagsMap = null;
-        Map<String, Object> fieldsMap = null;
+        HashMap<String, String> tagsMap = null;
+        HashMap<String, Object> fieldsMap = null;
 
         try (InputStream buf = PluginHelper.executeCommand("netstat -s -f inet")) {
             AixNetstatParser parser = processCommandOutput(buf);
@@ -62,7 +63,7 @@ public class AixNetstatExtension implements MetricExtension  {
         }
 
         log.debug(fieldsMap.toString());
-        return new MetricResult("network_netstat", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 

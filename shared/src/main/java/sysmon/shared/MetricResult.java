@@ -13,7 +13,7 @@ public class MetricResult implements Serializable {
     private String name;
     private String hostname;
     private Long timestamp;   // epoch milli
-    private List<Measurement> measurements;
+    private ArrayList<Measurement> measurements;
 
     public MetricResult() {
     }
@@ -31,7 +31,7 @@ public class MetricResult implements Serializable {
         }};
     }
 
-    public MetricResult(String name, List<Measurement> measurements) {
+    public MetricResult(String name, ArrayList<Measurement> measurements) {
         this.name = name;
         this.timestamp = Instant.now().toEpochMilli();
         this.measurements = measurements;
@@ -43,7 +43,7 @@ public class MetricResult implements Serializable {
         }};
     }
 
-    public void setMeasurements(List<Measurement> measurements) {
+    public void setMeasurements(ArrayList<Measurement> measurements) {
         this.measurements = measurements;
     }
 
@@ -71,27 +71,23 @@ public class MetricResult implements Serializable {
         return hostname;
     }
 
+    /*
     public Measurement getMeasurement() {
-        if(measurements != null && measurements.size() > 0) {
+        if(measurements != null && !measurements.isEmpty()) {
             return measurements.get(0);
         }
         return null;
     }
+    */
 
-    public List<Measurement> getMeasurements() {
-        if(measurements != null && measurements.size() > 0) {
-            return measurements;
-        }
-        return null;
-
+    public ArrayList<Measurement> getMeasurements() {
+        return measurements;
     }
-
-
 
     public String toString() {
         StringBuilder sb = new StringBuilder(String.format("%s - %s => ", timestamp.toString(), name));
 
-        if(measurements != null && measurements.size() > 0) {
+        if(measurements != null && !measurements.isEmpty()) {
             sb.append("{");
             for(Measurement m : measurements) {
 
@@ -108,7 +104,6 @@ public class MetricResult implements Serializable {
             }
             sb.append("},");
         }
-
 
         return sb.append(" }").toString();
     }

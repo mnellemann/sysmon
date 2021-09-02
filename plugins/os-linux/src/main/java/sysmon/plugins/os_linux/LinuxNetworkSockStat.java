@@ -76,13 +76,13 @@ public class LinuxNetworkSockStat {
     }
 
 
-    public Map<String, String> getTags() {
+    public HashMap<String, String> getTags() {
         return new HashMap<>();
     }
 
 
-    public Map<String, Object> getFields() {
-        Map<String, Object> fields = new HashMap<>();
+    public HashMap<String, Object> getFields() {
+        HashMap<String, Object> fields = new HashMap<>();
         fields.put("sockets", sockets);
         fields.put("tcp_inuse", tcp_inuse);
         fields.put("tcp_alloc", tcp_alloc);

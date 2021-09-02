@@ -30,7 +30,7 @@ public class BaseDiskExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base-disk";
+        return "base_disk";
     }
 
     @Override
@@ -52,8 +52,8 @@ public class BaseDiskExtension implements MetricExtension {
         long transferTime = 0L;
         long queueLength = 0L;
 
-        Map<String, String> tagsMap = new HashMap<>();
-        Map<String, Object> fieldsMap = new HashMap<>();
+        HashMap<String, String> tagsMap = new HashMap<>();
+        HashMap<String, Object> fieldsMap = new HashMap<>();
 
         List<HWDiskStore> diskStores = hardwareAbstractionLayer.getDiskStores();
         for(HWDiskStore store : diskStores) {
@@ -73,7 +73,7 @@ public class BaseDiskExtension implements MetricExtension {
         fieldsMap.put("queue", queueLength);
 
         log.debug(fieldsMap.toString());
-        return new MetricResult("disk", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 }

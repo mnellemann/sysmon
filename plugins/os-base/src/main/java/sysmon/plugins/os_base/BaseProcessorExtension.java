@@ -35,7 +35,7 @@ public class BaseProcessorExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base-processor";
+        return "base_processor";
     }
 
     @Override
@@ -52,8 +52,8 @@ public class BaseProcessorExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        Map<String, String> tagsMap = new HashMap<>();
-        Map<String, Object> fieldsMap = new HashMap<>();
+        HashMap<String, String> tagsMap = new HashMap<>();
+        HashMap<String, Object> fieldsMap = new HashMap<>();
 
         long[] ticks = hardwareAbstractionLayer.getProcessor().getSystemCpuLoadTicks();
         if(oldTicks == null || oldTicks.length != ticks.length) {
@@ -86,7 +86,7 @@ public class BaseProcessorExtension implements MetricExtension {
 
         oldTicks = ticks;
         log.debug(fieldsMap.toString());
-        return new MetricResult("processor", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 }

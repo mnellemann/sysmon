@@ -27,7 +27,7 @@ public class BaseMemoryExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base-memory";
+        return "base_memory";
     }
 
     @Override
@@ -43,8 +43,8 @@ public class BaseMemoryExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        Map<String, String> tagsMap = new HashMap<>();
-        Map<String, Object> fieldsMap = new HashMap<>();
+        HashMap<String, String> tagsMap = new HashMap<>();
+        HashMap<String, Object> fieldsMap = new HashMap<>();
 
         long total = hardwareAbstractionLayer.getMemory().getTotal();
         long available = hardwareAbstractionLayer.getMemory().getAvailable();
@@ -57,7 +57,7 @@ public class BaseMemoryExtension implements MetricExtension {
         fieldsMap.put("virtual", hardwareAbstractionLayer.getMemory().getVirtualMemory().getVirtualInUse());
 
         log.debug(fieldsMap.toString());
-        return new MetricResult("memory", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 
