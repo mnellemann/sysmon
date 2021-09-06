@@ -54,6 +54,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                 from("timer:extensions?fixedRate=true&period=30s")
                         .bean(ext, "getMetrics")
                         //.doTry()
+                        .outputType(MetricResult.class)
                         .process(new MetricEnrichProcessor(registry))
                         .choice().when(exchangeProperty("skip").isEqualTo(true))
                             .log("Skipping empty measurement.")

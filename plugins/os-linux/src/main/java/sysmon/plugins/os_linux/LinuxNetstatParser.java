@@ -140,12 +140,12 @@ public class LinuxNetstatParser {
     }
 
 
-    public Map<String, String> getTags() {
+    public HashMap<String, String> getTags() {
         return new HashMap<>();
     }
 
-    public Map<String, Object> getFields() {
-        Map<String, Object> fields = new HashMap<>();
+    public HashMap<String, Object> getFields() {
+        HashMap<String, Object> fields = new HashMap<>();
         fields.put("ip_forwarded", ipForwarded);
         fields.put("ip_received", ipTotalPacketsReceived);
         fields.put("ip_dropped", ipOutgoingPacketsDropped);

@@ -140,12 +140,12 @@ public class AixProcessorStat {
         return 100 - idle;
     }
 
-    public Map<String, String> getTags() {
+    public HashMap<String, String> getTags() {
         return new HashMap<>();
     }
 
-    public Map<String, Object> getFields() {
-        Map<String, Object> fields = new HashMap<>();
+    public HashMap<String, Object> getFields() {
+        HashMap<String, Object> fields = new HashMap<>();
         fields.put("lcpu", lcpu);
         fields.put("ent", ent);
         fields.put("user", user);

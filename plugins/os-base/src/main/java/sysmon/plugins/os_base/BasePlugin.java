@@ -36,4 +36,19 @@ public class BasePlugin extends Plugin {
         return hardwareAbstractionLayer;
     }
 
+
+    public static SystemInfo getSystemInfo() {
+
+        try {
+            if(systemInfo == null) {
+                systemInfo = new SystemInfo();
+            }
+
+        } catch (UnsupportedOperationException e) {
+            log.warn(e.getMessage());
+        }
+
+        return systemInfo;
+    }
+
 }

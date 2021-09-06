@@ -2,6 +2,18 @@
 
 Server component.
 
+## Installation
+
+TODO.
+
+### Influx Database
+
+Create a database for the metrics:
+
+```text
+CREATE DATABASE "sysmon" WITH DURATION 90d REPLICATION 1;
+```
+
 ## Development
 
 
