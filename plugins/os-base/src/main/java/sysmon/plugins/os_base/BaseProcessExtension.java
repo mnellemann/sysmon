@@ -18,9 +18,15 @@ public class BaseProcessExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseProcessorExtension.class);
 
+    // TODO: configurable include-list and/or exclude-list of process names
     private final List<String> includeList = new ArrayList<String>() {{
         add("java");
+        add("nginx");
         add("influxd");
+        add("dockerd");
+        add("containerd");
+        add("mysqld");
+        add("postgres");
         add("grafana-server");
     }};
 
@@ -51,8 +57,6 @@ public class BaseProcessExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        // TODO: include-list and/or exclude-list of process names
-
         ArrayList<Measurement> measurementList = new ArrayList<>();
 
         List<OSProcess> processList = systemInfo.getOperatingSystem().getProcesses();
@@ -67,17 +71,15 @@ public class BaseProcessExtension implements MetricExtension {
             if(!includeList.contains(name)) {
                 continue;
             }
-            log.info("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
-
-            //log.info(p.getProcessID() + " (" + p.getParentProcessID() + ") " + p.getName() + " " + p.getPath());
+            log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
 
             HashMap<String, String> tagsMap = new HashMap<>();
             HashMap<String, Object> fieldsMap = new HashMap<>();
 
             tagsMap.put("pid", String.valueOf(p.getProcessID()));
             tagsMap.put("name", name);
+            //tagsMap.put("path", p.getPath());
 
-            fieldsMap.put("path", p.getPath());
             fieldsMap.put("mem_rss", p.getResidentSetSize());
             fieldsMap.put("mem_virt", p.getVirtualSize());
             fieldsMap.put("kernel_time", p.getKernelTime());

@@ -18,8 +18,6 @@ dependencies {
     implementation group: 'org.apache.camel', name: 'camel-core', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-main', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-rest', version: camelVersion
-    //implementation group: 'org.apache.camel', name: 'camel-jetty', version: camelVersion
-    //implementation group: 'org.apache.camel', name: 'camel-stream', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-jackson', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-influxdb', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-netty-http', version: camelVersion
@@ -30,6 +28,7 @@ def projectName = "sysmon-server"
 application {
     // Define the main class for the application.
     mainClass.set('sysmon.server.Application')
+    applicationDefaultJvmArgs = [ "-server", "-Xms128m", "-Xmx128m" ]
 }
 
 tasks.named('test') {
