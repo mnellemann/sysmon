@@ -8,6 +8,7 @@ import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 import sysmon.shared.PluginHelper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,12 +30,12 @@ public class LinuxSockstatExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "linux-network-sockets";
+        return "linux_network_sockets";
     }
 
     @Override
     public String getProvides() {
-        return "network-sockets";
+        return "network_sockets";
     }
 
     @Override
@@ -47,11 +48,11 @@ public class LinuxSockstatExtension implements MetricExtension {
 
         LinuxNetworkSockStat sockStat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
 
-        Map<String, String> tagsMap = sockStat.getTags();
-        Map<String, Object> fieldsMap = sockStat.getFields();
+        HashMap<String, String> tagsMap = sockStat.getTags();
+        HashMap<String, Object> fieldsMap = sockStat.getFields();
 
         log.debug(fieldsMap.toString());
-        return new MetricResult("network_sockets", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
 
     }
 

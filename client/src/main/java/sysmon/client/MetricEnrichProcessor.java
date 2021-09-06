@@ -20,7 +20,7 @@ public class MetricEnrichProcessor implements Processor {
         MetricResult metricResult = exchange.getIn().getBody(MetricResult.class);
 
         // We make sure MetricResults with no measurements are not sent further down the line
-        if(metricResult == null || metricResult.getMeasurement() == null) {
+        if(metricResult == null || metricResult.getMeasurements() == null) {
             exchange.setProperty("skip", true);
             return;
         }

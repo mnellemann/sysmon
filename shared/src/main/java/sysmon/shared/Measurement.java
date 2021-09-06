@@ -1,19 +1,20 @@
 package sysmon.shared;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Measurement {
+public class Measurement implements Serializable {
 
-    private Map<String, String> tags = new HashMap<>();
-    private Map<String, Object> fields = new HashMap<>();
+    private HashMap<String, String> tags = new HashMap<>();
+    private HashMap<String, Object> fields = new HashMap<>();
 
 
     public Measurement() {
     }
 
-    public Measurement(Map<String, String> tags, Map<String, Object> fields) {
+    public Measurement(HashMap<String, String> tags, HashMap<String, Object> fields) {
         this.tags = Objects.requireNonNull(tags);
         this.fields = Objects.requireNonNull(fields);
     }
@@ -26,12 +27,12 @@ public class Measurement {
         return fields;
     }
 
-    public void setTags(Map<String, String> tags) {
+    public void setTags(HashMap<String, String> tags) {
         Objects.requireNonNull(tags);
         this.tags = tags;
     }
 
-    public void setFields(Map<String, Object> fields) {
+    public void setFields(HashMap<String, Object> fields) {
         Objects.requireNonNull(fields);
         this.fields = fields;
     }

@@ -3,6 +3,7 @@ package sysmon.server;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.influxdb.InfluxDbConstants;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
 import sysmon.shared.MetricResult;
@@ -44,8 +45,8 @@ public class ServerRouteBuilder extends RouteBuilder {
         fromF("seda:inbound?concurrentConsumers=%s", threads)
                 .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
-                    .process(new MetricResultToPointProcessor())
-                    .toF("influxdb://ref.myInfluxConnection?databaseName=%s&retentionPolicy=autogen", dbname)
+                    .process(new MetricResultToPointProcessor(dbname))
+                    .toF("influxdb://ref.myInfluxConnection?batch=true") //&retentionPolicy=autogen
                 .doCatch(Exception.class)
                     .log("Error storing metric to InfluxDB: ${exception}")
                 .end();

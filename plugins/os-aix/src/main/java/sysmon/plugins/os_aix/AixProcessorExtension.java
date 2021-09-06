@@ -10,6 +10,7 @@ import sysmon.shared.PluginHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,12 +38,12 @@ public class AixProcessorExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "aix-processor";
+        return "aix_processor";
     }
 
     @Override
     public String getProvides() {
-        return "processor-lpar";
+        return "processor_lpar";
     }
 
     @Override
@@ -53,8 +54,8 @@ public class AixProcessorExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        Map<String, String> tagsMap = null;
-        Map<String, Object> fieldsMap = null;
+        HashMap<String, String> tagsMap = null;
+        HashMap<String, Object> fieldsMap = null;
 
         try (InputStream buf = PluginHelper.executeCommand("lparstat 5 1")) {
             AixProcessorStat processorStat = processCommandOutput(buf);
@@ -62,7 +63,7 @@ public class AixProcessorExtension implements MetricExtension {
             fieldsMap = processorStat.getFields();
         }
 
-        return new MetricResult("processor_lpar", new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
     }
 
 
