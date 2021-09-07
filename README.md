@@ -5,6 +5,26 @@ Java based system monitoring solution with support for plugins.
 - Example dashboards are provided in the [doc/](doc) folder, which can be imported into your Grafana installation.
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
+## Components 
+
+### Client
+
+Runs on your hosts and collects metrics, which are sent to the central *server*.
+
+[More information](client/README.md).
+
+### Server
+
+Receives aggregated metrics from clients and saves these into InfluxDB.
+
+[More information](server/README.md).
+
+### Plugins
+
+Loaded by the client and provides extensions for doing the actual collecting of metrics.
+
+[More information](plugins/README.md).
+
 
 ## Known problems
 
@@ -25,23 +45,3 @@ If you rename a host, the metrics in InfluxDB will still be available by the old
 USE sysmon;
 DELETE WHERE hostname = 'unknown';
 ```
-
-## Components 
-
-### Client
-
-Runs on your hosts and collects metrics, which are sent to the central *server*.
-
-[More information](client/README.md).
-
-### Server
-
-Receives aggregated metrics from clients and saves these into InfluxDB.
-
-[More information](server/README.md).
-
-### Plugins
-
-Loaded by the client and provides extensions for doing the actual collecting of metrics.
-
-[More information](plugins/README.md).

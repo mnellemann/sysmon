@@ -36,6 +36,12 @@
     },
     {
       "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "timeseries",
       "name": "Time series",
       "version": ""
@@ -59,7 +65,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1631005248811,
+  "iteration": 1631013505736,
   "links": [],
   "panels": [
     {
@@ -83,7 +89,11 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "left",
+            "displayMode": "auto"
           },
           "mappings": [],
           "thresholds": {
@@ -94,46 +104,10 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "string"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_process.user"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "User"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_process.group"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Group"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_process.path"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Path"
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -143,29 +117,25 @@
       },
       "id": 16,
       "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "vertical",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "value_and_name"
+        "showHeader": true,
+        "sortBy": []
       },
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "groupBy": [],
+          "groupBy": [
+            {
+              "params": [
+                "pid"
+              ],
+              "type": "tag"
+            }
+          ],
           "measurement": "base_process",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
-          "resultFormat": "time_series",
+          "resultFormat": "table",
           "select": [
             [
               {
@@ -175,6 +145,10 @@
                 "type": "field"
               },
               {
+                "params": [],
+                "type": "last"
+              },
+              {
                 "params": [
                   "user"
                 ],
@@ -189,6 +163,10 @@
                 "type": "field"
               },
               {
+                "params": [],
+                "type": "last"
+              },
+              {
                 "params": [
                   "group"
                 ],
@@ -198,13 +176,17 @@
             [
               {
                 "params": [
-                  "path"
+                  "prio"
                 ],
                 "type": "field"
               },
               {
+                "params": [],
+                "type": "last"
+              },
+              {
                 "params": [
-                  "path"
+                  "priority"
                 ],
                 "type": "alias"
               }
@@ -234,7 +216,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Details",
-      "type": "stat"
+      "type": "table"
     },
     {
       "datasource": "${DS_INFLUXDB-SYSMON}",
@@ -271,7 +253,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "base_process.virt"
+              "options": "base_process.vsz"
             },
             "properties": [
               {
@@ -336,7 +318,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "sum"
               },
               {
                 "params": [
@@ -348,17 +330,17 @@
             [
               {
                 "params": [
-                  "mem_virt"
+                  "mem_vsz"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "sum"
               },
               {
                 "params": [
-                  "virt"
+                  "vsz"
                 ],
                 "type": "alias"
               }
@@ -467,7 +449,7 @@
             },
             {
               "params": [
-                "null"
+                "previous"
               ],
               "type": "fill"
             }
@@ -487,7 +469,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "sum"
               },
               {
                 "params": [],
@@ -509,7 +491,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "sum"
               },
               {
                 "params": [],
@@ -657,7 +639,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "sum"
               },
               {
                 "params": [],
@@ -679,7 +661,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "sum"
               },
               {
                 "params": [],
@@ -832,7 +814,7 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
               },
               {
                 "params": [
@@ -850,7 +832,7 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
               },
               {
                 "params": [
@@ -935,7 +917,7 @@
         "type": "query"
       },
       {
-        "allValue": null,
+        "allValue": "",
         "current": {},
         "datasource": "${DS_INFLUXDB-SYSMON}",
         "definition": "SHOW TAG VALUES FROM \"base_process\" WITH KEY = \"pid\" WHERE hostname =~ /$hostname/AND \"name\" =~ /$process/ AND time > now() - 60m",
@@ -976,5 +958,5 @@
   "timezone": "",
   "title": "Sysmon - Process Explorer",
   "uid": "Vjut5mS7k",
-  "version": 6
+  "version": 11
 }
