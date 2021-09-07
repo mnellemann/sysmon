@@ -78,8 +78,8 @@ public class BaseProcessExtension implements MetricExtension {
 
             tagsMap.put("pid", String.valueOf(p.getProcessID()));
             tagsMap.put("name", name);
-            //tagsMap.put("path", p.getPath());
 
+            fieldsMap.put("path", p.getPath());
             fieldsMap.put("mem_rss", p.getResidentSetSize());
             fieldsMap.put("mem_virt", p.getVirtualSize());
             fieldsMap.put("kernel_time", p.getKernelTime());
