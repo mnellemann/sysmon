@@ -71,7 +71,7 @@ public class BaseProcessExtension implements MetricExtension {
             if(!includeList.contains(name)) {
                 continue;
             }
-            log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
+            log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize() + " cmd: " + p.getCommandLine());
 
             HashMap<String, String> tagsMap = new HashMap<>();
             HashMap<String, Object> fieldsMap = new HashMap<>();
@@ -79,9 +79,8 @@ public class BaseProcessExtension implements MetricExtension {
             tagsMap.put("pid", String.valueOf(p.getProcessID()));
             tagsMap.put("name", name);
 
-            fieldsMap.put("path", p.getPath());
             fieldsMap.put("mem_rss", p.getResidentSetSize());
-            fieldsMap.put("mem_virt", p.getVirtualSize());
+            fieldsMap.put("mem_vsz", p.getVirtualSize());
             fieldsMap.put("kernel_time", p.getKernelTime());
             fieldsMap.put("user_time", p.getUserTime());
             fieldsMap.put("read_bytes", p.getBytesRead());
@@ -90,6 +89,7 @@ public class BaseProcessExtension implements MetricExtension {
             fieldsMap.put("threads", p.getThreadCount());
             fieldsMap.put("user", p.getUser());
             fieldsMap.put("group", p.getGroup());
+            fieldsMap.put("prio", p.getPriority());
 
             measurementList.add(new Measurement(tagsMap, fieldsMap));
         }

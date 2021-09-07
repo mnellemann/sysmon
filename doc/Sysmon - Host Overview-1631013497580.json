@@ -65,7 +65,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1631005716742,
+  "iteration": 1631013342292,
   "links": [],
   "panels": [
     {
@@ -126,6 +126,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$col",
           "groupBy": [
             {
               "params": [
@@ -893,6 +894,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$col",
           "groupBy": [
             {
               "params": [
@@ -1086,6 +1088,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$col",
           "groupBy": [
             {
               "params": [
@@ -1255,6 +1258,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$col",
           "groupBy": [
             {
               "params": [
@@ -1830,7 +1834,7 @@
           ]
         }
       ],
-      "title": "Running Processes - By Processor Time",
+      "title": "Running Processes - User Time",
       "type": "timeseries"
     },
     {
@@ -1966,7 +1970,7 @@
           ]
         }
       ],
-      "title": "Running Processes - By Memory Usage",
+      "title": "Running Processes - Resident Memory",
       "type": "timeseries"
     }
   ],
@@ -2019,7 +2023,7 @@
     ]
   },
   "timezone": "",
-  "title": "Sysmon - Overview",
+  "title": "Sysmon - Host Overview",
   "uid": "QkVPjseMk",
-  "version": 44
+  "version": 46
 }
