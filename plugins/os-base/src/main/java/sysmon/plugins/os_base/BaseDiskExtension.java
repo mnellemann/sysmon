@@ -76,7 +76,7 @@ public class BaseDiskExtension implements MetricExtension {
         List<HWDiskStore> diskStores = hardwareAbstractionLayer.getDiskStores();
         for(HWDiskStore store : diskStores) {
             String name = store.getName();
-            if (name.matches("hdisk[0-9]+") || name.matches("/dev/x?[sv]d[a-z]{1}") || name.matches("/dev/nvme[0-9]n[0-9]")) {
+            if (name.matches("hdisk[0-9]+") || name.matches("/dev/x?[sv]d[a-z]") || name.matches("/dev/nvme[0-9]n[0-9]")) {
                 log.debug("Using device: " + name);
                 writeBytes += store.getWriteBytes();
                 readBytes += store.getReadBytes();

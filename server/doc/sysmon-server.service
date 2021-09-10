@@ -2,8 +2,10 @@
 Description=Sysmon Server Service
 
 [Service]
-TimeoutStartSec=0
-Restart=always
+#User=nobody
+#Group=nobody
+TimeoutSec=20
+Restart=on-failure
 ExecStart=/opt/sysmon/server/bin/server
 
 [Install]

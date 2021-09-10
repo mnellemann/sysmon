@@ -3,7 +3,6 @@ package sysmon.plugins.os_base;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.hardware.NetworkIF;
 import sysmon.shared.Measurement;
@@ -27,8 +26,8 @@ public class BaseNetworkExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
 
-
     private HardwareAbstractionLayer hardwareAbstractionLayer;
+
 
     @Override
     public boolean isEnabled() {

@@ -2,8 +2,6 @@ package sysmon.server;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.influxdb.InfluxDbConstants;
-import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
 import sysmon.shared.MetricResult;
