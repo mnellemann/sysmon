@@ -3,7 +3,6 @@ package sysmon.plugins.os_base;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import oshi.SystemInfo;
 import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
 import sysmon.shared.Measurement;
@@ -19,8 +18,21 @@ public class BaseDiskExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseDiskExtension.class);
 
+    // Extension details
+    private final String name = "base_disk";
+    private final String provides = "disk";
+    private final String description = "Base Disk Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
     private HardwareAbstractionLayer hardwareAbstractionLayer;
 
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -30,19 +42,25 @@ public class BaseDiskExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base_disk";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "disk";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "Base Disk Metrics";
+        return description;
     }
 
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
+    }
 
     @Override
     public MetricResult getMetrics() {
@@ -73,7 +91,7 @@ public class BaseDiskExtension implements MetricExtension {
         fieldsMap.put("queue", queueLength);
 
         log.debug(fieldsMap.toString());
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 }

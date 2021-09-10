@@ -39,7 +39,7 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .route()
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
                 .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
-                .to("seda:inbound")
+                .to("seda:inbound?discardWhenFull=true")
                 .endRest();
 
         fromF("seda:inbound?concurrentConsumers=%s", threads)

@@ -19,6 +19,20 @@ public class AixNetstatExtension implements MetricExtension  {
 
     private static final Logger log = LoggerFactory.getLogger(AixNetstatExtension.class);
 
+    // Extension details
+    private final String name = "aix_network_netstat";
+    private final String provides = "network_netstat";
+    private final String description = "AIX Netstat Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     @Override
     public boolean isSupported() {
 
@@ -37,17 +51,24 @@ public class AixNetstatExtension implements MetricExtension  {
 
     @Override
     public String getName() {
-        return "aix_network_netstat";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "network_netstat";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "AIX Netstat Metrics";
+        return description;
+    }
+
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
     }
 
     @Override
@@ -63,7 +84,7 @@ public class AixNetstatExtension implements MetricExtension  {
         }
 
         log.debug(fieldsMap.toString());
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 

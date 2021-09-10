@@ -1,0 +1,10 @@
+# Configuration for sysmon-client
+
+[extension.base_disk]
+enabled = false
+
+[extension.base_process]
+enabled = true
+include = [ "java", "influxd", "grafana-server" ]
+
+

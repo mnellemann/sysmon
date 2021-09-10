@@ -11,13 +11,26 @@ import sysmon.shared.PluginHelper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Extension
 public class AixProcessorExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(AixProcessorExtension.class);
+
+    // Extension details
+    private final String name = "aix_processor";
+    private final String provides = "lpar_processor";
+    private final String description = "AIX Processor Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -38,17 +51,24 @@ public class AixProcessorExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "aix_processor";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "processor_lpar";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "AIX Processor Metrics";
+        return description;
+    }
+
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
     }
 
     @Override
@@ -63,7 +83,7 @@ public class AixProcessorExtension implements MetricExtension {
             fieldsMap = processorStat.getFields();
         }
 
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 

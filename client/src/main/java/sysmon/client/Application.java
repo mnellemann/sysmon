@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
@@ -28,6 +29,9 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-p", "--plugin-dir" }, description = "Plugin jar path (default: ${DEFAULT-VALUE}).", paramLabel = "<path>", defaultValue = "/opt/sysmon/plugins")
     private String pluginPath;
 
+    @CommandLine.Option(names = { "-c", "--conf" }, description = "Configuration file [default: '/etc/sysmon-client.toml'].", paramLabel = "<file>", defaultValue = "/etc/sysmon-client.toml")
+    private File configurationFile;
+
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);
         System.exit(exitCode);
@@ -36,6 +40,8 @@ public class Application implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException {
+
+        Configuration configuration = new Configuration();
 
         if(hostname == null || hostname.isEmpty()) {
             try {
@@ -51,10 +57,26 @@ public class Application implements Callable<Integer> {
             pluginPath = pf4jPluginsDir;
         }
 
+        String sysmonCfgFile = System.getProperty("sysmon.cfgFile");
+        if(sysmonCfgFile != null) {
+            configurationFile = new File(sysmonCfgFile);
+        }
+
+
+        if(configurationFile.exists()) {
+            try {
+                configuration.parse(configurationFile.toPath());
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                return 1;
+            }
+        }
+
         Main main = new Main();
         main.bind("pluginPath", pluginPath);
         main.bind("myServerUrl", serverUrl.toString());
         main.bind("myHostname", hostname);
+        main.bind("configuration", configuration);
         main.configure().addRoutesBuilder(ClientRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)
@@ -62,6 +84,7 @@ public class Application implements Callable<Integer> {
             main.run();
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            return 1;
         }
 
         return 0;

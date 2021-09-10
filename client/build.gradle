@@ -37,11 +37,12 @@ def projectName = "sysmon-client"
 application {
     // Define the main class for the application.
     mainClass.set('sysmon.client.Application')
-    applicationDefaultJvmArgs = [ "-server", "-XX:+UseG1GC", "-Xmx32m" ]
+    applicationDefaultJvmArgs = [ "-server", "-Xms16m", "-Xmx32m", "-XX:+UseG1GC" ]
 }
 
 run {
     systemProperty 'pf4j.pluginsDir', '../plugins/output/'
+    systemProperty 'sysmon.cfgFile', 'doc/sysmon-client.toml'
 }
 
 tasks.named('test') {

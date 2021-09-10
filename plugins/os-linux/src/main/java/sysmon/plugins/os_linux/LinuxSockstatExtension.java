@@ -17,6 +17,20 @@ public class LinuxSockstatExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(LinuxSockstatExtension.class);
 
+    // Extension details
+    private final String name = "linux_network_sockets";
+    private final String provides = "network_sockets";
+    private final String description = "Linux Network Socket Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     @Override
     public boolean isSupported() {
 
@@ -30,17 +44,24 @@ public class LinuxSockstatExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "linux_network_sockets";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "network_sockets";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "Linux Network Socket Metrics";
+        return description;
+    }
+
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
     }
 
     @Override
@@ -52,7 +73,7 @@ public class LinuxSockstatExtension implements MetricExtension {
         HashMap<String, Object> fieldsMap = sockStat.getFields();
 
         log.debug(fieldsMap.toString());
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
 
     }
 

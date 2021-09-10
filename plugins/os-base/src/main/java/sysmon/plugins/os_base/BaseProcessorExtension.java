@@ -3,20 +3,13 @@ package sysmon.plugins.os_base;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Extension
@@ -24,8 +17,21 @@ public class BaseProcessorExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseProcessorExtension.class);
 
+    // Extension details
+    private final String name = "base_processor";
+    private final String provides = "processor";
+    private final String description = "Base Processor Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
     private HardwareAbstractionLayer hardwareAbstractionLayer;
     private long[] oldTicks;
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -35,19 +41,25 @@ public class BaseProcessorExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base_processor";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "processor";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "Base Processor Metrics";
+        return description;
     }
 
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
+    }
 
     @Override
     public MetricResult getMetrics() {
@@ -86,7 +98,7 @@ public class BaseProcessorExtension implements MetricExtension {
 
         oldTicks = ticks;
         log.debug(fieldsMap.toString());
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 }

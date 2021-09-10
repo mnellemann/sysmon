@@ -19,7 +19,21 @@ public class BaseNetworkExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseNetworkExtension.class);
 
+    // Extension details
+    private final String name = "base_network";
+    private final String provides = "network";
+    private final String description = "Base Network Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
+
     private HardwareAbstractionLayer hardwareAbstractionLayer;
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -29,17 +43,24 @@ public class BaseNetworkExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base_network";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "network";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "Base Network Metrics";
+        return description;
+    }
+
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
     }
 
     @Override
@@ -75,7 +96,7 @@ public class BaseNetworkExtension implements MetricExtension {
         fieldsMap.put("txErrors", txErrs);
 
         log.debug(fieldsMap.toString());
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 }
