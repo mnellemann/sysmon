@@ -8,6 +8,7 @@ import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
 import java.io.IOException;
+import java.util.Map;
 
 // Disable for now...
 //@Extension
@@ -15,8 +16,22 @@ public class TestExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(TestExtension.class);
 
+    // Extension details
+    private final String name = "ibmi_test";
+    private final String provides = "ibmi_test";
+    private final String description = "IBM i Test Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
     private AS400 as400;
     private SystemStatus systemStatus;
+
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -47,17 +62,24 @@ public class TestExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "ibmi-test";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "test";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "IBM i Test Extension";
+        return description;
+    }
+
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
     }
 
     @Override

@@ -4,7 +4,7 @@ Works on IBM Power VIO (Virtual IO) servers, as well as regular IBM Power AIX in
 
 ## Installation
 
-We require Java 8, which should already be installed. 
+We require Java 8, which should already be installed on AIX, or is available to install. 
 The RPM packages are *"noarch"* Java bytecode, so we can use the **--ignoreos** option to install:
 
 ```shell

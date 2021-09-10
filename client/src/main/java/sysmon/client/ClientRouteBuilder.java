@@ -24,6 +24,7 @@ public class ClientRouteBuilder extends RouteBuilder {
     public void configure() {
 
         Registry registry = getContext().getRegistry();
+        Configuration configuration = (Configuration) registry.lookupByName("configuration");
 
         Path[] pluginpaths = { Paths.get(registry.lookupByNameAndType("pluginPath", String.class)) };
         PluginManager pluginManager = new JarPluginManager(pluginpaths);
@@ -34,9 +35,18 @@ public class ClientRouteBuilder extends RouteBuilder {
         List<MetricExtension> metricExtensions = pluginManager.getExtensions(MetricExtension.class);
         for (MetricExtension ext : metricExtensions) {
 
-            if(ext.isSupported()) {
+            final String name = ext.getName();
+            final String provides = ext.getProvides();
 
-                String provides = ext.getProvides();
+            // Load configuration if available
+            if(configuration.isForExtension(name)) {
+                log.info(">>> Loading configuring for extension: " + ext.getDescription());
+                ext.setConfiguration(configuration.getForExtension(name));
+            }
+
+            if(ext.isSupported() && ext.isEnabled()) {
+
+                // Check that another extension has not already been loaded - TODO: Is this required ?
                 if(providers.contains(provides)) {
                     log.warn("Skipping extension (already provided): " + ext.getName());
                     continue;
@@ -46,7 +56,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                 providers.add(provides);
 
 
-                // TODO: Make timer thread configurable
+                // TODO: Make timer thread configurable ?
 
                 // Setup Camel route for this extension
                 // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
@@ -62,7 +72,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                         .otherwise()
                             .to("seda:metrics?discardWhenFull=true");
             } else {
-                log.info(">>> Skipping extension (not supported here): " + ext.getDescription());
+                log.info(">>> Skipping extension (not supported or disabled): " + ext.getDescription());
             }
 
         }

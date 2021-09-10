@@ -36,3 +36,30 @@ Metrics reported are:
 - **writes** - The total number of bytes written.
 - **iotime** - Time spent on IO in milliseconds.
 - **queue** - Lenght of IO queue.
+
+## Process Extension
+
+Reports metrics on one or more running processes.
+
+- **mem_rss** - Resident set memory in bytes.
+- **mem_vsz** - Virtual memory in bytes.
+- **kernel_time** - Time spent (in milliseconds) in kernel space.
+- **user_time** - Time used (in milliseconds) in user space.
+- **read_bytes** - Bytes read by process.
+- **write_bytes** - Bytes written by process.
+- **files** - Files currently open by process.
+- **threads** - Running threads.
+- **user** - User running the process.
+- **group** - Group running the process
+- **prio** - Process priority.
+
+
+### Configuration
+
+The **include** option let's you specify what processes to report for.
+
+```toml
+[extension.base_process]
+enabled = true # true or false
+include = [ "java", "influxd", "grafana-server" ]
+```

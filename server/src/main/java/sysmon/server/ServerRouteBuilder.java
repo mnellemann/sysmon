@@ -2,8 +2,6 @@ package sysmon.server;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.influxdb.InfluxDbConstants;
-import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
 import sysmon.shared.MetricResult;
@@ -39,7 +37,7 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .route()
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
                 .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
-                .to("seda:inbound")
+                .to("seda:inbound?discardWhenFull=true")
                 .endRest();
 
         fromF("seda:inbound?concurrentConsumers=%s", threads)

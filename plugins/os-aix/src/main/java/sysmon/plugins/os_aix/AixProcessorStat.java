@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -86,7 +85,7 @@ public class AixProcessorStat {
         }
 
         //String lparstat = lines.get(lines.size() -1);
-        String[] splitStr = lastLine.trim().split("\\s+");
+        String[] splitStr = Objects.requireNonNull(lastLine).trim().split("\\s+");
         if(type.equalsIgnoreCase("shared") && splitStr.length < 9 ||
                 type.equalsIgnoreCase("dedicated") && splitStr.length < 8) {
             throw new UnsupportedOperationException("lparstat string error: " + lastLine);

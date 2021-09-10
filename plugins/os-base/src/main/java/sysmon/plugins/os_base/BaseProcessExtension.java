@@ -9,28 +9,30 @@ import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Extension
 public class BaseProcessExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseProcessorExtension.class);
 
-    // TODO: configurable include-list and/or exclude-list of process names
-    private final List<String> includeList = new ArrayList<String>() {{
+    // Extension details
+    private final String name = "base_process";
+    private final String provides = "process";
+    private final String description = "Base Process Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+    private List<?> includeList = new ArrayList<Object>() {{
         add("java");
-        add("nginx");
-        add("influxd");
-        add("dockerd");
-        add("containerd");
-        add("mysqld");
-        add("postgres");
-        add("grafana-server");
     }};
 
     private SystemInfo systemInfo;
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -40,19 +42,29 @@ public class BaseProcessExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base_process";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "process";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "Base Process Metrics";
+        return description;
     }
 
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if(map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
+        if(map.containsKey("include")) {
+            includeList = (List<?>) map.get("include");
+        }
+        log.info(includeList.toString());
+    }
 
     @Override
     public MetricResult getMetrics() {
@@ -71,7 +83,7 @@ public class BaseProcessExtension implements MetricExtension {
             if(!includeList.contains(name)) {
                 continue;
             }
-            log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize() + " cmd: " + p.getCommandLine());
+            log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
 
             HashMap<String, String> tagsMap = new HashMap<>();
             HashMap<String, Object> fieldsMap = new HashMap<>();
@@ -95,7 +107,7 @@ public class BaseProcessExtension implements MetricExtension {
         }
 
         //log.info("Size of measurements: " + measurementList.size());
-        return new MetricResult(getName(), measurementList);
+        return new MetricResult(name, measurementList);
     }
 
 }

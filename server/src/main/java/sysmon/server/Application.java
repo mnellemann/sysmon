@@ -2,9 +2,7 @@ package sysmon.server;
 
 import org.apache.camel.main.Main;
 import org.influxdb.InfluxDB;
-import org.influxdb.InfluxDBException;
 import org.influxdb.InfluxDBFactory;
-import org.influxdb.dto.Query;
 import picocli.CommandLine;
 
 import java.io.IOException;

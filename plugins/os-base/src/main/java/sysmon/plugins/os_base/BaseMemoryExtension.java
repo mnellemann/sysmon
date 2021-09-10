@@ -3,7 +3,6 @@ package sysmon.plugins.os_base;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
@@ -17,7 +16,21 @@ public class BaseMemoryExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseMemoryExtension.class);
 
+    // Extension details
+    private final String name = "base_memory";
+    private final String provides = "memory";
+    private final String description = "Base Memory Metrics";
+
+    // Configuration / Options
+    private boolean enabled = true;
+
     private HardwareAbstractionLayer hardwareAbstractionLayer;
+
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     @Override
     public boolean isSupported() {
@@ -27,17 +40,24 @@ public class BaseMemoryExtension implements MetricExtension {
 
     @Override
     public String getName() {
-        return "base_memory";
+        return name;
     }
 
     @Override
     public String getProvides() {
-        return "memory";
+        return provides;
     }
 
     @Override
     public String getDescription() {
-        return "Base Memory Metrics";
+        return description;
+    }
+
+    @Override
+    public void setConfiguration(Map<String, Object> map) {
+        if (map.containsKey("enabled")) {
+            enabled = (boolean) map.get("enabled");
+        }
     }
 
     @Override
@@ -57,7 +77,7 @@ public class BaseMemoryExtension implements MetricExtension {
         fieldsMap.put("virtual", hardwareAbstractionLayer.getMemory().getVirtualMemory().getVirtualInUse());
 
         log.debug(fieldsMap.toString());
-        return new MetricResult(getName(), new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 

@@ -3,7 +3,6 @@ package sysmon.shared;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class MetricResult implements Serializable {
