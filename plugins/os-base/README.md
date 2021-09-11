@@ -37,6 +37,24 @@ Metrics reported are:
 - **iotime** - Time spent on IO in milliseconds.
 - **queue** - Lenght of IO queue.
 
+## Filesystem Extension
+
+### Metrics
+- 
+- **free_bytes** - Free bytes for filesystem.
+- **total_bytes** - Total bytes for filesystem.
+- **free_inoed** - Free inodes for filesystem.
+- **total_inodes** - Total inodes for filesystem.
+
+### Configuration
+
+```toml
+[extension.base_filesystem]
+enabled = true
+exclude_type = [ "tmpfs", "ahafs" ]
+exclude_mount = [ "/boot/efi" ]
+```
+
 ## Process Extension
 
 Reports metrics on one or more running processes.

@@ -9,6 +9,7 @@ import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,33 +66,32 @@ public class BaseDiskExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        long writeBytes = 0L;
-        long readBytes = 0L;
-        long transferTime = 0L;
-        long queueLength = 0L;
-
-        HashMap<String, String> tagsMap = new HashMap<>();
-        HashMap<String, Object> fieldsMap = new HashMap<>();
-
+        ArrayList<Measurement> measurementList = new ArrayList<>();
         List<HWDiskStore> diskStores = hardwareAbstractionLayer.getDiskStores();
+
         for(HWDiskStore store : diskStores) {
+
             String name = store.getName();
             if (name.matches("hdisk[0-9]+") || name.matches("/dev/x?[sv]d[a-z]") || name.matches("/dev/nvme[0-9]n[0-9]")) {
-                log.debug("Using device: " + name);
-                writeBytes += store.getWriteBytes();
-                readBytes += store.getReadBytes();
-                transferTime += store.getTransferTime();
-                queueLength = store.getCurrentQueueLength();
+
+                HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+                    put("name", name);
+                }};
+
+                HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+                    put("read", store.getReadBytes());
+                    put("write", store.getWriteBytes());
+                    put("iotime", store.getTransferTime());
+                    put("queue", store.getCurrentQueueLength());
+                }};
+
+                measurementList.add(new Measurement(tagsMap, fieldsMap));
             }
+
         }
 
-        fieldsMap.put("reads", readBytes);
-        fieldsMap.put("writes", writeBytes);
-        fieldsMap.put("iotime", transferTime);
-        fieldsMap.put("queue", queueLength);
+        return new MetricResult(name, measurementList);
 
-        log.debug(fieldsMap.toString());
-        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 }

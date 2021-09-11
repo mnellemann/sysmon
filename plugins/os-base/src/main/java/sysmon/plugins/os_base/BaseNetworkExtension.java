@@ -9,6 +9,7 @@ import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,37 +66,29 @@ public class BaseNetworkExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        long rxBytes = 0L;
-        long rxPackets = 0L;
-        long rxErrs = 0L;
-        long txBytes = 0L;
-        long txPackets = 0L;
-        long txErrs = 0L;
-
-        HashMap<String, String> tagsMap = new HashMap<>();
-        HashMap<String, Object> fieldsMap = new HashMap<>();
+        ArrayList<Measurement> measurementList = new ArrayList<>();
 
         List<NetworkIF> interfaces = hardwareAbstractionLayer.getNetworkIFs();
         for(NetworkIF netif : interfaces) {
-            //String name = netif.getName();
-            //log.warn("Device: " + name);
-            rxPackets += netif.getPacketsRecv();
-            txPackets += netif.getPacketsSent();
-            rxBytes += netif.getBytesRecv();
-            txBytes += netif.getBytesSent();
-            rxErrs += netif.getInErrors();
-            txErrs += netif.getOutErrors();
+
+            HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+                put("name", netif.getName());
+            }};
+
+            HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+                put("rx_pkts", netif.getPacketsRecv());
+                put("tx_pkts", netif.getPacketsSent());
+                put("rx_bytes", netif.getBytesRecv());
+                put("tx_bytes", netif.getBytesSent());
+                put("rx_errs", netif.getInErrors());
+                put("tx_errs", netif.getOutErrors());
+            }};
+
+            measurementList.add(new Measurement(tagsMap, fieldsMap));
         }
 
-        fieldsMap.put("rxPackets", rxPackets);
-        fieldsMap.put("txPackets", txPackets);
-        fieldsMap.put("rxBytes", rxBytes);
-        fieldsMap.put("txBytes", txBytes);
-        fieldsMap.put("rxErrors", rxErrs);
-        fieldsMap.put("txErrors", txErrs);
 
-        log.debug(fieldsMap.toString());
-        return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
+        return new MetricResult(name, measurementList);
     }
 
 }

@@ -55,13 +55,10 @@ public class ClientRouteBuilder extends RouteBuilder {
                 log.info(">>> Enabling extension: " + ext.getDescription());
                 providers.add(provides);
 
-
-                // TODO: Make timer thread configurable ?
-
                 // Setup Camel route for this extension
                 // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
-                //from("timer:"+provides+"?fixedRate=true&period=30s")
-                from("timer:extensions?fixedRate=true&period=30s")
+                //from("timer:extensions?fixedRate=true&period=30s")
+                from("timer:"+provides+"?fixedRate=true&period=30s")
                         .bean(ext, "getMetrics")
                         //.doTry()
                         .outputType(MetricResult.class)

@@ -37,7 +37,7 @@ public class AixProcessorExtension implements MetricExtension {
 
         String osArch = System.getProperty("os.arch").toLowerCase();
         if(!osArch.startsWith("ppc64")) {
-            log.warn("Requires CPU Architecture ppc64 or ppc64le, this is: " + osArch);
+            log.debug("Requires CPU Architecture ppc64 or ppc64le, this is: " + osArch);
             return false;
         }
 
@@ -81,6 +81,8 @@ public class AixProcessorExtension implements MetricExtension {
             AixProcessorStat processorStat = processCommandOutput(buf);
             tagsMap = processorStat.getTags();
             fieldsMap = processorStat.getFields();
+        } catch (IOException e) {
+            log.error("lparstat error", e);
         }
 
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));

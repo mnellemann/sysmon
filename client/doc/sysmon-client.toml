@@ -1,7 +1,9 @@
 # Configuration for sysmon-client
 
+[extension.base_filesystem]
+
 [extension.base_disk]
-enabled = false
+enabled = true
 
 [extension.base_process]
 enabled = true
