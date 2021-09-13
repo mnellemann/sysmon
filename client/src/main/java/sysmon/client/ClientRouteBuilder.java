@@ -1,6 +1,7 @@
 package sysmon.client;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spi.Registry;
@@ -64,7 +65,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                         .outputType(MetricResult.class)
                         .process(new MetricEnrichProcessor(registry))
                         .choice().when(exchangeProperty("skip").isEqualTo(true))
-                            .log("Skipping empty measurement.")
+                            .log(LoggingLevel.WARN,"Skipping empty measurement.")
                             .stop()
                         .otherwise()
                             .to("seda:metrics?discardWhenFull=true");
@@ -84,7 +85,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                     .marshal().json(JsonLibrary.Jackson, MetricResult.class)
                     .to((String)registry.lookupByName("myServerUrl"))
                 .doCatch(Exception.class)
-                    .log("Error: ${exception.message}")
+                    .log(LoggingLevel.WARN,"Error: ${exception.message}")
                     //.log("Error sending metric to collector: ${body}")
                 .end();
 

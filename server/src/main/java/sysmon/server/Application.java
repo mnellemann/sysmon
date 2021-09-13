@@ -3,6 +3,7 @@ package sysmon.server;
 import org.apache.camel.main.Main;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
+import org.slf4j.impl.SimpleLogger;
 import picocli.CommandLine;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-p", "--influxdb-pass" }, description = "InfluxDB Password (default: ${DEFAULT-VALUE}).", defaultValue = "", paramLabel = "<pass>")
     private String influxPass;
 
-    @CommandLine.Option(names = { "-d", "--influxdb-db" }, description = "InfluxDB Database (default: ${DEFAULT-VALUE}).", defaultValue = "sysmon", paramLabel = "<db>")
+    @CommandLine.Option(names = { "-n", "--influxdb-db" }, description = "InfluxDB Database (default: ${DEFAULT-VALUE}).", defaultValue = "sysmon", paramLabel = "<db>")
     private String influxName;
 
     @CommandLine.Option(names = { "-H", "--server-host" }, description = "Server listening address (default: ${DEFAULT-VALUE}).", paramLabel = "<addr>")
@@ -33,6 +34,10 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-t", "--threads" }, description = "Threads for processing inbound metrics(default: ${DEFAULT-VALUE}).", paramLabel = "<num>")
     private Integer threads = 5;
 
+    @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
+    private boolean enableDebug = false;
+
+
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);
         System.exit(exitCode);
@@ -41,6 +46,10 @@ public class Application implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException {
+
+        if(enableDebug) {
+            System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
+        }
 
         InfluxDB influxDB = InfluxDBFactory.connect(influxUrl.toString(), influxUser, influxPass);
         /*

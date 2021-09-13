@@ -70,15 +70,6 @@ public class MetricResult implements Serializable {
         return hostname;
     }
 
-    /*
-    public Measurement getMeasurement() {
-        if(measurements != null && !measurements.isEmpty()) {
-            return measurements.get(0);
-        }
-        return null;
-    }
-    */
-
     public ArrayList<Measurement> getMeasurements() {
         return measurements;
     }
@@ -87,24 +78,29 @@ public class MetricResult implements Serializable {
         StringBuilder sb = new StringBuilder(String.format("%s - %s => ", timestamp.toString(), name));
 
         if(measurements != null && !measurements.isEmpty()) {
-            sb.append("{");
+
             for(Measurement m : measurements) {
 
+                sb.append("{ ");
                 if(m != null &&  m.getTags() != null) {
                     for (Map.Entry<String, String> entry : m.getTags().entrySet())
-                        sb.append(" [").append(entry.getKey()).append(": ").append(entry.getValue()).append("]");
+                        sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
                 }
+                sb.append("} ");
 
+                /*
+                sb.append("[ ");
                 if(m != null && m.getFields() != null) {
                     for (Map.Entry<String,Object> entry : m.getFields().entrySet())
-                        sb.append(" [").append(entry.getKey()).append(": ").append(entry.getValue()).append("]");
+                        sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
                 }
+                sb.append("] ");
+                 */
 
             }
-            sb.append("},");
         }
 
-        return sb.append(" }").toString();
+        return sb.toString();
     }
     
 }

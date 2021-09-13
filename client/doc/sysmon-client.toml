@@ -1,12 +1,19 @@
-# Configuration for sysmon-client
-
-[extension.base_filesystem]
+###
+### Sysmon Client
+###
+### Example configuration with default values.
+###
 
 [extension.base_disk]
 enabled = true
 
+[extension.base_filesystem]
+enabled = true
+exclude_type = [ "tmpfs", "ahafs" ]
+exclude_mount = [ "/boot/efi" ]
+
 [extension.base_process]
 enabled = true
-include = [ "java", "influxd", "grafana-server" ]
+include = [ "java", "mysqld", "postgres", "influxd" ]
 
 

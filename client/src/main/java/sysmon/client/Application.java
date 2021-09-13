@@ -42,11 +42,11 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
 
-        Configuration configuration = new Configuration();
-
         if(enableDebug) {
-            System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+            System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         }
+
+        Configuration configuration = new Configuration();
 
         if(hostname == null || hostname.isEmpty()) {
             try {
