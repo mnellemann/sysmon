@@ -46,10 +46,12 @@ public final class Configuration {
         String key = String.format("extension.%s", extName);
         TomlTable table = result.getTableOrEmpty(key);
         table.keySet().forEach( k -> {
-            if(table.isString(k)) {
-                map.put(k, table.getString(k));
-            } else if(table.isBoolean(k)) {
+            if(table.isBoolean(k)) {
                 map.put(k, table.getBoolean(k));
+            } else if(table.isString(k)) {
+                map.put(k, table.getString(k));
+            } else if(table.isLong(k)) {
+                map.put(k, table.getLong(k));
             } else if(table.isDouble(k)) {
                 map.put(k, table.getDouble(k));
             } else if(table.isArray(k)) {

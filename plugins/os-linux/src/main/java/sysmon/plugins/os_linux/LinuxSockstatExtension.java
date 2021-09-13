@@ -35,7 +35,7 @@ public class LinuxSockstatExtension implements MetricExtension {
     public boolean isSupported() {
 
         if(!System.getProperty("os.name").toLowerCase().contains("linux")) {
-            log.warn("Requires Linux.");
+            log.debug("Requires Linux.");
             return false;
         }
 

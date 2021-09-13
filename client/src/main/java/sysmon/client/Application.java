@@ -4,6 +4,7 @@
 package sysmon.client;
 
 import org.apache.camel.main.Main;
+import org.slf4j.impl.SimpleLogger;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -28,6 +29,10 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-c", "--conf" }, description = "Configuration file [default: '/etc/sysmon-client.toml'].", paramLabel = "<file>", defaultValue = "/etc/sysmon-client.toml")
     private File configurationFile;
 
+    @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
+    private boolean enableDebug = false;
+
+
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);
         System.exit(exitCode);
@@ -36,6 +41,10 @@ public class Application implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException {
+
+        if(enableDebug) {
+            System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
+        }
 
         Configuration configuration = new Configuration();
 

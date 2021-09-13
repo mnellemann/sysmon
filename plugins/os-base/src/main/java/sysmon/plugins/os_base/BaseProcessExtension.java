@@ -25,6 +25,9 @@ public class BaseProcessExtension implements MetricExtension {
     private boolean enabled = true;
     private List<?> includeList = new ArrayList<Object>() {{
         add("java");
+        add("mysqld");
+        add("postgres");
+        add("influxd");
     }};
 
     private SystemInfo systemInfo;
@@ -63,8 +66,8 @@ public class BaseProcessExtension implements MetricExtension {
         if(map.containsKey("include")) {
             includeList = (List<?>) map.get("include");
         }
-        log.info(includeList.toString());
     }
+
 
     @Override
     public MetricResult getMetrics() {
@@ -85,23 +88,24 @@ public class BaseProcessExtension implements MetricExtension {
             }
             log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
 
-            HashMap<String, String> tagsMap = new HashMap<>();
-            HashMap<String, Object> fieldsMap = new HashMap<>();
+            HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+                put("pid", String.valueOf(p.getProcessID()));
+                put("name", name);
+            }};
 
-            tagsMap.put("pid", String.valueOf(p.getProcessID()));
-            tagsMap.put("name", name);
-
-            fieldsMap.put("mem_rss", p.getResidentSetSize());
-            fieldsMap.put("mem_vsz", p.getVirtualSize());
-            fieldsMap.put("kernel_time", p.getKernelTime());
-            fieldsMap.put("user_time", p.getUserTime());
-            fieldsMap.put("read_bytes", p.getBytesRead());
-            fieldsMap.put("write_bytes", p.getBytesWritten());
-            fieldsMap.put("files", p.getOpenFiles());
-            fieldsMap.put("threads", p.getThreadCount());
-            fieldsMap.put("user", p.getUser());
-            fieldsMap.put("group", p.getGroup());
-            fieldsMap.put("prio", p.getPriority());
+            HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+                put("mem_rss", p.getResidentSetSize());
+                put("mem_vsz", p.getVirtualSize());
+                put("kernel_time", p.getKernelTime());
+                put("user_time", p.getUserTime());
+                put("read_bytes", p.getBytesRead());
+                put("write_bytes", p.getBytesWritten());
+                put("files", p.getOpenFiles());
+                put("threads", p.getThreadCount());
+                put("user", p.getUser());
+                put("group", p.getGroup());
+                put("prio", p.getPriority());
+            }};
 
             measurementList.add(new Measurement(tagsMap, fieldsMap));
         }
