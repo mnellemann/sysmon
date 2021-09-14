@@ -17,13 +17,13 @@ public class AixProcessorStat {
     private static final Logger log = LoggerFactory.getLogger(AixProcessorStat.class);
 
     // System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
-    private final Pattern patternAixShared = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
+    private static final Pattern patternAixShared = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
 
     // System configuration: type=Dedicated mode=Donating smt=8 lcpu=16 mem=4096MB
-    private final Pattern patternAixDedicated = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB");
+    private static final Pattern patternAixDedicated = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB");
 
     // type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
-    private final Pattern patternLinux = Pattern.compile("^type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+) kB cpus=(\\d+) ent=(\\d+\\.?\\d*)");
+    private static final Pattern patternLinux = Pattern.compile("^type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+) kB cpus=(\\d+) ent=(\\d+\\.?\\d*)");
 
 
     private String type;
@@ -144,18 +144,18 @@ public class AixProcessorStat {
     }
 
     public HashMap<String, Object> getFields() {
-        HashMap<String, Object> fields = new HashMap<>();
-        fields.put("lcpu", lcpu);
-        fields.put("ent", ent);
-        fields.put("user", user);
-        fields.put("sys", sys);
-        fields.put("idle", idle);
-        fields.put("wait", wait);
-        fields.put("physc", physc);
-        fields.put("entc", entc);
-        fields.put("lbusy", lbusy);
-        fields.put("mode", mode);
-        fields.put("type", type);
-        return fields;
+        return new HashMap<String, Object>() {{
+            put("lcpu", lcpu);
+            put("ent", ent);
+            put("user", user);
+            put("sys", sys);
+            put("idle", idle);
+            put("wait", wait);
+            put("physc", physc);
+            put("entc", entc);
+            put("lbusy", lbusy);
+            put("mode", mode);
+            put("type", type);
+        }};
     }
 }

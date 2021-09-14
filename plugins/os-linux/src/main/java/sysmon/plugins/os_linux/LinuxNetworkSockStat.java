@@ -81,16 +81,16 @@ public class LinuxNetworkSockStat {
 
 
     public HashMap<String, Object> getFields() {
-        HashMap<String, Object> fields = new HashMap<>();
-        fields.put("sockets", sockets);
-        fields.put("tcp_inuse", tcp_inuse);
-        fields.put("tcp_alloc", tcp_alloc);
-        fields.put("tcp_orphan", tcp_orphan);
-        fields.put("tcp_mem", tcp_mem);
-        fields.put("tcp_tw", tcp_tw);
-        fields.put("udp_inuse", udp_inuse);
-        fields.put("udp_mem", udp_mem);
-        return fields;
+        return new HashMap<String, Object>() {{
+            put("sockets", sockets);
+            put("tcp_inuse", tcp_inuse);
+            put("tcp_alloc", tcp_alloc);
+            put("tcp_orphan", tcp_orphan);
+            put("tcp_mem", tcp_mem);
+            put("tcp_tw", tcp_tw);
+            put("udp_inuse", udp_inuse);
+            put("udp_mem", udp_mem);
+        }};
     }
 
 }

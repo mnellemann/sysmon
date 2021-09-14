@@ -93,7 +93,7 @@ public class BaseProcessExtension implements MetricExtension {
             if(!includeList.contains(name)) {
                 continue;
             }
-            log.debug("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
+            log.info("pid: " + p.getProcessID() + ", name: " + name + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
 
             HashMap<String, String> tagsMap = new HashMap<String, String>() {{
                 put("pid", String.valueOf(p.getProcessID()));
