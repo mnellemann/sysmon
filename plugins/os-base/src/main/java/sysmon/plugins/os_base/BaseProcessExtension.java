@@ -30,7 +30,9 @@ public class BaseProcessExtension implements MetricExtension {
         add("influxd");
     }};
 
+    private final long minUptimeInSeconds = 300;
     private SystemInfo systemInfo;
+
 
     @Override
     public boolean isEnabled() {
@@ -79,6 +81,11 @@ public class BaseProcessExtension implements MetricExtension {
 
             // Skip all the kernel processes
             if(p.getResidentSetSize() < 1) {
+                continue;
+            }
+
+            // Skip short-lived processes
+            if(p.getUpTime() < (minUptimeInSeconds * 1000)) {
                 continue;
             }
 
