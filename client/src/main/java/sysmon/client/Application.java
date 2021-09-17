@@ -42,11 +42,20 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
 
-        if(enableDebug) {
+        String sysmonDebug = System.getProperty("sysmon.debug");
+        if(sysmonDebug != null || enableDebug) {
             System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         }
 
-        Configuration configuration = new Configuration();
+        String sysmonCfgFile = System.getProperty("sysmon.cfgFile");
+        if(sysmonCfgFile != null) {
+            configurationFile = new File(sysmonCfgFile);
+        }
+
+        String sysmonPluginsDir = System.getProperty("sysmon.pluginsDir");
+        if(sysmonPluginsDir != null) {
+            pluginPath = sysmonPluginsDir;
+        }
 
         if(hostname == null || hostname.isEmpty()) {
             try {
@@ -57,16 +66,7 @@ public class Application implements Callable<Integer> {
             }
         }
 
-        String pf4jPluginsDir = System.getProperty("pf4j.pluginsDir");
-        if(pf4jPluginsDir != null) {
-            pluginPath = pf4jPluginsDir;
-        }
-
-        String sysmonCfgFile = System.getProperty("sysmon.cfgFile");
-        if(sysmonCfgFile != null) {
-            configurationFile = new File(sysmonCfgFile);
-        }
-
+        Configuration configuration = new Configuration();
 
         if(configurationFile.exists()) {
             try {

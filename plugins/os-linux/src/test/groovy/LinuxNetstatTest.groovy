@@ -6,7 +6,7 @@ class LinuxNetstatTest extends Specification {
     void "test netstat parsing"() {
 
         setup:
-        InputStream inputStream = getClass().getResourceAsStream('/netstat-linux.txt');
+        InputStream inputStream = getClass().getResourceAsStream('/netstat-linux.txt')
 
         when:
         LinuxNetstatParser parser = new LinuxNetstatParser(inputStream)

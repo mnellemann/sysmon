@@ -5,7 +5,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
-import sysmon.shared.MetricResult;
+import sysmon.shared.ComboResult;
 
 public class ServerRouteBuilder extends RouteBuilder {
 
@@ -34,20 +34,24 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .post("/metrics")
                 .consumes("application/json")
                 .produces("text/html")
-                .type(MetricResult.class)
+                .type(ComboResult.class)
                 .route()
-                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
-                .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
-                .to("seda:inbound?discardWhenFull=true")
+                .doTry()
+                    .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
+                    .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
+                    .to("seda:inbound?discardWhenFull=true")
+                .doCatch(Exception.class)
+                    .log(LoggingLevel.WARN, "Error: ${exception.message}")
+                .end()
                 .endRest();
 
         fromF("seda:inbound?concurrentConsumers=%s", threads)
                 .log(">>> metric: ${header.hostname} - ${body}")
                 .doTry()
-                    .process(new MetricResultToPointProcessor(dbname))
+                    .process(new ComboResultToPointProcessor(dbname))
                     .toF("influxdb://ref.myInfluxConnection?batch=true") //&retentionPolicy=autogen
                 .doCatch(Exception.class)
-                    .log(LoggingLevel.WARN, "Error: ${exception}")
+                    .log(LoggingLevel.WARN, "Error: ${exception.message}")
                 .end();
 
     }

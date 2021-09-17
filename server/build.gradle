@@ -31,6 +31,10 @@ application {
     applicationDefaultJvmArgs = [ "-server", "-Xmx128m", "-XX:+UseG1GC" ]
 }
 
+run {
+    systemProperty 'sysmon.debug', '1'
+}
+
 tasks.named('test') {
     // Use junit platform for unit tests.
     useJUnitPlatform()

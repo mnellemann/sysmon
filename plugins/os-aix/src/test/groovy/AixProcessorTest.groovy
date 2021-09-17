@@ -7,7 +7,7 @@ class AixProcessorTest extends Specification {
     void "test AIX lparstat shared output processing"() {
 
         setup:
-        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-shared.txt');
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-shared.txt')
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()
@@ -26,7 +26,7 @@ class AixProcessorTest extends Specification {
     void "test AIX lparstat dedicated output processing"() {
 
         setup:
-        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-dedicated.txt');
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-dedicated.txt')
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()
@@ -45,7 +45,7 @@ class AixProcessorTest extends Specification {
     void "test Linux lparstat output processing"() {
 
         setup:
-        InputStream inputStream = getClass().getResourceAsStream('/lparstat-linux.txt');
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-linux.txt')
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()

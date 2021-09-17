@@ -47,7 +47,8 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
 
-        if(enableDebug) {
+        String sysmonDebug = System.getProperty("sysmon.debug");
+        if(sysmonDebug != null || enableDebug) {
             System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         }
 
