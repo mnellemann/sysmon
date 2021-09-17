@@ -72,9 +72,7 @@ public class LinuxSockstatExtension implements MetricExtension {
         HashMap<String, String> tagsMap = sockStat.getTags();
         HashMap<String, Object> fieldsMap = sockStat.getFields();
 
-        log.debug(fieldsMap.toString());
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
-
     }
 
     protected LinuxNetworkSockStat processSockOutput(List<String> inputLines) {

@@ -144,20 +144,17 @@ public class LinuxNetstatParser {
     }
 
     public HashMap<String, Object> getFields() {
-        HashMap<String, Object> fields = new HashMap<>();
-        fields.put("ip_forwarded", ipForwarded);
-        fields.put("ip_received", ipTotalPacketsReceived);
-        fields.put("ip_dropped", ipOutgoingPacketsDropped);
-        fields.put("ip_discarded", ipIncomingPacketsDiscarded);
-
-        fields.put("tcp_connections", tcpConnectionsEstablished);
-        fields.put("tcp_pkts_recv", tcpSegmentsReceived);
-        fields.put("tcp_pkts_sent", tcpSegmentsSent);
-
-        fields.put("udp_pkts_recv", udpPacketsReceived);
-        fields.put("udp_pkts_sent", udpPacketsSent);
-
-        return fields;
+        return new HashMap<String, Object>() {{
+            put("ip_forwarded", ipForwarded);
+            put("ip_received", ipTotalPacketsReceived);
+            put("ip_dropped", ipOutgoingPacketsDropped);
+            put("ip_discarded", ipIncomingPacketsDiscarded);
+            put("tcp_connections", tcpConnectionsEstablished);
+            put("tcp_pkts_recv", tcpSegmentsReceived);
+            put("tcp_pkts_sent", tcpSegmentsSent);
+            put("udp_pkts_recv", udpPacketsReceived);
+            put("udp_pkts_sent", udpPacketsSent);
+        }};
     }
 
     private Long getFirstLong(String line) {

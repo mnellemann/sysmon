@@ -47,7 +47,7 @@ public class ServerRouteBuilder extends RouteBuilder {
                     .process(new MetricResultToPointProcessor(dbname))
                     .toF("influxdb://ref.myInfluxConnection?batch=true") //&retentionPolicy=autogen
                 .doCatch(Exception.class)
-                    .log("Error storing metric to InfluxDB: ${exception}")
+                    .log(LoggingLevel.WARN, "Error: ${exception}")
                 .end();
 
     }

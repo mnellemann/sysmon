@@ -74,8 +74,8 @@ public class LinuxNetstatExtension implements MetricExtension  {
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        HashMap<String, String> tagsMap = null;
-        HashMap<String, Object> fieldsMap = null;
+        HashMap<String, String> tagsMap;
+        HashMap<String, Object> fieldsMap;
 
         try (InputStream inputStream = PluginHelper.executeCommand("netstat -s")) {
             LinuxNetstatParser parser = processCommandOutput(inputStream);
@@ -83,7 +83,6 @@ public class LinuxNetstatExtension implements MetricExtension  {
             fieldsMap = parser.getFields();
         }
 
-        log.debug(fieldsMap.toString());
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
