@@ -6,7 +6,7 @@ class AixNetstatTest extends Specification {
     void "test netstat parsing"() {
 
         setup:
-        InputStream inputStream = getClass().getResourceAsStream('/netstat-aix.txt');
+        InputStream inputStream = getClass().getResourceAsStream('/netstat-aix.txt')
 
         when:
         AixNetstatParser parser = new AixNetstatParser(inputStream)

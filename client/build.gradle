@@ -41,8 +41,9 @@ application {
 }
 
 run {
-    systemProperty 'pf4j.pluginsDir', '../plugins/output/'
+    systemProperty 'sysmon.pluginsDir', '../plugins/output/'
     systemProperty 'sysmon.cfgFile', 'doc/sysmon-client.toml'
+    systemProperty 'sysmon.debug', '1'
 }
 
 tasks.named('test') {

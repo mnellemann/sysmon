@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class Measurement implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private HashMap<String, String> tags = new HashMap<>();
     private HashMap<String, Object> fields = new HashMap<>();
 

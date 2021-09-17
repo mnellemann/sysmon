@@ -2,13 +2,15 @@ package sysmon.client;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
+import org.apache.camel.builder.AggregationStrategies;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spi.Registry;
 import org.pf4j.JarPluginManager;
 import org.pf4j.PluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sysmon.shared.ComboResult;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
@@ -61,13 +63,13 @@ public class ClientRouteBuilder extends RouteBuilder {
                 //from("timer:extensions?fixedRate=true&period=30s")
                 from("timer:"+provides+"?fixedRate=true&period=30s")
                         .bean(ext, "getMetrics")
-                        //.doTry()
                         .outputType(MetricResult.class)
                         .process(new MetricEnrichProcessor(registry))
                         .choice().when(exchangeProperty("skip").isEqualTo(true))
                             .log(LoggingLevel.WARN,"Skipping empty measurement.")
                             .stop()
                         .otherwise()
+                            .log("${body}")
                             .to("seda:metrics?discardWhenFull=true");
             } else {
                 log.info(">>> Skipping extension (not supported or disabled): " + ext.getDescription());
@@ -75,18 +77,20 @@ public class ClientRouteBuilder extends RouteBuilder {
 
         }
 
+        from("seda:metrics")
+                .aggregate(constant(true), AggregationStrategies.beanAllowNull(ComboAppender.class, "append"))
+                //.aggregate(new GroupedExchangeAggregationStrategy()).constant(true)
+                //.aggregate(constant(true), new ListOfResultsStrategy())
+                // wait for 5 seconds to aggregate
+                .completionTimeout(5000L).to("seda:outbound");
 
-        // TODO: Make 'concurrentConsumers' configurable
-        from("seda:metrics?concurrentConsumers=1")
+        from("seda:outbound")
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-                //.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                 .doTry()
-                    //.process(new MetricProcessor())
-                    .marshal().json(JsonLibrary.Jackson, MetricResult.class)
+                    .marshal(new JacksonDataFormat(ComboResult.class))
                     .to((String)registry.lookupByName("myServerUrl"))
                 .doCatch(Exception.class)
                     .log(LoggingLevel.WARN,"Error: ${exception.message}")
-                    //.log("Error sending metric to collector: ${body}")
                 .end();
 
     }
