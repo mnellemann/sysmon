@@ -43,7 +43,7 @@ public class ClientRouteBuilder extends RouteBuilder {
 
             // Load configuration if available
             if(configuration.isForExtension(name)) {
-                log.info(">>> Loading configuring for extension: " + ext.getDescription());
+                log.info("Loading configuring for extension: " + ext.getDescription());
                 ext.setConfiguration(configuration.getForExtension(name));
             }
 
@@ -55,7 +55,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                     continue;
                 }
 
-                log.info(">>> Enabling extension: " + ext.getDescription());
+                log.info("Enabling extension: " + ext.getDescription());
                 providers.add(provides);
 
                 // Setup Camel route for this extension
@@ -72,25 +72,29 @@ public class ClientRouteBuilder extends RouteBuilder {
                             .log("${body}")
                             .to("seda:metrics?discardWhenFull=true");
             } else {
-                log.info(">>> Skipping extension (not supported or disabled): " + ext.getDescription());
+                log.info("Skipping extension (not supported or disabled): " + ext.getDescription());
             }
 
         }
 
-        from("seda:metrics")
+        from("seda:metrics?purgeWhenStopping=true")
                 .aggregate(constant(true), AggregationStrategies.beanAllowNull(ComboAppender.class, "append"))
-                //.aggregate(new GroupedExchangeAggregationStrategy()).constant(true)
-                //.aggregate(constant(true), new ListOfResultsStrategy())
-                // wait for 5 seconds to aggregate
-                .completionTimeout(5000L).to("seda:outbound");
+                .completionTimeout(5000L)
+                .doTry()
+                    .to("seda:outbound?discardWhenFull=true")
+                    .log("Aggregating ${body} before sending to server.")
+                .doCatch(Exception.class)
+                    .log(LoggingLevel.WARN, "Error: ${exception.message}.")
+                .end();
 
-        from("seda:outbound")
+        from("seda:outbound?purgeWhenStopping=true")
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .doTry()
                     .marshal(new JacksonDataFormat(ComboResult.class))
                     .to((String)registry.lookupByName("myServerUrl"))
+                    .log("${body}")
                 .doCatch(Exception.class)
-                    .log(LoggingLevel.WARN,"Error: ${exception.message}")
+                    .log(LoggingLevel.WARN,"Error: ${exception.message}.")
                 .end();
 
     }

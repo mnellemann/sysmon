@@ -28,7 +28,7 @@ public class ComboResult implements Serializable {
 
     @Override
     public String toString() {
-        return "ComboResult of size: " + metricResults.size();
+        return metricResults.size() + " results";
     }
 
 }
