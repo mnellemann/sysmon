@@ -32,7 +32,7 @@ public class Application implements Callable<Integer> {
     private Integer listenPort = 9925;
 
     @CommandLine.Option(names = { "-t", "--threads" }, description = "Threads for processing inbound metrics(default: ${DEFAULT-VALUE}).", paramLabel = "<num>")
-    private Integer threads = 5;
+    private Integer threads = 1;
 
     @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
     private boolean enableDebug = false;

@@ -4,19 +4,15 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sysmon.shared.ComboResult;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricResult;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ComboResultToPointProcessor implements Processor {
 
-    private static final Logger log = LoggerFactory.getLogger(ComboResultToPointProcessor.class);
     private static String influxDbName;
 
     ComboResultToPointProcessor(String influxDbName) {
@@ -24,22 +20,17 @@ public class ComboResultToPointProcessor implements Processor {
     }
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
 
         ComboResult comboResult = exchange.getIn().getBody(ComboResult.class);
-        //MetricResult metricResult = exchange.getIn().getBody(MetricResult.class);
-
-        //log.info("Size of measurements: " + measurementList.size());
 
         BatchPoints.Builder batchPoints = BatchPoints
                 .database(ComboResultToPointProcessor.influxDbName)
                 .precision(TimeUnit.MILLISECONDS);
 
-        List<MetricResult> results = comboResult.getMetricResults();
-        for(MetricResult metricResult : results) {
+        for(MetricResult metricResult : comboResult.getMetricResults()) {
 
-            List<Measurement> measurementList = metricResult.getMeasurements();
-            for(Measurement measurement : measurementList) {
+            for(Measurement measurement : metricResult.getMeasurements()) {
 
                 Point.Builder point = Point.measurement(metricResult.getName())
                         .time(metricResult.getTimestamp(), TimeUnit.MILLISECONDS)
@@ -65,6 +56,7 @@ public class ComboResultToPointProcessor implements Processor {
                 }
                 batchPoints.point(point.build());
             }
+
         }
 
         exchange.getIn().setBody(batchPoints.build());

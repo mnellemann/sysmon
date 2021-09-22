@@ -40,18 +40,19 @@ public class ServerRouteBuilder extends RouteBuilder {
                     .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
                     .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
                     .to("seda:inbound?discardWhenFull=true")
+                    .setBody(simple("OK, received by server."))
                 .doCatch(Exception.class)
-                    .log(LoggingLevel.WARN, "Error: ${exception.message}")
+                    .log(LoggingLevel.WARN, "Error: ${exception.message}.")
                 .end()
                 .endRest();
 
         fromF("seda:inbound?concurrentConsumers=%s", threads)
-                .log(">>> metric: ${header.hostname} - ${body}")
+                .log("From ${header.hostname}: ${body}.")
                 .doTry()
                     .process(new ComboResultToPointProcessor(dbname))
                     .toF("influxdb://ref.myInfluxConnection?batch=true") //&retentionPolicy=autogen
                 .doCatch(Exception.class)
-                    .log(LoggingLevel.WARN, "Error: ${exception.message}")
+                    .log(LoggingLevel.WARN, "Error: ${exception.message}.")
                 .end();
 
     }

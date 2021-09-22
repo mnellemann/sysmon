@@ -75,28 +75,12 @@ public class MetricResult implements Serializable {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder(String.format("%s - %s => ", timestamp.toString(), name));
+        StringBuilder sb = new StringBuilder(String.format("From %s: ", name));
 
         if(measurements != null && !measurements.isEmpty()) {
-
+            sb.append(String.format("%d measurement(s) ", measurements.size()));
             for(Measurement m : measurements) {
-
-                sb.append("{ ");
-                if(m != null &&  m.getTags() != null) {
-                    for (Map.Entry<String, String> entry : m.getTags().entrySet())
-                        sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
-                }
-                sb.append("} ");
-
-                /*
-                sb.append("[ ");
-                if(m != null && m.getFields() != null) {
-                    for (Map.Entry<String,Object> entry : m.getFields().entrySet())
-                        sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(", ");
-                }
-                sb.append("] ");
-                 */
-
+                sb.append(String.format("{ tags: %d, fields: %d } ", m.getTags().size(), m.getFields().size()));
             }
         }
 

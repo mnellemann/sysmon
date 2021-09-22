@@ -4,8 +4,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricResult;
 
@@ -15,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 public class MetricResultToPointProcessor implements Processor {
 
-    private static final Logger log = LoggerFactory.getLogger(MetricResultToPointProcessor.class);
     private static String influxDbName;
 
     MetricResultToPointProcessor(String influxDbName) {
