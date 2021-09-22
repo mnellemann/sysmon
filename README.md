@@ -5,7 +5,7 @@ This software is free to use and is licensed under the [Apache 2.0 License](LICE
 - Example dashboards are provided in the [doc/](doc) folder, which can be imported into your Grafana installation.
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
-![Sysmon Icon](doc/monitoring-eye-svgrepo-com.svg){width=320 height=320}
+![Sysmon Icon](doc/monitoring-eye-svgrepo-com.png)
 
 ## Components 
 
