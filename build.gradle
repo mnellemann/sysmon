@@ -43,5 +43,4 @@ tasks.create("packages") {
 
     dependsOn ":plugins:buildDeb"
     dependsOn ":plugins:buildRpm"
-
 }
