@@ -26,12 +26,12 @@ public class AixProcessorStat {
     private static final Pattern patternLinux = Pattern.compile("^type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+) kB cpus=(\\d+) ent=(\\d+\\.?\\d*)");
 
 
-    private String type;
-    private String mode;
-    private int smt;
-    private int lcpu;
-    private int psize;
-    private float ent;
+    private String type;        // Indicates the partition type. The value can be either dedicated or shared.
+    private String mode;        // Indicates whether the partition processor capacity is capped uncapped.
+    private int smt;            // Indicates whether simultaneous multithreading is enabled or disabled in the partition.
+    private int lcpu;           // Indicates the number of online logical processors.
+    //private int psize;          // Indicates the number of online physical processors in the pool.
+    private float ent;          // Indicates the entitled processing capacity in processor units (shared mode only).
 
     private final float user;   // Indicates the percentage of the entitled processing capacity used while executing at the user level (application).
     private final float sys;    // Indicates the percentage of the entitled processing capacity used while executing at the system level (kernel).
@@ -56,7 +56,7 @@ public class AixProcessorStat {
                     mode = matcher.group(2);
                     smt = Integer.parseInt(matcher.group(3));
                     lcpu = Integer.parseInt(matcher.group(4));
-                    psize = Integer.parseInt(matcher.group(5));
+                    //psize = Integer.parseInt(matcher.group(6));
                     ent = Float.parseFloat(matcher.group(7));
                 }
                 matcher = patternAixDedicated.matcher(line);
@@ -75,8 +75,8 @@ public class AixProcessorStat {
                     type = matcher.group(1);
                     mode = matcher.group(2);
                     smt = Integer.parseInt(matcher.group(3));
+                    //psize = Integer.parseInt(matcher.group(4));
                     lcpu = Integer.parseInt(matcher.group(4));
-                    psize = Integer.parseInt(matcher.group(6));
                     ent = Float.parseFloat(matcher.group(7));
                 }
             }
@@ -156,6 +156,7 @@ public class AixProcessorStat {
             put("lbusy", lbusy);
             put("mode", mode);
             put("type", type);
+            put("smt", smt);
         }};
     }
 }
