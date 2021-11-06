@@ -18,6 +18,7 @@ class AixProcessorTest extends Specification {
         stats.getSys() == 3.3f
         stats.getWait() == 0.0f
         stats.getIdle() == 13.0f
+        stats.getFields().get("smt") == 8
         stats.getFields().get("ent") == 0.50f
         stats.getFields().get("type") == "Shared"
 
@@ -37,6 +38,7 @@ class AixProcessorTest extends Specification {
         stats.getSys() == 0.2f
         stats.getWait() == 0.0f
         stats.getIdle() == 99.7f
+        stats.getFields().get("smt") == 8
         stats.getFields().get("physc") == 0.07f
         stats.getFields().get("type") == "Dedicated"
 
@@ -56,6 +58,7 @@ class AixProcessorTest extends Specification {
         stats.getSys() == 0.0f
         stats.getWait() == 0.0f
         stats.getIdle() == 99.97f
+        stats.getFields().get("smt") == 8
         stats.getFields().get("ent") == 4.00f
         stats.getFields().get("mode") == "Uncapped"
         stats.getFields().get("type") == "Shared"

@@ -23,6 +23,7 @@ public class BaseProcessExtension implements MetricExtension {
 
     // Configuration / Options
     private boolean enabled = true;
+    private boolean threaded = false;
     private List<?> includeList = new ArrayList<Object>() {{
         add("java");
         add("mysqld");
@@ -37,6 +38,11 @@ public class BaseProcessExtension implements MetricExtension {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public boolean isThreaded() {
+        return threaded;
     }
 
     @Override
@@ -64,6 +70,9 @@ public class BaseProcessExtension implements MetricExtension {
     public void setConfiguration(Map<String, Object> map) {
         if(map.containsKey("enabled")) {
             enabled = (boolean) map.get("enabled");
+        }
+        if(map.containsKey("threaded")) {
+            threaded = (boolean) map.get("threaded");
         }
         if(map.containsKey("include")) {
             includeList = (List<?>) map.get("include");

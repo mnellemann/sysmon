@@ -27,6 +27,7 @@ public class BaseFilesystemExtension implements MetricExtension {
 
     // Configuration / Options
     private boolean enabled = true;
+    private boolean threaded = false;
     private List<?> excludeType = new ArrayList<String>() {{
       add("tmpfs");
       add("ahafs");
@@ -42,6 +43,11 @@ public class BaseFilesystemExtension implements MetricExtension {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public boolean isThreaded() {
+        return threaded;
     }
 
     @Override
@@ -70,6 +76,10 @@ public class BaseFilesystemExtension implements MetricExtension {
     public void setConfiguration(Map<String, Object> map) {
         if (map.containsKey("enabled")) {
             enabled = (boolean) map.get("enabled");
+        }
+
+        if(map.containsKey("threaded")) {
+            threaded = (boolean) map.get("threaded");
         }
 
         if(map.containsKey("exclude_type")) {

@@ -7,6 +7,7 @@ import java.util.Map;
 public interface MetricExtension extends ExtensionPoint {
 
     boolean isEnabled();
+    boolean isThreaded();
     boolean isSupported();
 
     String getName();

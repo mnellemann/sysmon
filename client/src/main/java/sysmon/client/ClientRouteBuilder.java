@@ -60,8 +60,8 @@ public class ClientRouteBuilder extends RouteBuilder {
 
                 // Setup Camel route for this extension
                 // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
-                //from("timer:extensions?fixedRate=true&period=30s")
-                from("timer:"+provides+"?fixedRate=true&period=30s")
+                String timerName = ext.isThreaded() ? ext.getProvides() : "default";
+                from("timer:"+timerName+"?fixedRate=true&period=30s")
                         .bean(ext, "getMetrics")
                         .outputType(MetricResult.class)
                         .process(new MetricEnrichProcessor(registry))

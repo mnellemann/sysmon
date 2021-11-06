@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Extension
+// Disabled
+//@Extension
 public class LinuxSockstatExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(LinuxSockstatExtension.class);
@@ -24,11 +25,17 @@ public class LinuxSockstatExtension implements MetricExtension {
 
     // Configuration / Options
     private boolean enabled = true;
+    private boolean threaded = false;
 
 
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public boolean isThreaded() {
+        return threaded;
     }
 
     @Override
@@ -61,6 +68,9 @@ public class LinuxSockstatExtension implements MetricExtension {
     public void setConfiguration(Map<String, Object> map) {
         if (map.containsKey("enabled")) {
             enabled = (boolean) map.get("enabled");
+        }
+        if(map.containsKey("threaded")) {
+            threaded = (boolean) map.get("threaded");
         }
     }
 
