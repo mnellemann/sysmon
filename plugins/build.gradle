@@ -1,7 +1,7 @@
 import org.redline_rpm.header.Os
 
 plugins {
-    id "nebula.ospackage" version "8.6.1"
+    id "nebula.ospackage" version "9.0.0"
 }
 
 
@@ -48,7 +48,7 @@ subprojects {
             attributes(
                     'Plugin-Id'         : "${pluginId}",
                     'Plugin-Class'      : "${pluginClass}",
-                    'Plugin-Version'    : "${version}",
+                    'Plugin-Version'    : "${archiveVersion}",
                     'Plugin-Provider'   : "System Monitor",
                     'Plugin-Description': "${pluginDescription}"
             )

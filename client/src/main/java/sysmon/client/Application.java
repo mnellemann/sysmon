@@ -8,9 +8,8 @@ import org.slf4j.impl.SimpleLogger;
 import picocli.CommandLine;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.Callable;
 
@@ -40,7 +39,7 @@ public class Application implements Callable<Integer> {
 
 
     @Override
-    public Integer call() throws IOException {
+    public Integer call() {
 
         String sysmonDebug = System.getProperty("sysmon.debug");
         if(sysmonDebug != null || enableDebug) {
@@ -61,7 +60,7 @@ public class Application implements Callable<Integer> {
             try {
                 hostname = InetAddress.getLocalHost().getHostName();
             } catch (UnknownHostException e) {
-                System.err.println("Could not detect hostname. Use the '-n' or '--hostname' option to specify it.");
+                System.err.println("Could not detect hostname. Use the '-n' or '--hostname' option to specify.");
                 return -1;
             }
         }

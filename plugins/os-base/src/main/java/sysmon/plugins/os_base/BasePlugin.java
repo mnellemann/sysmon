@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
+import oshi.PlatformEnum;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 
@@ -30,7 +31,8 @@ public class BasePlugin extends Plugin {
             }
 
         } catch (UnsupportedOperationException e) {
-            log.warn(e.getMessage());
+            log.warn("getHardwareAbstractionLayer() - {}", e.getMessage());
+            return null;
         }
 
         return hardwareAbstractionLayer;
@@ -43,9 +45,10 @@ public class BasePlugin extends Plugin {
             if(systemInfo == null) {
                 systemInfo = new SystemInfo();
             }
-
+            systemInfo.getOperatingSystem();
         } catch (UnsupportedOperationException e) {
-            log.warn(e.getMessage());
+            log.warn("getSystemInfo() - {}", e.getMessage());
+            return null;
         }
 
         return systemInfo;

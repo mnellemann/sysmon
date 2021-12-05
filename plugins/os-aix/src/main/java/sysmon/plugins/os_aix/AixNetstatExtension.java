@@ -83,8 +83,8 @@ public class AixNetstatExtension implements MetricExtension  {
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        HashMap<String, String> tagsMap = null;
-        HashMap<String, Object> fieldsMap = null;
+        HashMap<String, String> tagsMap;
+        HashMap<String, Object> fieldsMap;
 
         try (InputStream buf = PluginHelper.executeCommand("netstat -s -f inet")) {
             AixNetstatParser parser = processCommandOutput(buf);

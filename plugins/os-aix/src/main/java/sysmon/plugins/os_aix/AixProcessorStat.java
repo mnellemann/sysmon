@@ -86,8 +86,8 @@ public class AixProcessorStat {
 
         //String lparstat = lines.get(lines.size() -1);
         String[] splitStr = Objects.requireNonNull(lastLine).trim().split("\\s+");
-        if(type.equalsIgnoreCase("shared") && splitStr.length < 9 ||
-                type.equalsIgnoreCase("dedicated") && splitStr.length < 8) {
+        if(type == null || (type.equalsIgnoreCase("shared") && splitStr.length < 9) ||
+                (type.equalsIgnoreCase("dedicated") && splitStr.length < 8) ) {
             throw new UnsupportedOperationException("lparstat string error: " + lastLine);
         }
 
