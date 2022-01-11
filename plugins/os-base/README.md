@@ -40,7 +40,7 @@ Metrics reported are:
 ## Filesystem Extension
 
 ### Metrics
-- 
+
 - **free_bytes** - Free bytes for filesystem.
 - **total_bytes** - Total bytes for filesystem.
 - **free_inoed** - Free inodes for filesystem.

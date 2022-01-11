@@ -1,10 +1,12 @@
 # Server
 
-Server component.
+This is the server component of SysMon.
 
 ## Installation
 
-TODO.
+Download *.deb* or *.rpm* package and install.
+
+See the [doc/systemd.md](doc/systemd.md) or [doc/sysv-init.md](doc/sysv-init.md) files for further instructions.
 
 ### Influx Database
 

@@ -5,7 +5,7 @@ This software is free to use and is licensed under the [Apache 2.0 License](LICE
 - Example dashboards are provided in the [doc/](doc) folder, which can be imported into your Grafana installation.
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
-![Sysmon Icon](doc/monitoring-eye-svgrepo-com.png)
+![Sysmon Icon](doc/monitoring-eye-320x320.png)
 
 ## Components 
 
@@ -15,17 +15,18 @@ Runs on your hosts and collects metrics, which are sent to the central *server*.
 
 [More information](client/README.md).
 
+### Plugins
+
+Loaded by the *client* and provides extensions for doing the actual collecting of metrics.
+
+[More information](plugins/README.md).
+
 ### Server
 
 Receives aggregated metrics from *clients* and saves these into InfluxDB.
 
 [More information](server/README.md).
 
-### Plugins
-
-Loaded by the *client* and provides extensions for doing the actual collecting of metrics.
-
-[More information](plugins/README.md).
 
 
 ## Known problems
