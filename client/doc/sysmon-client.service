@@ -2,6 +2,8 @@
 Description=Sysmon Client Service
 
 [Service]
+#User=nobody
+#Group=nobody
 TimeoutSec=20
 Restart=on-failure
 ExecStart=/opt/sysmon/client/bin/client -s http://10.20.30.40:9925/metrics

@@ -4,13 +4,14 @@ import com.ibm.as400.access.*;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
-// Disable for now...
 //@Extension
 public class TestExtension implements MetricExtension {
 
@@ -25,7 +26,6 @@ public class TestExtension implements MetricExtension {
     private boolean enabled = true;
     private boolean threaded = false;
 
-    private AS400 as400;
     private SystemStatus systemStatus;
 
 
@@ -41,29 +41,8 @@ public class TestExtension implements MetricExtension {
 
     @Override
     public boolean isSupported() {
-
-        String osArch = System.getProperty("os.arch").toLowerCase();
-        String osName = System.getProperty("os.name").toLowerCase();
-
-        System.err.println("OS Arch: " + osArch);
-        System.err.println("OS Name: " + osName);
-
-        try {
-            //as400 = new AS400("localhost", "CURRENT");
-            as400 = new AS400("10.32.64.142");
-            systemStatus = new SystemStatus(as400);
-        } catch (Exception exception) {
-            log.error(exception.getMessage());
-        }
-
-        if(as400.isLocal()) {
-            log.info("as400 isLocal() true");
-        } else {
-            log.info("as400 isLocal() FALSE");
-        }
-
-
-        return true;
+        systemStatus = IbmIPlugin.getSystemStatus();
+        return systemStatus != null;
     }
 
     @Override
@@ -101,22 +80,32 @@ public class TestExtension implements MetricExtension {
 
         try {
             int jobsInSystem = systemStatus.getJobsInSystem();
-            log.info("Jobs In System: " + jobsInSystem);
+            log.info("Jobs In System: {}", jobsInSystem);
 
             int batchJobsRunning = systemStatus.getBatchJobsRunning();
-            log.info("Batch Jobs Running: " + batchJobsRunning);
+            log.info("Batch Jobs Running: {}", batchJobsRunning);
 
             int activeThreads = systemStatus.getActiveThreadsInSystem();
-            log.info("Active Threads: " + activeThreads);
+            log.info("Active Threads: {}", activeThreads);
 
             int activeJobs = systemStatus.getActiveJobsInSystem();
-            log.info("Active Jobs: " + activeJobs);
+            log.info("Active Jobs: {}", activeJobs);
 
             int onlineUsers = systemStatus.getUsersCurrentSignedOn();
-            log.info("Online Users: " + onlineUsers);
+            log.info("Online Users: {}", onlineUsers);
+
+            HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+                put("jobs_total", jobsInSystem);
+                put("jobs_running", batchJobsRunning);
+                put("jobs_active", activeJobs);
+                put("threads", activeThreads);
+                put("users", onlineUsers);
+
+            }};
+            return new MetricResult(name, new Measurement(new HashMap<>(), fieldsMap));
 
         } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException e) {
-            log.error(e.getMessage());
+            log.error("getMetrics() {}", e.getMessage());
             e.printStackTrace();
         }
 
