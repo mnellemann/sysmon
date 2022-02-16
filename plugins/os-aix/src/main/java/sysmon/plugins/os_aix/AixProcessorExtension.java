@@ -47,7 +47,7 @@ public class AixProcessorExtension implements MetricExtension {
             return false;
         }
 
-        if(!PluginHelper.canExecute("lparstat")) {
+        if(PluginHelper.notExecutable("lparstat")) {
             log.warn("Requires the 'lparstat' command.");
             return false;
         }

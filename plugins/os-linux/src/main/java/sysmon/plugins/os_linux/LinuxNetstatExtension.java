@@ -1,6 +1,5 @@
 package sysmon.plugins.os_linux;
 
-import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sysmon.shared.Measurement;
@@ -47,7 +46,7 @@ public class LinuxNetstatExtension implements MetricExtension  {
             return false;
         }
 
-        if(!PluginHelper.canExecute("netstat")) {
+        if(PluginHelper.notExecutable("netstat")) {
             log.warn("Requires the 'netstat' command.");
             return false;
         }

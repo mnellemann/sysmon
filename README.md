@@ -1,15 +1,18 @@
 # System Monitor
 
+System monitoring solution with support for plugins.
+
+![Sysmon Icon](doc/sysmon.png)
+
 This software is free to use and is licensed under the [Apache 2.0 License](LICENSE).
 
 - Example dashboards are provided in the [doc/](doc) folder, which can be imported into your Grafana installation.
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
-![Sysmon Icon](doc/monitoring-eye-320x320.png)
 
 ## Components 
 
-### Client
+### Client / Agent
 
 Runs on your hosts and collects metrics, which are sent to the central *server*.
 

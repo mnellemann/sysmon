@@ -20,7 +20,7 @@ public class MetricResultToPointProcessor implements Processor {
     }
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
 
         MetricResult metricResult = exchange.getIn().getBody(MetricResult.class);
         List<Measurement> measurementList = metricResult.getMeasurements();

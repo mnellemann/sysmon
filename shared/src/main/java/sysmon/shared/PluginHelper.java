@@ -52,10 +52,10 @@ public class PluginHelper {
     }
 
 
-    public static boolean canExecute(String cmd) {
+    public static boolean notExecutable(String cmd) {
         return Stream.of(System.getenv("PATH").split(Pattern.quote(File.pathSeparator)))
                 .map(Paths::get)
-                .anyMatch(path -> Files.exists(path.resolve(cmd)));
+                .noneMatch(path -> Files.exists(path.resolve(cmd)));
     }
 
 

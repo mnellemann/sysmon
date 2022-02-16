@@ -10,7 +10,7 @@ import sysmon.shared.ComboResult;
 public class ServerRouteBuilder extends RouteBuilder {
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
 
         final Registry registry = getContext().getRegistry();
         final String dbname = registry.lookupByNameAndType("dbname", String.class);
