@@ -1,0 +1,6 @@
+
+System configuration: type=Dedicated mode=Capped smt=4 lcpu=12 mem=24576MB
+
+%user  %sys  %wait  %idle  %nsp
+----- ----- ------ ------ -----
+  0.0   0.1    0.0   99.9    76

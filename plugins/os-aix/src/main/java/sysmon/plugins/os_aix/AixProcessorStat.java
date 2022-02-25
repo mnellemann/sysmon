@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -19,11 +20,14 @@ public class AixProcessorStat {
     // System configuration: type=Shared mode=Uncapped smt=8 lcpu=8 mem=4096MB psize=19 ent=0.50
     private static final Pattern patternAixShared = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB psize=(\\d+) ent=(\\d+\\.?\\d*)");
 
+    // System configuration: type=Dedicated mode=Capped smt=4 lcpu=12 mem=24576MB
     // System configuration: type=Dedicated mode=Donating smt=8 lcpu=16 mem=4096MB
     private static final Pattern patternAixDedicated = Pattern.compile("^System configuration: type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+)MB");
 
+
     // type=Shared mode=Uncapped smt=8 lcpu=4 mem=4101120 kB cpus=24 ent=4.00
     private static final Pattern patternLinux = Pattern.compile("^type=(\\S+) mode=(\\S+) smt=(\\d+) lcpu=(\\d+) mem=(\\d+) kB cpus=(\\d+) ent=(\\d+\\.?\\d*)");
+
 
 
     private String type;        // Indicates the partition type. The value can be either dedicated or shared.
@@ -86,17 +90,27 @@ public class AixProcessorStat {
 
         //String lparstat = lines.get(lines.size() -1);
         String[] splitStr = Objects.requireNonNull(lastLine).trim().split("\\s+");
-        if(type == null || (type.equalsIgnoreCase("shared") && splitStr.length < 9) ||
-                (type.equalsIgnoreCase("dedicated") && splitStr.length < 8) ) {
-            throw new UnsupportedOperationException("lparstat string error: " + lastLine);
+        if(type == null ||
+                (mode.equalsIgnoreCase("Capped") && splitStr.length < 4) ||
+                (type.equalsIgnoreCase("Shared") && splitStr.length < 9) ||
+                (type.equalsIgnoreCase("Dedicated") && mode.equalsIgnoreCase("Donating") && splitStr.length < 8)
+        ) {
+            log.error("lparstat parse error - mode: {}, type: {}, content: {}", mode, type, Arrays.toString(splitStr));
+            throw new UnsupportedOperationException("lparstat parse error.");
         }
 
         this.user = Float.parseFloat(splitStr[0]);
         this.sys = Float.parseFloat(splitStr[1]);
         this.wait = Float.parseFloat(splitStr[2]);
         this.idle = Float.parseFloat(splitStr[3]);
-        this.physc = Float.parseFloat(splitStr[4]);
-        if(type.equalsIgnoreCase("shared")) {
+
+        if(mode.equalsIgnoreCase("Uncapped") || mode.equalsIgnoreCase("Donating")) {
+            this.physc = Float.parseFloat(splitStr[4]);
+        } else {
+            this.physc = 0f;
+        }
+
+        if(type.equalsIgnoreCase("Shared")) {
             this.entc = Float.parseFloat(splitStr[5]);
             this.lbusy = Float.parseFloat(splitStr[6]);
         } else {

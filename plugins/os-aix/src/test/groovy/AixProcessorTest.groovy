@@ -24,10 +24,10 @@ class AixProcessorTest extends Specification {
 
     }
 
-    void "test AIX lparstat dedicated output processing"() {
+    void "test AIX lparstat dedicated-donating output processing"() {
 
         setup:
-        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-dedicated.txt')
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-dedicated-donating.txt')
 
         when:
         AixProcessorExtension extension = new AixProcessorExtension()
@@ -41,6 +41,27 @@ class AixProcessorTest extends Specification {
         stats.getFields().get("smt") == 8
         stats.getFields().get("physc") == 0.07f
         stats.getFields().get("type") == "Dedicated"
+        stats.getFields().get("mode") == "Donating"
+
+    }
+
+    void "test AIX lparstat dedicated-capped output processing"() {
+
+        setup:
+        InputStream inputStream = getClass().getResourceAsStream('/lparstat-aix-dedicated-capped.txt')
+
+        when:
+        AixProcessorExtension extension = new AixProcessorExtension()
+        AixProcessorStat stats = extension.processCommandOutput(inputStream)
+
+        then:
+        stats.getUser() == 0.0f
+        stats.getSys() == 0.1f
+        stats.getWait() == 0.0f
+        stats.getIdle() == 99.9f
+        stats.getFields().get("smt") == 4
+        stats.getFields().get("type") == "Dedicated"
+        stats.getFields().get("mode") == "Capped"
 
     }
 

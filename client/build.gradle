@@ -30,6 +30,7 @@ dependencies {
     implementation group: 'org.apache.camel', name: 'camel-bean', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-timer', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-stream', version: camelVersion
+
 }
 
 def projectName = "sysmon-client"

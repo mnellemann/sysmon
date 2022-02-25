@@ -13,4 +13,9 @@ rpm -i --ignoreos sysmon-client.rpm sysmon-plugins.rpm
 
 ## Run automatically at boot
 
-See the [sysv-init.md](sysv-init.md) file for instructions.
+See the [sysv-init.md](sysv-init.md) file for instructions, or run from inittab:
+
+```shell
+mkitab "sysmon:2:respawn:env JAVA_HOME=/usr/java8_64 /opt/sysmon/client/bin/client -s http://10.x.y.z:9925/metrics"
+init q
+```
