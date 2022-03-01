@@ -52,6 +52,7 @@ public class AixProcessorStat {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         while(reader.ready()) {
             String line = reader.readLine();
+            log.trace("AixProcessorStat() - {}", line);
 
             if (line.startsWith("System configuration:")) {
                 Matcher matcher = patternAixShared.matcher(line);

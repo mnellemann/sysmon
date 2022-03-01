@@ -28,9 +28,11 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-c", "--conf" }, description = "Configuration file [default: '/etc/sysmon-client.toml'].", paramLabel = "<file>", defaultValue = "/etc/sysmon-client.toml")
     private File configurationFile;
 
-    @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
-    private boolean enableDebug = false;
+    //@CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
+    //private boolean enableDebug = false;
 
+    @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
+    private boolean[] enableDebug = new boolean[0];
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);
@@ -42,8 +44,20 @@ public class Application implements Callable<Integer> {
     public Integer call() {
 
         String sysmonDebug = System.getProperty("sysmon.debug");
-        if(sysmonDebug != null || enableDebug) {
+        if(sysmonDebug != null) {
             System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
+        }
+
+        switch (enableDebug.length) {
+            case 1:
+                System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
+                break;
+            case 2:
+                System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+                break;
+            case 3:
+                System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "TRACE");
+                break;
         }
 
         String sysmonCfgFile = System.getProperty("sysmon.cfgFile");

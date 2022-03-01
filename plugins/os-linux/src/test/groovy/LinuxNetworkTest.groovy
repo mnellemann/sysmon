@@ -1,6 +1,6 @@
 import spock.lang.Specification
-import sysmon.plugins.os_linux.LinuxSockstatExtension
-import sysmon.plugins.os_linux.LinuxNetworkSockStat
+import sysmon.plugins.os_linux.LinuxSocketExtension
+import sysmon.plugins.os_linux.LinuxSocketStat
 
 class LinuxNetworkTest extends Specification {
 
@@ -11,8 +11,8 @@ class LinuxNetworkTest extends Specification {
         List<String> lines = testFile.readLines("UTF-8")
 
         when:
-        LinuxSockstatExtension extension = new LinuxSockstatExtension()
-        LinuxNetworkSockStat stats = extension.processSockOutput(lines)
+        LinuxSocketExtension extension = new LinuxSocketExtension()
+        LinuxSocketStat stats = extension.processSockOutput(lines)
 
         then:
         stats.getFields().get("sockets") == 1238L

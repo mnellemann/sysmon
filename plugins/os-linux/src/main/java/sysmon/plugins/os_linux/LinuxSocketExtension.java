@@ -12,11 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Disabled
-//@Extension
-public class LinuxSockstatExtension implements MetricExtension {
+@Extension
+public class LinuxSocketExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(LinuxSockstatExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(LinuxSocketExtension.class);
 
     // Extension details
     private final String name = "linux_network_sockets";
@@ -77,16 +76,17 @@ public class LinuxSockstatExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        LinuxNetworkSockStat sockStat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
+        LinuxSocketStat sockStat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
 
         HashMap<String, String> tagsMap = sockStat.getTags();
         HashMap<String, Object> fieldsMap = sockStat.getFields();
 
+        log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
-    protected LinuxNetworkSockStat processSockOutput(List<String> inputLines) {
-        return new LinuxNetworkSockStat(inputLines);
+    protected LinuxSocketStat processSockOutput(List<String> inputLines) {
+        return new LinuxSocketStat(inputLines);
     }
 
 }

@@ -94,6 +94,7 @@ public class BaseDiskExtension implements MetricExtension {
                     put("queue", store.getCurrentQueueLength());
                 }};
 
+                log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
                 measurementList.add(new Measurement(tagsMap, fieldsMap));
             }
 

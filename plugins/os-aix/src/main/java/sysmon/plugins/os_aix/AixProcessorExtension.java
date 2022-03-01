@@ -94,6 +94,7 @@ public class AixProcessorExtension implements MetricExtension {
             log.error("lparstat error", e);
         }
 
+        log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 

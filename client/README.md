@@ -1,6 +1,6 @@
 # Client / Agent
 
-This is the client component of SysMon. Install on the hosts where you want to collect metrics. 
+This is the client/agent component of SysMon, which you install (together with sysmon-plugins) on the hosts where you want to collect metrics.  
 
 ## Installation
 

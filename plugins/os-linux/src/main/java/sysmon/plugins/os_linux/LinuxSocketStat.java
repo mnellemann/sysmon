@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LinuxNetworkSockStat {
+public class LinuxSocketStat {
 
-    private static final Logger log = LoggerFactory.getLogger(LinuxNetworkSockStat.class);
+    private static final Logger log = LoggerFactory.getLogger(LinuxSocketStat.class);
 
     private static final Pattern pattern1 = Pattern.compile("^sockets: used (\\d+)");
     private static final Pattern pattern2 = Pattern.compile("^TCP: inuse (\\d+) orphan (\\d+) tw (\\d+) alloc (\\d+) mem (\\d+)");
@@ -35,7 +35,7 @@ public class LinuxNetworkSockStat {
     */
 
 
-    LinuxNetworkSockStat(List<String> lines) {
+    LinuxSocketStat(List<String> lines) {
 
         Matcher matcher;
         for(String line : lines) {

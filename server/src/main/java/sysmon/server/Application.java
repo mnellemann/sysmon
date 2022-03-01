@@ -53,13 +53,6 @@ public class Application implements Callable<Integer> {
         }
 
         InfluxDB influxDB = InfluxDBFactory.connect(influxUrl.toString(), influxUser, influxPass);
-        /*
-        try {
-            influxDB.query(new Query("CREATE DATABASE " + influxName));
-        } catch (InfluxDBException e) {
-            System.err.println(e.getMessage());
-            return -1;
-        }*/
 
         Main main = new Main();
         main.bind("myInfluxConnection", influxDB);
