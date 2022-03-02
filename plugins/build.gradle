@@ -25,9 +25,6 @@ subprojects {
         compileOnly(group: 'com.github.oshi', name: 'oshi-core', version: oshiVersion)  {
             exclude(group: "org.slf4j")
         }
-
-        implementation 'org.codehaus.groovy:groovy-all:3.0.9'
-
     }
 
     task uberJar(type: Jar) {
