@@ -17,9 +17,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.codehaus.groovy:groovy:3.0.9'
-    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.codehaus.groovy:groovy:${groovyVersion}"
+    testImplementation "org.spockframework:spock-core:2.0-groovy-3.0"
+    testImplementation "junit:junit:4.13.2"
     testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"

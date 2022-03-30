@@ -81,7 +81,7 @@ public class BaseDiskExtension implements MetricExtension {
         for(HWDiskStore store : diskStores) {
 
             String name = store.getName();
-            if (name.matches("h?disk[0-9]+") || name.matches("/dev/x?[sv]d[a-z]") || name.matches("/dev/nvme[0-9]n[0-9]")) {
+            if (name.matches("h?disk[0-9]+") || name.matches("/dev/x?[sv]d[a-z]") || name.matches("/dev/nvme[0-9]n[0-9]") || name.startsWith("\\\\.\\PHYSICALDRIVE")) {
 
                 HashMap<String, String> tagsMap = new HashMap<String, String>() {{
                     put("name", name);
@@ -96,6 +96,8 @@ public class BaseDiskExtension implements MetricExtension {
 
                 log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
                 measurementList.add(new Measurement(tagsMap, fieldsMap));
+            } else {
+                log.debug("getMetrics() - skipping device: {}", name);
             }
 
         }
