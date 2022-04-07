@@ -26,9 +26,18 @@ public class BaseProcessExtension implements MetricExtension {
     private boolean threaded = false;
     private List<?> includeList = new ArrayList<Object>() {{
         add("java");
+        add("node");
+        add("httpd");
+        add("mongod");
         add("mysqld");
-        add("postgres");
         add("influxd");
+        add("haproxy");
+        add("beam.smp");
+        add("filebeat");
+        add("corosync");
+        add("rsyslogd");
+        add("postgres");
+        add("memcached");
     }};
 
     private final long minUptimeInSeconds = 300;
