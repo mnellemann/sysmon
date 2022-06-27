@@ -10,7 +10,7 @@ This software is free to use and is licensed under the [Apache 2.0 License](LICE
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
 
-## Components 
+## Components
 
 ### Client / Agent
 
@@ -20,7 +20,7 @@ Runs on your hosts and collects metrics, which are sent to the central *server*.
 
 ### Plugins
 
-Loaded by the *client* and provides extensions for doing the actual collecting of metrics.
+Used by the *client* and provides extensions for doing the actual collecting of metrics.
 
 [More information](plugins/README.md).
 

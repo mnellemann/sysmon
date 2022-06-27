@@ -2,6 +2,6 @@ plugins {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/net.sf.jt400/jt400
-    implementation group: 'net.sf.jt400', name: 'jt400', version: '10.7'
+    // https://sourceforge.net/projects/jt400/ and http://jt400.sourceforge.net/
+    implementation group: 'net.sf.jt400', name: 'jt400', version: '11.0'
 }

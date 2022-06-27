@@ -3,6 +3,7 @@
 .classpath
 .project
 .gradle
+.vscode
 output
 build
 bin
