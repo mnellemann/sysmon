@@ -20,7 +20,7 @@ Runs on your hosts and collects metrics, which are sent to the central *server*.
 
 ### Plugins
 
-Used by the *client* and provides extensions for doing the actual collecting of metrics.
+Loaded by the *client* and provides extensions for doing the actual collecting of metrics.
 
 [More information](plugins/README.md).
 
