@@ -9,12 +9,13 @@
       "pluginName": "InfluxDB"
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.1.4"
+      "version": "8.4.7"
     },
     {
       "type": "datasource",
@@ -66,16 +67,16 @@
       }
     ]
   },
-  "description": "Metrics from within host / guest / partition.",
+  "description": "https://bitbucket.org/mnellemann/sysmon/ - Metrics from within host / guest / partition.",
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1632317604857,
+  "iteration": 1657627348578,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": null,
       "gridPos": {
         "h": 3,
         "w": 24,
@@ -87,13 +88,12 @@
         "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [bitbucket.org/mnellemann/sysmon](https://bitbucket.org/mnellemann/sysmon)\n           ",
         "mode": "markdown"
       },
-      "pluginVersion": "8.1.4",
+      "pluginVersion": "8.4.7",
       "transparent": true,
       "type": "text"
     },
     {
       "collapsed": false,
-      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -107,7 +107,10 @@
       "type": "row"
     },
     {
-      "datasource": "${DS_INFLUXDB-SYSMON}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -140,10 +143,17 @@
       },
       "id": 16,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.1.4",
+      "pluginVersion": "8.4.7",
       "targets": [
         {
           "groupBy": [
@@ -236,13 +246,14 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Details",
       "type": "table"
     },
     {
-      "datasource": "${DS_INFLUXDB-SYSMON}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -309,9 +320,13 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.1.4",
+      "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
           "groupBy": [
             {
               "params": [
@@ -321,7 +336,7 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
@@ -390,13 +405,14 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Memory Metrics",
       "type": "stat"
     },
     {
-      "datasource": "${DS_INFLUXDB-SYSMON}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -463,9 +479,13 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.1.4",
+      "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
           "groupBy": [
             {
               "params": [
@@ -475,7 +495,7 @@
             },
             {
               "params": [
-                "previous"
+                "null"
               ],
               "type": "fill"
             }
@@ -544,13 +564,14 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Disk Metrics",
       "type": "stat"
     },
     {
-      "datasource": "${DS_INFLUXDB-SYSMON}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -613,7 +634,8 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.6",
@@ -718,7 +740,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_INFLUXDB-SYSMON}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -788,7 +813,8 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.6",
@@ -886,18 +912,18 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 30,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_INFLUXDB-SYSMON}",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB-SYSMON}"
+        },
         "definition": "SHOW TAG VALUES FROM \"base_memory\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Host",
@@ -915,12 +941,12 @@
         "useTags": false
       },
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_INFLUXDB-SYSMON}",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB-SYSMON}"
+        },
         "definition": "SHOW TAG VALUES FROM \"base_process\" WITH KEY = \"name\" WHERE hostname =~ /$hostname/AND time > now() - 60m",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Process",
@@ -935,12 +961,12 @@
         "type": "query"
       },
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_INFLUXDB-SYSMON}",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB-SYSMON}"
+        },
         "definition": "SELECT DISTINCT(\"pid\") FROM (SELECT * FROM \"base_process\" WHERE time > now() - 60m AND \"hostname\" =~ /$hostname/ AND \"name\" =~ /$process/)",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "PID",
@@ -974,7 +1000,8 @@
     ]
   },
   "timezone": "",
-  "title": "Sysmon - Process Explorer",
+  "title": "Sysmon Agent - Process Explorer",
   "uid": "Vjut5mS7k",
-  "version": 18
+  "version": 4,
+  "weekStart": ""
 }

@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.13] - 2022-06-27
+
 ## [0.1.11] - 2022-03-02
 ### Changed
 - (plugins) Removed groovy dependency from build.gradle (it increased size and was not needed).
@@ -20,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
+[0.1.13]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.13%0Dv0.1.11
 [0.1.11]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.11%0Dv0.1.10
 [0.1.10]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.10%0Dv0.1.9
 [0.1.9]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.9%0Dv0.1.8

@@ -78,6 +78,20 @@ public class TestExtension implements MetricExtension {
             return null;
         }
 
+        /* const hSql = "select
+        SERVER_NAME,
+        HTTP_FUNCTION,
+        SERVER_NORMAL_CONNECTIONS,
+        SERVER_ACTIVE_THREADS,
+        SERVER_IDLE_THREADS,
+        BYTES_RECEIVED,
+        BYTES_SENT,
+        NONCACHE_PROCESSING_TIME,
+        CACHE_PROCESSING_TIME
+         from
+         QSYS2.HTTP_SERVER_INFO";
+         */
+
         try {
             int jobsInSystem = systemStatus.getJobsInSystem();
             log.info("Jobs In System: {}", jobsInSystem);
@@ -93,6 +107,15 @@ public class TestExtension implements MetricExtension {
 
             int onlineUsers = systemStatus.getUsersCurrentSignedOn();
             log.info("Online Users: {}", onlineUsers);
+
+            // The storage capacity of the system auxiliary storage pool (ASP1) in MBytes.
+            long systemAsp = systemStatus.getSystemASP();
+
+            System.out.println("Current Processing Capacity :" + systemStatus.getCurrentProcessingCapacity());
+            System.out.println("ASPUsed:" + systemStatus.getPercentSystemASPUsed());
+            System.out.println("Temp Addresses Used:" + systemStatus.getPercentTemporaryAddresses());
+
+
 
             HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
                 put("jobs_total", jobsInSystem);
