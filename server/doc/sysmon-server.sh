@@ -19,6 +19,10 @@ pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
 
+# Uncomment if required
+#JAVA_HOME=/usr/java8_64
+#export JAVA_HOME
+
 get_pid() {
     cat "$pid_file"
 }

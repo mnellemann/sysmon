@@ -28,7 +28,7 @@ def projectName = "sysmon-server"
 application {
     // Define the main class for the application.
     mainClass.set('sysmon.server.Application')
-    applicationDefaultJvmArgs = [ "-server", "-Xmx128m" ]
+    applicationDefaultJvmArgs = [ "-server", "-Xmx64m" ]
 }
 
 run {

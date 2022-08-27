@@ -1,4 +1,4 @@
-# SystemD Notes
+# Linux systemd notes
 
 Edit the *sysmon-client.service* file and change the sysmon-server URL accordingly to your environment.
 

@@ -1,4 +1,4 @@
-# SystemD Notes
+# Linux systemd notes
 
 Setup as systemd service to start automatically at boot:
 

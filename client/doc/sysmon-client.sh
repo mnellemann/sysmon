@@ -11,13 +11,17 @@
 
 dir="/opt/sysmon/client"
 cmd="/opt/sysmon/client/bin/client"
-args="-s http://10.20.30.40:9925/metrics"
+args="-s http://10.20.30.40:9925/metrics"   # Specify sysmon-server URL here
 user=""
 
 name=`basename $0`
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
+
+# Uncomment if required
+#JAVA_HOME=/usr/java8_64
+#export JAVA_HOME
 
 get_pid() {
     cat "$pid_file"
