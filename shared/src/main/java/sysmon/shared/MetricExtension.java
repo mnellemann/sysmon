@@ -11,6 +11,7 @@ public interface MetricExtension extends ExtensionPoint {
     boolean isSupported();
 
     String getName();
+    String getInterval();
     String getProvides();
     String getDescription();
 

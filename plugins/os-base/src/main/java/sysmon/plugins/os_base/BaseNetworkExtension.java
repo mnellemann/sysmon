@@ -53,6 +53,11 @@ public class BaseNetworkExtension implements MetricExtension {
     }
 
     @Override
+    public String getInterval() {
+        return null;
+    }
+
+    @Override
     public String getProvides() {
         return provides;
     }

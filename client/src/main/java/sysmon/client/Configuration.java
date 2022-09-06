@@ -56,6 +56,8 @@ public final class Configuration {
                 map.put(k, table.getDouble(k));
             } else if(table.isArray(k)) {
                 map.put(k, Objects.requireNonNull(table.getArray(k)).toList());
+            } else if(table.isTable(k)) {
+                map.put(k, table.getTable(k));
             }
 
         });

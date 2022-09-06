@@ -60,6 +60,11 @@ public class AixNetstatExtension implements MetricExtension  {
     }
 
     @Override
+    public String getInterval() {
+        return null;
+    }
+
+    @Override
     public String getProvides() {
         return provides;
     }

@@ -12,18 +12,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Extension
-public class BaseDetailsExtension implements MetricExtension {
+public class BaseInfoExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseDetailsExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseInfoExtension.class);
 
     // Extension details
-    private final String name = "base_details";
-    private final String provides = "details";
-    private final String description = "Base Details Metrics";
+    private final String name = "base_info";
+    private final String provides = "info";
+    private final String description = "Base System Information";
 
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "60m";
+    private HashMap<String, String> tags = new HashMap<>();
 
     private SystemInfo systemInfo;
 
@@ -55,6 +57,9 @@ public class BaseDetailsExtension implements MetricExtension {
     }
 
     @Override
+    public String getInterval() { return interval; }
+
+    @Override
     public String getDescription() {
         return description;
     }
@@ -67,22 +72,25 @@ public class BaseDetailsExtension implements MetricExtension {
         if (map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
         }
+        if (map.containsKey("interval")) {
+            interval = (String) map.get("interval");
+        }
     }
 
     @Override
     public MetricResult getMetrics() {
 
         HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
-            put("family", systemInfo.getOperatingSystem().getFamily());                         // Freedesktop.org      / AIX
-            put("manufacturer", systemInfo.getOperatingSystem().getManufacturer());             // GNU/Linux            / IBM
+            put("os_manufacturer", systemInfo.getOperatingSystem().getManufacturer());             // GNU/Linux            / IBM
+            put("os_family", systemInfo.getOperatingSystem().getFamily());                         // Freedesktop.org      / AIX
             put("os_codename", systemInfo.getOperatingSystem().getVersionInfo().getCodeName()); // Flatpak runtime      / ppc64
             put("os_version", systemInfo.getOperatingSystem().getVersionInfo().getVersion());   // 21.08.4              / 7.2
             put("os_build", systemInfo.getOperatingSystem().getVersionInfo().getBuildNumber()); // 5.13.0-7620-generic  / 2045B_72V
-            put("uptime", systemInfo.getOperatingSystem().getSystemUptime());
-            put("threads", systemInfo.getOperatingSystem().getThreadCount());
+            put("boot_time", systemInfo.getOperatingSystem().getSystemBootTime());
         }};
 
-        return new MetricResult(name, new Measurement(new HashMap<>(), fieldsMap));
+        log.info(fieldsMap.toString());
+        return new MetricResult(name, new Measurement(tags, fieldsMap));
     }
 
 }

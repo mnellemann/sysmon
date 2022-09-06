@@ -10,4 +10,5 @@ public class ListOfResultsStrategy extends AbstractListAggregationStrategy<Metri
     public MetricResult getValue(Exchange exchange) {
         return exchange.getIn().getBody(MetricResult.class);
     }
+
 }

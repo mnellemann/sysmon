@@ -1,6 +1,14 @@
 {
   "__inputs": [
     {
+      "name": "DS_INFLUXDB-HMCI",
+      "label": "InfluxDB-hmci",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    },
+    {
       "name": "DS_INFLUXDB-SYSMON",
       "label": "InfluxDB-sysmon",
       "description": "",
@@ -9,7 +17,7 @@
       "pluginName": "InfluxDB"
     }
   ],
-  "__elements": [],
+  "__elements": {},
   "__requires": [
     {
       "type": "panel",
@@ -21,7 +29,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.7"
+      "version": "9.0.7"
     },
     {
       "type": "panel",
@@ -58,7 +66,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -78,11 +89,14 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1657611401289,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-HMCI}"
+      },
       "gridPos": {
         "h": 3,
         "w": 24,
@@ -94,12 +108,25 @@
         "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [bitbucket.org/mnellemann/sysmon](https://bitbucket.org/mnellemann/sysmon)\n           ",
         "mode": "markdown"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-HMCI}"
+          },
+          "refId": "A"
+        }
+      ],
       "transparent": true,
       "type": "text"
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "5KYZifB7z"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -109,8 +136,262 @@
       "id": 4,
       "panels": [],
       "repeat": "hostname",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "5KYZifB7z"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "${hostname}",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "text"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.0.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "hostname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "limit": "100",
+          "measurement": "base_info",
+          "orderByTime": "DESC",
+          "policy": "default",
+          "query": "SELECT last(\"os_manufacturer\") AS \"manufacturer\", last(\"os_family\") AS \"family\", last(\"os_version\") AS \"version\",  last(\"os_codename\") AS \"codename\", last(\"os_build\") AS \"build\", last(\"boot_time\") * 1000 AS \"boottime\" FROM \"base_info\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval), \"hostname\" fill(null) ORDER BY time DESC LIMIT 1000",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "os_manufacturer"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "manufacturer"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "os_family"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "family"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "os_codename"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "codename"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "os_build"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "build"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "os_version"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "version"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "boot_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "boottime"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "hostname",
+              "operator": "=~",
+              "value": "/^$hostname$/"
+            }
+          ]
+        }
+      ],
+      "title": "System Information",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "hostname": true
+            },
+            "indexByName": {
+              "Time": 0,
+              "boottime": 7,
+              "build": 6,
+              "codename": 5,
+              "family": 3,
+              "hostname": 1,
+              "manufacturer": 2,
+              "version": 4
+            },
+            "renameByName": {
+              "boottime": "Boot Time",
+              "build": "OS Build",
+              "codename": "OS Codename",
+              "family": "OS Family",
+              "hostname": "Hostname",
+              "manufacturer": "Manufacturer",
+              "version": "OS Version"
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "Boot Time"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
     },
     {
       "aliasColors": {},
@@ -128,7 +409,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 8
       },
       "hiddenSeries": false,
       "id": 2,
@@ -149,7 +430,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -398,7 +679,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 8
       },
       "id": 16,
       "options": {
@@ -416,9 +697,13 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
           "groupBy": [
             {
               "params": [
@@ -575,7 +860,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 29,
@@ -595,7 +880,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -877,7 +1162,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 9
+        "y": 13
       },
       "id": 19,
       "options": {
@@ -893,7 +1178,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
           "datasource": {
@@ -1051,7 +1336,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 9
+        "y": 13
       },
       "id": 17,
       "options": {
@@ -1069,7 +1354,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
           "datasource": {
@@ -1224,7 +1509,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 19
       },
       "id": 10,
       "options": {
@@ -1381,7 +1666,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 19
       },
       "id": 30,
       "options": {
@@ -1539,7 +1824,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 28
       },
       "id": 31,
       "options": {
@@ -1685,7 +1970,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 28
       },
       "id": 18,
       "options": {
@@ -1797,7 +2082,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 33
+        "y": 37
       },
       "hiddenSeries": false,
       "id": 24,
@@ -1819,7 +2104,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1989,7 +2274,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 33
+        "y": 37
       },
       "id": 25,
       "options": {
@@ -2131,7 +2416,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 47
       },
       "id": 8,
       "options": {
@@ -2325,7 +2610,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 43
+        "y": 47
       },
       "id": 26,
       "options": {
@@ -2553,7 +2838,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 56
       },
       "id": 22,
       "options": {
@@ -2571,7 +2856,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
           "datasource": {
@@ -2757,7 +3042,7 @@
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 35,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [
     "sysmon"
@@ -2790,7 +3075,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now-30s"
   },
   "timepicker": {
@@ -2809,6 +3094,6 @@
   "timezone": "",
   "title": "Sysmon Agent - Host Overview",
   "uid": "QkVPjseMk",
-  "version": 24,
+  "version": 29,
   "weekStart": ""
 }
