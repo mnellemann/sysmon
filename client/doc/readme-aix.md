@@ -31,5 +31,7 @@ rpm -Uvh --ignoreos sysmon-*.noarch.rpm
 To restart sysmon-client process after upgrade:
 
 ```shell
+/etc/rc.d/init.d/sysmon-client stop; /etc/rc.d/init.d/sysmon-client start
+# or, if running from inittab:
 kill -HUP `ps -e -o pid,comm,args | grep sysmon-client | grep java | awk '{print $1}'`
 ```
