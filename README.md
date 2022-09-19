@@ -1,6 +1,6 @@
 # System Monitor
 
-System monitoring solution with support for plugins.
+Open source system monitoring solution with support for plugins.
 
 ![Sysmon Icon](doc/sysmon.png)
 
@@ -12,24 +12,20 @@ This software is free to use and is licensed under the [Apache 2.0 License](LICE
 
 ## Components
 
-### Client / Agent
-
-Runs on your hosts and collects metrics, which are sent to the central *server*.
-
-[More information](client/README.md).
-
-### Plugins
-
-Loaded by the *client* and provides extensions for doing the actual collecting of metrics.
-
-[More information](plugins/README.md).
+This software consist of a server and client component.
 
 ### Server
 
-Receives aggregated metrics from *clients* and saves these into InfluxDB.
+The server component receives aggregated metrics from *clients* and saves these into InfluxDB.
 
-[More information](server/README.md).
+- More information and documentation on the [sysmon-server](server/README.md).
 
+### Client & Plugins
+
+The client runs on all or some of your hosts and collects metrics, which are then sent to the central sysmon-server component. Plugins are loaded by the client at startup and should also be installed.
+
+- More information and documentation on the [sysmon-client](client/README.md).
+. More information and documentation on the [sysmon-plugins](plugins/README.md).
 
 
 ## Known problems
