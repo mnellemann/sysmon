@@ -38,6 +38,9 @@ public class BaseProcessExtension implements MetricExtension {
         add("rsyslogd");
         add("postgres");
         add("memcached");
+        add("db2sysc");
+        add("dsmserv");
+        add("mmfsd");
     }};
 
     private final long minUptimeInSeconds = 300;

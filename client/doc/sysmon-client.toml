@@ -18,6 +18,9 @@ exclude_mount = [ "/boot/efi" ]
 
 [extension.base_process]
 enabled = true
-include = [ "java", "mysqld", "postgres", "influxd" ]
-
-
+include = [
+    "java", "node", "httpd", "mongod", "mysqld",
+    "postgres", "influxd", "haproxy", "beam.smp",
+    "filebeat", "corosync", "rsyslogd", "memcached",
+    "db2sysc", "dsmserv", "mmfsd",
+]

@@ -28,7 +28,7 @@ get_pid() {
 }
 
 is_running() {
-    [ -f "$pid_file" ] && ps -p `get_pid` > /dev/null 2>&1
+    [ -f "$pid_file" ] && ps -p $(get_pid) > /dev/null 2>&1
 }
 
 case "$1" in
@@ -37,7 +37,7 @@ case "$1" in
         echo "Already started"
     else
         echo "Starting $name"
-        cd "$dir"
+        cd "$dir" || exit 1
         if [ -z "$user" ]; then
             $cmd $args >> "$stdout_log" 2>> "$stderr_log" &
         else
@@ -52,16 +52,14 @@ case "$1" in
     ;;
     stop)
     if is_running; then
-        echo -n "Stopping $name.."
-        kill `get_pid`
+        echo "Stopping $name.."
+        kill $(get_pid)
         for i in 1 2 3 4 5 6 7 8 9 10
         # for i in `seq 10`
         do
             if ! is_running; then
                 break
             fi
-
-            echo -n "."
             sleep 1
         done
         echo

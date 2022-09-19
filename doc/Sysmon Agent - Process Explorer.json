@@ -9,13 +9,13 @@
       "pluginName": "InfluxDB"
     }
   ],
-  "__elements": [],
+  "__elements": {},
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.7"
+      "version": "9.0.7"
     },
     {
       "type": "datasource",
@@ -52,7 +52,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -72,11 +75,14 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1657627348578,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB-SYSMON}"
+      },
       "gridPos": {
         "h": 3,
         "w": 24,
@@ -88,12 +94,25 @@
         "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [bitbucket.org/mnellemann/sysmon](https://bitbucket.org/mnellemann/sysmon)\n           ",
         "mode": "markdown"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
+          "refId": "A"
+        }
+      ],
       "transparent": true,
       "type": "text"
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "5KYZifB7z"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -103,6 +122,15 @@
       "id": 4,
       "panels": [],
       "repeat": "hostname",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "5KYZifB7z"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "${hostname}",
       "type": "row"
     },
@@ -119,7 +147,8 @@
           },
           "custom": {
             "align": "left",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -153,9 +182,13 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
           "groupBy": [
             {
               "params": [
@@ -320,7 +353,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
           "datasource": {
@@ -479,7 +512,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.0.7",
       "targets": [
         {
           "datasource": {
@@ -642,6 +675,10 @@
       "targets": [
         {
           "alias": "$col",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
           "groupBy": [
             {
               "params": [
@@ -821,6 +858,10 @@
       "targets": [
         {
           "alias": "$col",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB-SYSMON}"
+          },
           "groupBy": [
             {
               "params": [
@@ -912,7 +953,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 35,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [],
   "templating": {
