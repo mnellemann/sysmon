@@ -21,6 +21,7 @@ stderr_log="/var/log/$name.err"
 
 # Uncomment if required
 #JAVA_HOME=/usr/java8_64
+#JAVA_HOME=/opt/ibm/ibm-semeru-certified-11-jre
 #export JAVA_HOME
 
 get_pid() {

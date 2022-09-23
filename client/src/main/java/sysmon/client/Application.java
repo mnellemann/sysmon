@@ -4,7 +4,7 @@
 package sysmon.client;
 
 import org.apache.camel.main.Main;
-import org.slf4j.impl.SimpleLogger;
+import org.slf4j.simple.SimpleLogger;
 import picocli.CommandLine;
 
 import java.io.File;

@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     testImplementation "org.codehaus.groovy:groovy:${groovyVersion}"
-    testImplementation "org.spockframework:spock-core:2.0-groovy-3.0"
+    testImplementation "org.spockframework:spock-core:${spockVersion}"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
@@ -27,7 +27,6 @@ dependencies {
 
     //annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
     implementation group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}"
-
 }
 
 tasks.named('test') {

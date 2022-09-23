@@ -3,7 +3,7 @@ package sysmon.server;
 import org.apache.camel.main.Main;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
-import org.slf4j.impl.SimpleLogger;
+import org.slf4j.simple.SimpleLogger;
 import picocli.CommandLine;
 
 import java.io.IOException;
