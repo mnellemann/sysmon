@@ -17,7 +17,7 @@ dependencies {
 
     annotationProcessor "info.picocli:picocli-codegen:${picocliVersion}"
     implementation "info.picocli:picocli:${picocliVersion}"
-    implementation 'org.tomlj:tomlj:1.0.0'
+    implementation "org.tomlj:tomlj:${tomljVersion}"
 
     runtimeOnly(group: 'com.github.oshi', name: 'oshi-core', version: oshiVersion)  {
         exclude(group: "org.slf4j")

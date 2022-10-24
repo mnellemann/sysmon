@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.18] - 2022-10-24
+- Bump version to 1.x to indicate stable release.
+- Update 3rd party dependencies.
+
 ## [0.1.13] - 2022-06-27
 
 ## [0.1.11] - 2022-03-02
@@ -22,6 +26,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
+[1.0.18]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.18%0Dv0.1.13
 [0.1.13]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.13%0Dv0.1.11
 [0.1.11]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.11%0Dv0.1.10
 [0.1.10]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.10%0Dv0.1.9
