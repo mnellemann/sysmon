@@ -1,59 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB-SYSMON",
-      "label": "InfluxDB-sysmon",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.0.7"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "text",
-      "name": "Text",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -76,18 +21,18 @@
       }
     ]
   },
-  "description": "https://bitbucket.org/mnellemann/sysmon/ - Metrics from within host / guest / partition.",
+  "description": "https://bitbucket.org/mnellemann/sysmon/ - Metrics from sysmon agent.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 8,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "gridPos": {
         "h": 3,
@@ -100,12 +45,12 @@
         "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [bitbucket.org/mnellemann/sysmon](https://bitbucket.org/mnellemann/sysmon)\n           ",
         "mode": "markdown"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "refId": "A"
         }
@@ -114,36 +59,9 @@
       "type": "text"
     },
     {
-      "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "5KYZifB7z"
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 3
-      },
-      "id": 4,
-      "panels": [],
-      "repeat": "hostname",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "5KYZifB7z"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "${hostname}",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -166,10 +84,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 6,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 3
       },
       "id": 35,
       "options": {
@@ -186,12 +104,12 @@
         },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -217,7 +135,7 @@
           "measurement": "base_info",
           "orderByTime": "DESC",
           "policy": "default",
-          "query": "SELECT last(\"os_manufacturer\") AS \"manufacturer\", last(\"os_family\") AS \"family\", last(\"os_version\") AS \"version\",  last(\"os_codename\") AS \"codename\", last(\"os_build\") AS \"build\", last(\"boot_time\") * 1000 AS \"boottime\" FROM \"base_info\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval), \"hostname\" fill(previous) ORDER BY time DESC LIMIT 1000",
+          "query": "SELECT last(\"os_manufacturer\") AS \"manufacturer\", last(\"os_family\") AS \"family\", last(\"os_version\") AS \"version\",  last(\"os_codename\") AS \"codename\", last(\"os_build\") AS \"build\", last(\"boot_time\") * 1000 AS \"boottime\" FROM \"base_info\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval), \"hostname\" fill(null) ORDER BY time DESC LIMIT 1000",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
@@ -377,10 +295,6 @@
               {
                 "destinationType": "time",
                 "targetField": "Boot Time"
-              },
-              {
-                "destinationType": "string",
-                "targetField": "OS Version"
               }
             ],
             "fields": {}
@@ -390,56 +304,157 @@
       "type": "stat"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.ip_conn"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "IP Connections"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_active"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Active"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_passive"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Passive"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_reset"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Reset"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_failures"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Failures"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.udp4_recv"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "UDP4 Data Recv"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.udp4_sent"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "UDP4  Data Sent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.udp4_recv_err"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "UDP4 Recv Errors"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 5,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 9
       },
-      "hiddenSeries": false,
-      "id": 2,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
+      "id": 22,
       "options": {
-        "alertThreshold": true
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "percentage": false,
-      "pluginVersion": "9.0.7",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.6",
       "targets": [
         {
-          "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -450,7 +465,314 @@
             },
             {
               "params": [
-                "null"
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "base_netstat",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "ip_conn_total"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "ip_conn"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_active"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_active"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_passive"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "10s"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_passive"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_established"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "10s"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_reset"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_failures"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_failures"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "udp4_data_recv"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "udp4_recv"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "udp4_data_sent"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "udp4_sent"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "udp4_data_recv_error"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "udp4_recv_err"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "hostname",
+              "operator": "=~",
+              "value": "/^$hostname$/"
+            }
+          ]
+        }
+      ],
+      "title": "Network Statistics",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "jzYL6mnVk"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "alias": "$col",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "jzYL6mnVk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
               ],
               "type": "fill"
             }
@@ -525,42 +847,13 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "System Load Average",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:42",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:43",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -675,7 +968,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 14
       },
       "id": 16,
       "options": {
@@ -693,12 +986,12 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -841,55 +1134,91 @@
       "type": "stat"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
-      "fill": 1,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 19
       },
-      "hiddenSeries": false,
       "id": 29,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "9.0.7",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -900,7 +1229,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1065,42 +1394,13 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Processor Utilization",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:42",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:43",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -1158,7 +1458,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 14
+        "y": 19
       },
       "id": 19,
       "options": {
@@ -1174,12 +1474,12 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -1190,7 +1490,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1238,6 +1538,12 @@
               },
               {
                 "params": [
+                  "10s"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [
                   "queue"
                 ],
                 "type": "alias"
@@ -1259,7 +1565,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -1290,7 +1596,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Consumed Ent."
+                "value": "Entitlements"
               },
               {
                 "id": "unit",
@@ -1306,7 +1612,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Consumed Cores"
+                "value": "Phys. Cores"
               }
             ]
           },
@@ -1318,7 +1624,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Busy Logical CPUs"
+                "value": "Logical CPUs"
               },
               {
                 "id": "unit",
@@ -1332,7 +1638,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 14
+        "y": 19
       },
       "id": 17,
       "options": {
@@ -1350,12 +1656,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -1366,7 +1672,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1447,7 +1753,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -1456,6 +1762,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1505,14 +1813,15 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 20
+        "y": 25
       },
       "id": 10,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -1525,7 +1834,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -1548,7 +1857,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1605,7 +1914,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -1613,6 +1922,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1662,14 +1973,15 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 20
+        "y": 25
       },
       "id": 30,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -1682,7 +1994,7 @@
           "alias": "$tag_name",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -1705,7 +2017,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1762,7 +2074,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -1771,6 +2083,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1820,164 +2134,19 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 29
-      },
-      "id": 31,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.3.4",
-      "targets": [
-        {
-          "alias": "$tag_name ($col)",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "name"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "base_network",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "tx_bytes"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "1s"
-                ],
-                "type": "non_negative_derivative"
-              },
-              {
-                "params": [
-                  "tx"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=~",
-              "value": "/^$hostname$/"
-            }
-          ]
-        }
-      ],
-      "title": "Network I/O - Transmit",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "binBps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 29
+        "y": 34
       },
       "id": 18,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
-          "sort": "none"
+          "sort": "desc"
         }
       },
       "pluginVersion": "8.3.4",
@@ -1986,7 +2155,7 @@
           "alias": "$tag_name ($col)",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -2003,7 +2172,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -2054,66 +2223,242 @@
           ]
         }
       ],
-      "title": "Network I/O - Recieve",
+      "title": "Network I/O - Receive",
       "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 34
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "8.3.4",
+      "targets": [
+        {
+          "alias": "$tag_name ($col)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "jzYL6mnVk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "base_network",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "tx_bytes"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "tx"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "hostname",
+              "operator": "=~",
+              "value": "/^$hostname$/"
+            }
+          ]
+        }
+      ],
+      "title": "Network I/O - Transmit",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
           "unit": "dtdurationms"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 38
+        "y": 43
       },
-      "hiddenSeries": false,
       "id": 24,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "hideEmpty": true,
-        "hideZero": true,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "9.0.7",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "alias": "$tag_name($tag_pid)",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -2136,7 +2481,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -2158,7 +2503,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               },
               {
                 "params": [],
@@ -2181,40 +2526,13 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Running Processes - User Time",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "dtdurationms",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -2222,6 +2540,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -2257,7 +2577,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -2269,14 +2590,15 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 38
+        "y": 43
       },
       "id": 25,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -2289,7 +2611,7 @@
           "alias": "$tag_name($tag_pid)",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -2312,7 +2634,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -2354,7 +2676,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -2362,6 +2684,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -2394,7 +2718,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2410,7 +2735,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 53
       },
       "id": 8,
       "options": {
@@ -2419,7 +2744,8 @@
             "lastNotNull"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -2432,7 +2758,7 @@
           "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -2443,7 +2769,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -2542,7 +2868,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -2551,6 +2877,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Percentage Used",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -2578,24 +2906,26 @@
               "mode": "area"
             }
           },
+          "decimals": 2,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "transparent"
+                "color": "transparent",
+                "value": null
               },
               {
                 "color": "orange",
-                "value": 80
+                "value": 0.8
               },
               {
                 "color": "red",
-                "value": 90
+                "value": 0.9
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -2603,7 +2933,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 53
       },
       "id": 26,
       "options": {
@@ -2612,7 +2942,8 @@
             "lastNotNull"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -2625,7 +2956,7 @@
           "alias": "$tag_mount",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -2650,7 +2981,7 @@
           "measurement": "base_filesystem",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT ( ( ( last(\"total_bytes\") - last(\"free_bytes\") ) / last(\"total_bytes\")) * 100) AS \"used\" FROM \"base_filesystem\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval), \"mount\" fill(null)",
+          "query": "SELECT ( last(\"total_bytes\") - last(\"free_bytes\") ) / last(\"total_bytes\") AS \"used\" FROM \"base_filesystem\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval), \"mount\" fill(none)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2703,338 +3034,10 @@
       ],
       "title": "Filesystem Usage",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.sockets"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Sockets"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.tcp_alloc"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP Alloc."
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.tcp_inuse"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP Inuse"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.tcp_mem"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP Mem."
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.tcp_orphan"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP Orphaned"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.tcp_tw"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP Time-Wait"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.udp_inuse"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "UDP Inuse"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "linux_network_sockets.udp_mem"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "UDP Mem."
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 57
-      },
-      "id": 22,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.7",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "linux_network_sockets",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "sockets"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "sockets"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp_alloc"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "tcp_alloc"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp_inuse"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "tcp_inuse"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp_mem"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "tcp_mem"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp_orphan"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "tcp_orphan"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp_tw"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "tcp_tw"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "udp_inuse"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "udp_inuse"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "udp_mem"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "udp_mem"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=~",
-              "value": "/^$hostname$/"
-            }
-          ]
-        }
-      ],
-      "title": "Network Sockets (Linux Only)",
-      "type": "stat"
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [
     "sysmon"
@@ -3042,10 +3045,14 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "vps01.nellemann.biz",
+          "value": "vps01.nellemann.biz"
+        },
         "datasource": {
           "type": "influxdb",
-          "uid": "${DS_INFLUXDB-SYSMON}"
+          "uid": "jzYL6mnVk"
         },
         "definition": "SHOW TAG VALUES FROM \"base_memory\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
         "hide": 0,
@@ -3067,7 +3074,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-2d",
     "to": "now-30s"
   },
   "timepicker": {
@@ -3084,8 +3091,8 @@
     ]
   },
   "timezone": "",
-  "title": "Sysmon Agent - Host Overview",
-  "uid": "QkVPjseMk",
-  "version": 30,
+  "title": "Sysmon - Host Overview",
+  "uid": "QkVPjseMt",
+  "version": 4,
   "weekStart": ""
 }

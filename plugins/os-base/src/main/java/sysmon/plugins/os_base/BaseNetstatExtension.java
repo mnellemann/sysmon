@@ -79,6 +79,8 @@ public class BaseNetstatExtension implements MetricExtension {
 
         HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
 
+            put("ip_conn_total", systemInfo.getOperatingSystem().getInternetProtocolStats().getConnections().size());
+
             put("tcp4_conn_active", systemInfo.getOperatingSystem().getInternetProtocolStats().getTCPv4Stats().getConnectionsActive());
             put("tcp4_conn_passive", systemInfo.getOperatingSystem().getInternetProtocolStats().getTCPv4Stats().getConnectionsPassive());
             put("tcp4_conn_established", systemInfo.getOperatingSystem().getInternetProtocolStats().getTCPv4Stats().getConnectionsEstablished());

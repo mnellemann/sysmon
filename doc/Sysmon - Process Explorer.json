@@ -1,53 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB-SYSMON",
-      "label": "InfluxDB-sysmon",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.0.7"
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "text",
-      "name": "Text",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -74,14 +25,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "gridPos": {
         "h": 3,
@@ -94,12 +45,12 @@
         "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [bitbucket.org/mnellemann/sysmon](https://bitbucket.org/mnellemann/sysmon)\n           ",
         "mode": "markdown"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "refId": "A"
         }
@@ -137,7 +88,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -182,12 +133,12 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -285,7 +236,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -353,12 +304,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -444,7 +395,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "fieldConfig": {
         "defaults": {
@@ -512,12 +463,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.7",
+      "pluginVersion": "9.1.6",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -603,7 +554,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -612,6 +563,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -664,7 +617,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -677,7 +631,7 @@
           "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -779,7 +733,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB-SYSMON}"
+        "uid": "jzYL6mnVk"
       },
       "description": "",
       "fieldConfig": {
@@ -788,6 +742,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -847,7 +803,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -860,7 +817,7 @@
           "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB-SYSMON}"
+            "uid": "jzYL6mnVk"
           },
           "groupBy": [
             {
@@ -953,16 +910,20 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "mini",
+          "value": "mini"
+        },
         "datasource": {
           "type": "influxdb",
-          "uid": "${DS_INFLUXDB-SYSMON}"
+          "uid": "jzYL6mnVk"
         },
         "definition": "SHOW TAG VALUES FROM \"base_memory\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
         "hide": 0,
@@ -982,10 +943,14 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "java",
+          "value": "java"
+        },
         "datasource": {
           "type": "influxdb",
-          "uid": "${DS_INFLUXDB-SYSMON}"
+          "uid": "jzYL6mnVk"
         },
         "definition": "SHOW TAG VALUES FROM \"base_process\" WITH KEY = \"name\" WHERE hostname =~ /$hostname/AND time > now() - 60m",
         "hide": 0,
@@ -1002,10 +967,14 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": {
           "type": "influxdb",
-          "uid": "${DS_INFLUXDB-SYSMON}"
+          "uid": "jzYL6mnVk"
         },
         "definition": "SELECT DISTINCT(\"pid\") FROM (SELECT * FROM \"base_process\" WHERE time > now() - 60m AND \"hostname\" =~ /$hostname/ AND \"name\" =~ /$process/)",
         "hide": 0,
@@ -1041,8 +1010,8 @@
     ]
   },
   "timezone": "",
-  "title": "Sysmon Agent - Process Explorer",
+  "title": "Sysmon - Process Explorer",
   "uid": "Vjut5mS7k",
-  "version": 4,
+  "version": 2,
   "weekStart": ""
 }

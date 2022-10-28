@@ -43,7 +43,7 @@ public class BaseProcessExtension implements MetricExtension {
         add("mmfsd");
     }};
 
-    private final long minUptimeInSeconds = 300;
+    private final long minUptimeInSeconds = 600;
     private SystemInfo systemInfo;
 
 
