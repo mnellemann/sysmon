@@ -6,15 +6,15 @@ The base plugin uses the [oshi](https://github.com/oshi/oshi) library to get it'
 
 Reports the following metrics seen:
 
-- **system** -CPU time spend on system processes.
-- **user** - CPU time spend on user processes.
-- **nice** - CPU time spend on user processes running at lower priority.
-- **iowait** - CPU time spend waiting (for i/o).
-- **steal** - CPU time stolen by hypervisor and given to other virtual systems.
-- **irq** - CPU time spend by kernel on interrupt requests.
-- **softirq** - CPU time spend by kernel on soft interrupt requests.
-- **idle** - CPU time spend idling (doing nothing).
-- **busy** - CPU time spend working.
+- **system** -CPU time (in ms) spend on system processes.
+- **user** - CPU time (in ms) spend on user processes.
+- **nice** - CPU time (in ms) spend on user processes running at lower priority.
+- **iowait** - CPU time (in ms) spend waiting (for i/o).
+- **steal** - CPU time (in ms) stolen by hypervisor and given to other virtual systems.
+- **irq** - CPU time (in ms) spend by kernel on interrupt requests.
+- **softirq** - CPU (in ms) time spend by kernel on soft interrupt requests.
+- **idle** - CPU time (in ms) spend idling (doing nothing).
+- **busy** - CPU time (in ms) spend working.
 
 
 ## Memory Extension
@@ -35,7 +35,7 @@ Metrics reported are:
 - **reads** - The total number of bytes read.
 - **writes** - The total number of bytes written.
 - **iotime** - Time spent on IO in milliseconds.
-- **queue** - Lenght of IO queue.
+- **queue** - Length of disk IO queue.
 
 ## Filesystem Extension
 
@@ -43,7 +43,7 @@ Metrics reported are:
 
 - **free_bytes** - Free bytes for filesystem.
 - **total_bytes** - Total bytes for filesystem.
-- **free_inoed** - Free inodes for filesystem.
+- **free_inodes** - Free inodes for filesystem.
 - **total_inodes** - Total inodes for filesystem.
 
 ### Configuration

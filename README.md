@@ -6,7 +6,7 @@ Open source system monitoring solution with support for plugins.
 
 This software is free to use and is licensed under the [Apache 2.0 License](LICENSE).
 
-- Example dashboards are provided in the [doc/](doc) folder, which can be imported into your Grafana installation.
+- Example dashboards are provided in the [doc/dashboards/](doc/dashboards/) folder, which can be imported into your Grafana installation.
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
 

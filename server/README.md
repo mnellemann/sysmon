@@ -10,7 +10,7 @@ See the [doc/systemd.md](doc/systemd.md) or [doc/sysv-init.md](doc/sysv-init.md)
 
 ### Influx Database
 
-Create a database for the metrics:
+Create a database for the metrics and adjust duration as you prefer:
 
 ```text
 CREATE DATABASE "sysmon" WITH DURATION 90d REPLICATION 1;
