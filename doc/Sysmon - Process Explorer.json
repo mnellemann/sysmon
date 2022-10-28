@@ -1,4 +1,53 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_SYSMON",
+      "label": "sysmon",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.6"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -25,14 +74,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "jzYL6mnVk"
+        "uid": "${DS_SYSMON}"
       },
       "gridPos": {
         "h": 3,
@@ -50,7 +99,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "jzYL6mnVk"
+            "uid": "${DS_SYSMON}"
           },
           "refId": "A"
         }
@@ -88,7 +137,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "jzYL6mnVk"
+        "uid": "${DS_SYSMON}"
       },
       "description": "",
       "fieldConfig": {
@@ -138,7 +187,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "jzYL6mnVk"
+            "uid": "${DS_SYSMON}"
           },
           "groupBy": [
             {
@@ -236,7 +285,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "jzYL6mnVk"
+        "uid": "${DS_SYSMON}"
       },
       "fieldConfig": {
         "defaults": {
@@ -309,7 +358,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "jzYL6mnVk"
+            "uid": "${DS_SYSMON}"
           },
           "groupBy": [
             {
@@ -395,7 +444,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "jzYL6mnVk"
+        "uid": "${DS_SYSMON}"
       },
       "fieldConfig": {
         "defaults": {
@@ -468,7 +517,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "jzYL6mnVk"
+            "uid": "${DS_SYSMON}"
           },
           "groupBy": [
             {
@@ -554,7 +603,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "jzYL6mnVk"
+        "uid": "${DS_SYSMON}"
       },
       "description": "",
       "fieldConfig": {
@@ -631,7 +680,7 @@
           "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "jzYL6mnVk"
+            "uid": "${DS_SYSMON}"
           },
           "groupBy": [
             {
@@ -733,7 +782,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "jzYL6mnVk"
+        "uid": "${DS_SYSMON}"
       },
       "description": "",
       "fieldConfig": {
@@ -817,7 +866,7 @@
           "alias": "$col",
           "datasource": {
             "type": "influxdb",
-            "uid": "jzYL6mnVk"
+            "uid": "${DS_SYSMON}"
           },
           "groupBy": [
             {
@@ -916,14 +965,10 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": "mini",
-          "value": "mini"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "jzYL6mnVk"
+          "uid": "${DS_SYSMON}"
         },
         "definition": "SHOW TAG VALUES FROM \"base_memory\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
         "hide": 0,
@@ -943,14 +988,10 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "java",
-          "value": "java"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "jzYL6mnVk"
+          "uid": "${DS_SYSMON}"
         },
         "definition": "SHOW TAG VALUES FROM \"base_process\" WITH KEY = \"name\" WHERE hostname =~ /$hostname/AND time > now() - 60m",
         "hide": 0,
@@ -967,14 +1008,10 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "jzYL6mnVk"
+          "uid": "${DS_SYSMON}"
         },
         "definition": "SELECT DISTINCT(\"pid\") FROM (SELECT * FROM \"base_process\" WHERE time > now() - 60m AND \"hostname\" =~ /$hostname/ AND \"name\" =~ /$process/)",
         "hide": 0,
@@ -1012,6 +1049,6 @@
   "timezone": "",
   "title": "Sysmon - Process Explorer",
   "uid": "Vjut5mS7k",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
