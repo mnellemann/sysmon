@@ -361,376 +361,6 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.ip_conn"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "IP Connections"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.tcp4_active"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP4 Active"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.tcp4_passive"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP4 Passive"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.tcp4_reset"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP4 Reset"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.tcp4_failures"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "TCP4 Failures"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.udp4_recv"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "UDP4 Data Recv"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.udp4_sent"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "UDP4  Data Sent"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "base_netstat.udp4_recv_err"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "UDP4 Recv Errors"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 24,
-        "x": 0,
-        "y": 9
-      },
-      "id": 22,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_SYSMON}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "base_netstat",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ip_conn_total"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [
-                  "ip_conn"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp4_conn_active"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "tcp4_active"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp4_conn_passive"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "tcp4_passive"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp4_conn_established"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "tcp4_reset"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "tcp4_conn_failures"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "tcp4_failures"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "udp4_data_recv"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "udp4_recv"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "udp4_data_sent"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "udp4_sent"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "udp4_data_recv_error"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [
-                  "udp4_recv_err"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=~",
-              "value": "/^$hostname$/"
-            }
-          ]
-        }
-      ],
-      "title": "Network Statistics",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_SYSMON}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
             "mode": "palette-classic"
           },
           "custom": {
@@ -785,7 +415,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 9
       },
       "id": 2,
       "options": {
@@ -1017,7 +647,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 9
       },
       "id": 16,
       "options": {
@@ -1246,7 +876,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 19
+        "y": 14
       },
       "id": 29,
       "options": {
@@ -1507,7 +1137,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 19
+        "y": 14
       },
       "id": 19,
       "options": {
@@ -1645,7 +1275,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Entitlements"
+                "value": "Entitled Capacity"
               },
               {
                 "id": "unit",
@@ -1661,7 +1291,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Phys. Cores"
+                "value": "Power Cores"
               }
             ]
           },
@@ -1677,7 +1307,7 @@
               },
               {
                 "id": "unit",
-                "value": "none"
+                "value": "percent"
               }
             ]
           }
@@ -1687,7 +1317,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 19
+        "y": 14
       },
       "id": 17,
       "options": {
@@ -1741,7 +1371,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               },
               {
                 "params": [
@@ -1759,7 +1389,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               },
               {
                 "params": [
@@ -1777,7 +1407,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               },
               {
                 "params": [
@@ -1796,7 +1426,7 @@
           ]
         }
       ],
-      "title": "Shared Processor Usage (IBM Power)",
+      "title": "Shared Processor Consumption (IBM Power)",
       "type": "stat"
     },
     {
@@ -1862,7 +1492,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 20
       },
       "id": 10,
       "options": {
@@ -2022,7 +1652,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 20
       },
       "id": 30,
       "options": {
@@ -2183,7 +1813,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 29
       },
       "id": 18,
       "options": {
@@ -2338,7 +1968,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 29
       },
       "id": 31,
       "options": {
@@ -2423,6 +2053,364 @@
       ],
       "title": "Network I/O - Transmit",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_SYSMON}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.ip_conn"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "IP Connections"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_active"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Active"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_passive"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Passive"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_reset"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Reset"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.tcp4_failures"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "TCP4 Failures"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.udp4_recv"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "UDP4 Data Recv"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.udp4_sent"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "UDP4  Data Sent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "base_netstat.udp4_recv_err"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "UDP4 Recv Errors"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_SYSMON}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "base_netstat",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "ip_conn_total"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "ip_conn"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_active"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_active"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_passive"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_passive"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_established"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_reset"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "tcp4_conn_failures"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "tcp4_failures"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "udp4_data_recv"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "udp4_recv"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "udp4_data_sent"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "udp4_sent"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "udp4_data_recv_error"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
+                "params": [
+                  "udp4_recv_err"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "hostname",
+              "operator": "=~",
+              "value": "/^$hostname$/"
+            }
+          ]
+        }
+      ],
+      "title": "Network Statistics",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -3119,7 +3107,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-2d",
     "to": "now-30s"
   },
   "timepicker": {
@@ -3138,6 +3126,6 @@
   "timezone": "",
   "title": "Sysmon - Host Overview",
   "uid": "QkVPjseMt",
-  "version": 5,
+  "version": 9,
   "weekStart": ""
 }

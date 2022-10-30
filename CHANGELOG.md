@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.19] - 2022-10-28
+## [1.0.21] - 2022-10-30
 - Update dashboard
 - Add IP connections
 
@@ -30,7 +30,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
-[1.0.19]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.19%0Dv0.1.18
+[1.0.19]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.21%0Dv0.1.18
 [1.0.18]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.18%0Dv0.1.13
 [0.1.13]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.13%0Dv0.1.11
 [0.1.11]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.11%0Dv0.1.10
