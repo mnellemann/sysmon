@@ -1,6 +1,6 @@
 # Base Plugin
 
-The base plugin uses the [oshi](https://github.com/oshi/oshi) library to get it's metrics.
+The base plugins uses the [oshi](https://github.com/oshi/oshi) library to get it's metrics.
 
 ## Processor Extension
 
@@ -51,6 +51,7 @@ Metrics reported are:
 ```toml
 [extension.base_filesystem]
 enabled = true
+interval = "10s"
 exclude_type = [ "tmpfs", "ahafs" ]
 exclude_mount = [ "/boot/efi" ]
 ```
@@ -79,5 +80,6 @@ The **include** option let's you specify what processes to report for.
 ```toml
 [extension.base_process]
 enabled = true # true or false
+interval = "10s"
 include = [ "java", "influxd", "grafana-server" ]
 ```

@@ -10,10 +10,7 @@ import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Extension
 public class BaseFilesystemExtension implements MetricExtension {
@@ -28,6 +25,7 @@ public class BaseFilesystemExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "10s";
     private List<?> excludeType = new ArrayList<String>() {{
       add("tmpfs");
       add("ahafs");
@@ -64,7 +62,7 @@ public class BaseFilesystemExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -85,6 +83,10 @@ public class BaseFilesystemExtension implements MetricExtension {
 
         if(map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
+        }
+
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
         }
 
         if(map.containsKey("exclude_type")) {
@@ -125,13 +127,13 @@ public class BaseFilesystemExtension implements MetricExtension {
             }
             alreadyProcessed.add(name);
 
-            HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+            TreeMap<String, String> tagsMap = new TreeMap<String, String>() {{
                 put("name", name);
                 put("type", type);
                 put("mount", mount);
             }};
 
-            HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+            TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
                 put("free_bytes", store.getFreeSpace());
                 put("total_bytes", store.getTotalSpace());
                 put("free_inodes", store.getFreeInodes());

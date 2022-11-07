@@ -29,8 +29,8 @@ public class ClientRouteBuilder extends RouteBuilder {
         Registry registry = getContext().getRegistry();
         Configuration configuration = (Configuration) registry.lookupByName("configuration");
 
-        Path[] pluginpaths = { Paths.get(registry.lookupByNameAndType("pluginPath", String.class)) };
-        PluginManager pluginManager = new JarPluginManager(pluginpaths);
+        Path[] pluginPaths = { Paths.get(registry.lookupByNameAndType("pluginPath", String.class)) };
+        PluginManager pluginManager = new JarPluginManager(pluginPaths);
         pluginManager.loadPlugins();
         pluginManager.startPlugins();
 
@@ -49,7 +49,6 @@ public class ClientRouteBuilder extends RouteBuilder {
 
             if(ext.isSupported() && ext.isEnabled()) {
 
-                // Check that another extension has not already been loaded - TODO: Is this required ?
                 if(providers.contains(provides)) {
                     log.warn("Skipping extension (already provided): " + ext.getName());
                     continue;

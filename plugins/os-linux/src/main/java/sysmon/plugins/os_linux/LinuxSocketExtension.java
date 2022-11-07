@@ -11,6 +11,7 @@ import sysmon.shared.PluginHelper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Extension
 public class LinuxSocketExtension implements MetricExtension {
@@ -83,8 +84,8 @@ public class LinuxSocketExtension implements MetricExtension {
 
         LinuxSocketStat sockStat = processSockOutput(PluginHelper.readFile("/proc/net/sockstat"));
 
-        HashMap<String, String> tagsMap = sockStat.getTags();
-        HashMap<String, Object> fieldsMap = sockStat.getFields();
+        TreeMap<String, String> tagsMap = sockStat.getTags();
+        TreeMap<String, Object> fieldsMap = sockStat.getFields();
 
         log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));

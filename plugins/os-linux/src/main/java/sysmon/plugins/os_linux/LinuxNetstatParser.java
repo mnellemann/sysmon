@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class LinuxNetstatParser {
 
@@ -139,12 +140,12 @@ public class LinuxNetstatParser {
     }
 
 
-    public HashMap<String, String> getTags() {
-        return new HashMap<>();
+    public TreeMap<String, String> getTags() {
+        return new TreeMap<>();
     }
 
-    public HashMap<String, Object> getFields() {
-        return new HashMap<String, Object>() {{
+    public TreeMap<String, Object> getFields() {
+        return new TreeMap<String, Object>() {{
             put("ip_forwarded", ipForwarded);
             put("ip_received", ipTotalPacketsReceived);
             put("ip_dropped", ipOutgoingPacketsDropped);

@@ -10,6 +10,7 @@ import sysmon.shared.MetricResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Extension
 public class BaseInfoExtension implements MetricExtension {
@@ -80,7 +81,7 @@ public class BaseInfoExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+        TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
             put("os_manufacturer", systemInfo.getOperatingSystem().getManufacturer());             // GNU/Linux            / IBM
             put("os_family", systemInfo.getOperatingSystem().getFamily());                         // Freedesktop.org      / AIX
             put("os_codename", systemInfo.getOperatingSystem().getVersionInfo().getCodeName()); // Flatpak runtime      / ppc64

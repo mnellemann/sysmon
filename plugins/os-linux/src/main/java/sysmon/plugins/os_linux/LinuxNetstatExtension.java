@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 // Disabled
 //@Extension
@@ -87,8 +88,8 @@ public class LinuxNetstatExtension implements MetricExtension  {
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        HashMap<String, String> tagsMap;
-        HashMap<String, Object> fieldsMap;
+        TreeMap<String, String> tagsMap;
+        TreeMap<String, Object> fieldsMap;
 
         try (InputStream inputStream = PluginHelper.executeCommand("netstat -s")) {
             LinuxNetstatParser parser = processCommandOutput(inputStream);

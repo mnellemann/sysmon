@@ -24,6 +24,8 @@ public class BaseProcessExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "60s";
+
     private List<?> includeList = new ArrayList<Object>() {{
         add("java");
         add("node");
@@ -70,7 +72,7 @@ public class BaseProcessExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -90,6 +92,9 @@ public class BaseProcessExtension implements MetricExtension {
         }
         if(map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
+        }
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
         }
         if(map.containsKey("include")) {
             includeList = (List<?>) map.get("include");
@@ -121,12 +126,12 @@ public class BaseProcessExtension implements MetricExtension {
             }
             log.debug("pid: " + p.getProcessID() + ", name: " + p.getName() + ", virt: " + p.getVirtualSize() + " rss: " + p.getResidentSetSize());
 
-            HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+            TreeMap<String, String> tagsMap = new TreeMap<String, String>() {{
                 put("pid", String.valueOf(p.getProcessID()));
                 put("name", p.getName());
             }};
 
-            HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+            TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
                 put("mem_rss", p.getResidentSetSize());
                 put("mem_vsz", p.getVirtualSize());
                 put("kernel_time", p.getKernelTime());

@@ -10,6 +10,7 @@ import sysmon.shared.MetricResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Extension
 public class BaseNetstatExtension implements MetricExtension {
@@ -24,6 +25,7 @@ public class BaseNetstatExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "10s";
 
     private SystemInfo systemInfo;
 
@@ -51,7 +53,7 @@ public class BaseNetstatExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -72,12 +74,15 @@ public class BaseNetstatExtension implements MetricExtension {
         if (map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
         }
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
+        }
     }
 
     @Override
     public MetricResult getMetrics() {
 
-        HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+        TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
 
             put("ip_conn_total", systemInfo.getOperatingSystem().getInternetProtocolStats().getConnections().size());
 
@@ -103,7 +108,7 @@ public class BaseNetstatExtension implements MetricExtension {
 
         }};
 
-        return new MetricResult(name, new Measurement(new HashMap<>(), fieldsMap));
+        return new MetricResult(name, new Measurement(new TreeMap<>(), fieldsMap));
     }
 
 }

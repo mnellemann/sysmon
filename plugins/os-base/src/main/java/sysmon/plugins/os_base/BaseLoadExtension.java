@@ -10,6 +10,7 @@ import sysmon.shared.MetricResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Extension
 public class BaseLoadExtension implements MetricExtension {
@@ -24,6 +25,7 @@ public class BaseLoadExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "10s";
 
     private HardwareAbstractionLayer hardwareAbstractionLayer;
 
@@ -50,7 +52,7 @@ public class BaseLoadExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -71,20 +73,23 @@ public class BaseLoadExtension implements MetricExtension {
         if(map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
         }
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
+        }
     }
 
     @Override
     public MetricResult getMetrics() {
 
         double[] loadAvg = hardwareAbstractionLayer.getProcessor().getSystemLoadAverage(3);
-        HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+        TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
             put("1min", loadAvg[0]);
             put("5min", loadAvg[1]);
             put("15min", loadAvg[2]);
         }};
 
         log.debug(fieldsMap.toString());
-        return new MetricResult(name, new Measurement(new HashMap<String, String>(), fieldsMap));
+        return new MetricResult(name, new Measurement(new TreeMap<>(), fieldsMap));
     }
 
 }

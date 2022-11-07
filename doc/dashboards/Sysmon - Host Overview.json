@@ -908,7 +908,7 @@
             },
             {
               "params": [
-                "none"
+                "null"
               ],
               "type": "fill"
             }
@@ -932,7 +932,7 @@
               },
               {
                 "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
               },
@@ -956,7 +956,7 @@
               },
               {
                 "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
               },
@@ -980,7 +980,7 @@
               },
               {
                 "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
               },
@@ -1004,7 +1004,7 @@
               },
               {
                 "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
               },
@@ -1028,7 +1028,7 @@
               },
               {
                 "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
               },
@@ -1052,7 +1052,7 @@
               },
               {
                 "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
               },
@@ -1169,7 +1169,7 @@
             },
             {
               "params": [
-                "none"
+                "null"
               ],
               "type": "fill"
             }
@@ -1189,13 +1189,11 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [
-                  "1s"
-                ],
-                "type": "non_negative_derivative"
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -1213,13 +1211,11 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -1536,7 +1532,7 @@
             },
             {
               "params": [
-                "none"
+                "null"
               ],
               "type": "fill"
             }
@@ -1560,15 +1556,13 @@
               },
               {
                 "params": [
-                  "1s"
-                ],
-                "type": "non_negative_derivative"
-              },
-              {
-                "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -1696,7 +1690,7 @@
             },
             {
               "params": [
-                "none"
+                "null"
               ],
               "type": "fill"
             }
@@ -1720,15 +1714,13 @@
               },
               {
                 "params": [
-                  "1s"
-                ],
-                "type": "non_negative_derivative"
-              },
-              {
-                "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -1851,7 +1843,7 @@
             },
             {
               "params": [
-                "none"
+                "null"
               ],
               "type": "fill"
             }
@@ -1875,15 +1867,13 @@
               },
               {
                 "params": [
-                  "1s"
-                ],
-                "type": "non_negative_derivative"
-              },
-              {
-                "params": [
-                  10
+                  5
                 ],
                 "type": "moving_average"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -2006,7 +1996,7 @@
             },
             {
               "params": [
-                "none"
+                "null"
               ],
               "type": "fill"
             }
@@ -2030,9 +2020,13 @@
               },
               {
                 "params": [
-                  "1s"
+                  5
                 ],
-                "type": "non_negative_derivative"
+                "type": "moving_average"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -2239,6 +2233,10 @@
                 "type": "mean"
               },
               {
+                "params": [],
+                "type": "non_negative_difference"
+              },
+              {
                 "params": [
                   "ip_conn"
                 ],
@@ -2343,6 +2341,10 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "non_negative_difference"
               },
               {
                 "params": [],
@@ -2693,7 +2695,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               }
             ]
           ],
@@ -3107,12 +3109,13 @@
     ]
   },
   "time": {
-    "from": "now-2d",
-    "to": "now-30s"
+    "from": "now-24h",
+    "to": "now-10s"
   },
   "timepicker": {
-    "nowDelay": "30s",
+    "nowDelay": "10s",
     "refresh_intervals": [
+      "10s",
       "30s",
       "1m",
       "5m",
@@ -3126,6 +3129,6 @@
   "timezone": "",
   "title": "Sysmon - Host Overview",
   "uid": "QkVPjseMt",
-  "version": 9,
+  "version": 15,
   "weekStart": ""
 }

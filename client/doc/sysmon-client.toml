@@ -1,7 +1,7 @@
 ###
 ### Sysmon Client
 ###
-### Example configuration with default values.
+### Example configuration with some default values.
 ###
 
 [extension.base_info]
@@ -10,14 +10,17 @@ interval = '60m'
 
 [extension.base_disk]
 enabled = true
+interval = '10s'
 
 [extension.base_filesystem]
 enabled = true
+interval = '10s'
 exclude_type = [ "tmpfs", "ahafs" ]
 exclude_mount = [ "/boot/efi" ]
 
 [extension.base_process]
 enabled = true
+interval = '5m'
 include = [
     "java", "node", "httpd", "mongod", "mysqld",
     "postgres", "influxd", "haproxy", "beam.smp",

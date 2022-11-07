@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Extension
 public class AixProcessorExtension implements MetricExtension {
@@ -26,7 +27,7 @@ public class AixProcessorExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = true;
-
+    private String interval = "10s";
 
     @Override
     public boolean isEnabled() {
@@ -62,7 +63,7 @@ public class AixProcessorExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -83,13 +84,16 @@ public class AixProcessorExtension implements MetricExtension {
         if(map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
         }
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
+        }
     }
 
     @Override
     public MetricResult getMetrics() throws Exception {
 
-        HashMap<String, String> tagsMap = null;
-        HashMap<String, Object> fieldsMap = null;
+        TreeMap<String, String> tagsMap = null;
+        TreeMap<String, Object> fieldsMap = null;
 
         try (InputStream buf = PluginHelper.executeCommand("lparstat 3 1")) {
             AixProcessorStat processorStat = processCommandOutput(buf);

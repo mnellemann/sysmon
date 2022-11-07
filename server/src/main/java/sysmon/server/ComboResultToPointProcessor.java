@@ -34,8 +34,11 @@ public class ComboResultToPointProcessor implements Processor {
 
                 Point.Builder point = Point.measurement(metricResult.getName())
                         .time(metricResult.getTimestamp(), TimeUnit.MILLISECONDS)
-                        .tag("hostname", metricResult.getHostname());
+                        .tag("hostname", metricResult.getHostname())
+                        .tag(measurement.getTags())
+                        .fields(measurement.getFields());
 
+                /*
                 for (Map.Entry<String,String> entry : measurement.getTags().entrySet()) {
                     //log.info("process() - tag: " + entry.getKey() + "=" + entry.getValue());
                     point.tag(entry.getKey(), entry.getValue());
@@ -53,7 +56,7 @@ public class ComboResultToPointProcessor implements Processor {
                         String str = (String) entry.getValue();
                         point.addField(entry.getKey(), str);
                     }
-                }
+                }*/
                 batchPoints.point(point.build());
             }
 

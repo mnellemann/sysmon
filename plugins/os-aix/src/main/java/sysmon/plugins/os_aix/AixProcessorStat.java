@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -154,12 +155,12 @@ public class AixProcessorStat {
         return 100 - idle;
     }
 
-    public HashMap<String, String> getTags() {
-        return new HashMap<>();
+    public TreeMap<String, String> getTags() {
+        return new TreeMap<>();
     }
 
-    public HashMap<String, Object> getFields() {
-        return new HashMap<String, Object>() {{
+    public TreeMap<String, Object> getFields() {
+        return new TreeMap<String, Object>() {{
             put("lcpu", lcpu);
             put("ent", ent);
             put("user", user);

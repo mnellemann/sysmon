@@ -9,10 +9,7 @@ import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Extension
 public class BaseDiskExtension implements MetricExtension {
@@ -27,6 +24,7 @@ public class BaseDiskExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "10s";
 
     private HardwareAbstractionLayer hardwareAbstractionLayer;
 
@@ -54,7 +52,7 @@ public class BaseDiskExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -75,6 +73,9 @@ public class BaseDiskExtension implements MetricExtension {
         if(map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
         }
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
+        }
     }
 
     @Override
@@ -86,13 +87,18 @@ public class BaseDiskExtension implements MetricExtension {
         for(HWDiskStore store : diskStores) {
 
             String name = store.getName();
-            if (name.matches("h?disk[0-9]+") || name.matches("/dev/x?[sv]d[a-z]") || name.matches("/dev/nvme[0-9]n[0-9]") || name.startsWith("\\\\.\\PHYSICALDRIVE")) {
+            if (name.matches("h?disk[0-9]+") ||
+                //name.matches("/dev/dm-[0-9]+") ||
+                name.matches("/dev/x?[sv]d[a-z]") ||
+                name.matches("/dev/nvme[0-9]n[0-9]") ||
+                name.startsWith("\\\\.\\PHYSICALDRIVE")
+            ) {
 
-                HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+                TreeMap<String, String> tagsMap = new TreeMap<String, String>() {{
                     put("name", name);
                 }};
 
-                HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+                TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
                     put("read", store.getReadBytes());
                     put("write", store.getWriteBytes());
                     put("iotime", store.getTransferTime());
@@ -102,7 +108,7 @@ public class BaseDiskExtension implements MetricExtension {
                 log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
                 measurementList.add(new Measurement(tagsMap, fieldsMap));
             } else {
-                log.debug("getMetrics() - skipping device: {}", name);
+                log.warn("getMetrics() - skipping device: {}", name);
             }
 
         }

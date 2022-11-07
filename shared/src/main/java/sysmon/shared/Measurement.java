@@ -4,19 +4,20 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 public class Measurement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private HashMap<String, String> tags = new HashMap<>();
-    private HashMap<String, Object> fields = new HashMap<>();
+    private Map<String, String> tags = new TreeMap<>();
+    private Map<String, Object> fields = new TreeMap<>();
 
 
     public Measurement() {
     }
 
-    public Measurement(HashMap<String, String> tags, HashMap<String, Object> fields) {
+    public Measurement(Map<String, String> tags, TreeMap<String, Object> fields) {
         this.tags = Objects.requireNonNull(tags);
         this.fields = Objects.requireNonNull(fields);
     }
@@ -29,12 +30,12 @@ public class Measurement implements Serializable {
         return fields;
     }
 
-    public void setTags(HashMap<String, String> tags) {
+    public void setTags(TreeMap<String, String> tags) {
         Objects.requireNonNull(tags);
         this.tags = tags;
     }
 
-    public void setFields(HashMap<String, Object> fields) {
+    public void setFields(TreeMap<String, Object> fields) {
         Objects.requireNonNull(fields);
         this.fields = fields;
     }

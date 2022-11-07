@@ -9,10 +9,7 @@ import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Extension
 public class BaseNetworkExtension implements MetricExtension {
@@ -27,6 +24,7 @@ public class BaseNetworkExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
+    private String interval = "10s";
 
     private HardwareAbstractionLayer hardwareAbstractionLayer;
 
@@ -54,7 +52,7 @@ public class BaseNetworkExtension implements MetricExtension {
 
     @Override
     public String getInterval() {
-        return null;
+        return interval;
     }
 
     @Override
@@ -75,6 +73,9 @@ public class BaseNetworkExtension implements MetricExtension {
         if(map.containsKey("threaded")) {
             threaded = (boolean) map.get("threaded");
         }
+        if(map.containsKey("interval")) {
+            interval = (String) map.get("interval");
+        }
     }
 
     @Override
@@ -85,11 +86,11 @@ public class BaseNetworkExtension implements MetricExtension {
         List<NetworkIF> interfaces = hardwareAbstractionLayer.getNetworkIFs();
         for(NetworkIF netif : interfaces) {
 
-            HashMap<String, String> tagsMap = new HashMap<String, String>() {{
+            TreeMap<String, String> tagsMap = new TreeMap<String, String>() {{
                 put("name", netif.getName());
             }};
 
-            HashMap<String, Object> fieldsMap = new HashMap<String, Object>() {{
+            TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
                 put("rx_pkts", netif.getPacketsRecv());
                 put("tx_pkts", netif.getPacketsSent());
                 put("rx_bytes", netif.getBytesRecv());
