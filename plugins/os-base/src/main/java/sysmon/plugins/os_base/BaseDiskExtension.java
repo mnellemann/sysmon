@@ -108,7 +108,7 @@ public class BaseDiskExtension implements MetricExtension {
                 log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
                 measurementList.add(new Measurement(tagsMap, fieldsMap));
             } else {
-                log.warn("getMetrics() - skipping device: {}", name);
+                log.debug("getMetrics() - skipping device: {}", name);
             }
 
         }

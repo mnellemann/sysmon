@@ -155,7 +155,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 14,
+        "h": 13,
         "w": 12,
         "x": 0,
         "y": 3
@@ -299,7 +299,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 14,
+        "h": 13,
         "w": 12,
         "x": 12,
         "y": 3
@@ -437,10 +437,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
+        "h": 14,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 16
       },
       "id": 30,
       "options": {
@@ -576,10 +576,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
+        "h": 14,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 16
       },
       "id": 31,
       "options": {
@@ -669,14 +669,14 @@
           "type": "influxdb",
           "uid": "${DS_SYSMON}"
         },
-        "definition": "SHOW TAG VALUES FROM \"base_memory\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
+        "definition": "SHOW TAG VALUES FROM \"aix_processor\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
         "hide": 0,
         "includeAll": true,
         "label": "Host",
         "multi": true,
         "name": "hostname",
         "options": [],
-        "query": "SHOW TAG VALUES FROM \"base_memory\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
+        "query": "SHOW TAG VALUES FROM \"aix_processor\" WITH KEY = \"hostname\" WHERE time > now() - 60m",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -709,6 +709,6 @@
   "timezone": "",
   "title": "Sysmon - IBM Power",
   "uid": "3zPCIbN4z",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }

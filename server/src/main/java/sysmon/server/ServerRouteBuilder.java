@@ -40,7 +40,7 @@ public class ServerRouteBuilder extends RouteBuilder {
                     .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(202))
                     .setHeader("Content-Type", constant("application/x-www-form-urlencoded"))
                     .to("seda:inbound?discardWhenFull=true")
-                    .setBody(simple("OK, received by server."))
+                    .setBody(simple("OK, received."))
                 .doCatch(Exception.class)
                     .log(LoggingLevel.WARN, "Error: ${exception.message}.")
                 .end()

@@ -11,10 +11,10 @@
 
 dir="/opt/sysmon/client"
 cmd="/opt/sysmon/client/bin/client"
-args="-s http://10.20.30.40:9925/metrics"   # Specify sysmon-server URL here
+args="-s http://10.20.30.40:9925/metrics"   # Specify sysmon-server URL here, add '-n hostname' if needed
 user=""
 
-name=`basename $0`
+name="sysmon-client"
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"

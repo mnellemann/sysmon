@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.22] - 2022-11-07
+## [1.0.23] - 2022-11-07
 - Update dashboards.
 - Lower default interval for most plugins.
 - Simplify metrics-results to influx points code.
+- Remove logging of skipped disk devices (eg. cd0).
 
 ## [1.0.21] - 2022-10-30
 - Update dashboard
@@ -35,7 +36,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
-[1.0.22]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.22%0Dv0.1.21
+[1.0.23]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.23%0Dv0.1.21
 [1.0.21]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.21%0Dv0.1.18
 [1.0.18]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.18%0Dv0.1.13
 [0.1.13]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.13%0Dv0.1.11

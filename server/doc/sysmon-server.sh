@@ -11,10 +11,10 @@
 
 dir="/opt/sysmon/server"
 cmd="/opt/sysmon/server/bin/server"
-args="-d"
+args=""     # Add '-d' for debug output
 user=""
 
-name=`basename $0`
+name="sysmon-server"
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
