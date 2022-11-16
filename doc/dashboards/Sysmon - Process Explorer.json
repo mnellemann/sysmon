@@ -697,7 +697,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -722,8 +722,10 @@
                 "type": "sum"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -744,8 +746,10 @@
                 "type": "sum"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -961,7 +965,9 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "sysmon"
+  ],
   "templating": {
     "list": [
       {
@@ -1049,6 +1055,6 @@
   "timezone": "",
   "title": "Sysmon - Process Explorer",
   "uid": "Vjut5mS7k",
-  "version": 3,
+  "version": 5,
   "weekStart": ""
 }

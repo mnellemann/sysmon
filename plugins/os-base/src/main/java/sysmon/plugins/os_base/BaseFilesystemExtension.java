@@ -36,6 +36,8 @@ public class BaseFilesystemExtension implements MetricExtension {
 
     private HardwareAbstractionLayer hardwareAbstractionLayer;
     private SystemInfo systemInfo;
+    private List<OSFileStore> fileStores;
+    private int refreshCounter = 0;
 
 
     @Override
@@ -103,7 +105,10 @@ public class BaseFilesystemExtension implements MetricExtension {
 
         ArrayList<String> alreadyProcessed = new ArrayList<>();
         ArrayList<Measurement> measurementList = new ArrayList<>();
-        List<OSFileStore> fileStores = systemInfo.getOperatingSystem().getFileSystem().getFileStores(true);
+
+        if(fileStores == null || refreshCounter++ > 360) {
+            fileStores = systemInfo.getOperatingSystem().getFileSystem().getFileStores(true);
+        }
 
         for(OSFileStore store : fileStores) {
 
@@ -125,7 +130,9 @@ public class BaseFilesystemExtension implements MetricExtension {
                 log.debug("Skipping name: " + name);
                 continue;
             }
+
             alreadyProcessed.add(name);
+            store.updateAttributes();
 
             TreeMap<String, String> tagsMap = new TreeMap<String, String>() {{
                 put("name", name);

@@ -1457,7 +1457,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": true,
+            "spanNulls": 3600000,
             "stacking": {
               "group": "A",
               "mode": "normal"
@@ -1532,7 +1532,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1556,13 +1556,15 @@
               },
               {
                 "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [
                   5
                 ],
                 "type": "moving_average"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -1690,7 +1692,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1714,13 +1716,15 @@
               },
               {
                 "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [
                   5
                 ],
                 "type": "moving_average"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
               },
               {
                 "params": [
@@ -1843,7 +1847,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -1872,8 +1876,10 @@
                 "type": "moving_average"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -1996,7 +2002,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -2025,8 +2031,10 @@
                 "type": "moving_average"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2230,11 +2238,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2252,11 +2262,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2274,11 +2286,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2296,11 +2310,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2318,11 +2334,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2340,15 +2358,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
-              },
-              {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2366,11 +2382,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2388,11 +2406,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  "$__interval"
+                ],
+                "type": "non_negative_derivative"
               },
               {
                 "params": [
@@ -2545,14 +2565,16 @@
                 "type": "mean"
               },
               {
-                "params": [],
-                "type": "non_negative_difference"
+                "params": [
+                  5
+                ],
+                "type": "moving_average"
               },
               {
                 "params": [
-                  10
+                  "$__interval"
                 ],
-                "type": "moving_average"
+                "type": "non_negative_derivative"
               }
             ]
           ],
@@ -3129,6 +3151,6 @@
   "timezone": "",
   "title": "Sysmon - Host Overview",
   "uid": "QkVPjseMt",
-  "version": 15,
+  "version": 18,
   "weekStart": ""
 }

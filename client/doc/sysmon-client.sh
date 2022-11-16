@@ -11,7 +11,7 @@
 
 dir="/opt/sysmon/client"
 cmd="/opt/sysmon/client/bin/client"
-args="-s http://10.20.30.40:9925/metrics"   # Specify sysmon-server URL here, add '-n hostname' if needed
+args="-s http://10.20.30.40:9925/metrics"   # <- HERE: Specify sysmon-server URL, add '-n hostname' if needed
 user=""
 
 name="sysmon-client"
@@ -21,7 +21,9 @@ stderr_log="/var/log/$name.err"
 
 # Uncomment if required
 #JAVA_HOME=/usr/java8_64
-#JAVA_HOME=/opt/ibm/ibm-semeru-certified-11-jre
+#JAVA_HOME=/opt/ibm-semeru-open-8-jdk
+#JAVA_HOME=/opt/ibm-semeru-open-11-jdk
+#JAVA_HOME=/opt/ibm-semeru-open-17-jdk
 #export JAVA_HOME
 
 get_pid() {

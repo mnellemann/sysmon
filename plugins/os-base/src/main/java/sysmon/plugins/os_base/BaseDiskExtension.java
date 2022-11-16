@@ -27,6 +27,8 @@ public class BaseDiskExtension implements MetricExtension {
     private String interval = "10s";
 
     private HardwareAbstractionLayer hardwareAbstractionLayer;
+    private List<HWDiskStore> diskStores;
+    private int refreshCounter = 0;
 
 
     @Override
@@ -82,10 +84,15 @@ public class BaseDiskExtension implements MetricExtension {
     public MetricResult getMetrics() {
 
         ArrayList<Measurement> measurementList = new ArrayList<>();
-        List<HWDiskStore> diskStores = hardwareAbstractionLayer.getDiskStores();
+        if(diskStores == null || refreshCounter++ > 360) {
+            log.info("getMetrics() - refreshing list of disk stores");
+            diskStores = hardwareAbstractionLayer.getDiskStores();
+            refreshCounter = 0;
+        }
 
         for(HWDiskStore store : diskStores) {
 
+            store.updateAttributes();
             String name = store.getName();
             if (name.matches("h?disk[0-9]+") ||
                 //name.matches("/dev/dm-[0-9]+") ||

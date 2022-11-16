@@ -6,6 +6,7 @@ Description=Sysmon Client
 #Group=nobody
 TimeoutSec=20
 Restart=on-failure
+# BELOW: Specify sysmon-server URL, add '-n hostname' if needed
 ExecStart=/opt/sysmon/client/bin/client -s http://10.20.30.40:9925/metrics
 
 [Install]

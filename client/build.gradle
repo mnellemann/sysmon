@@ -38,7 +38,7 @@ def projectName = "sysmon-client"
 application {
     // Define the main class for the application.
     mainClass.set('sysmon.client.Application')
-    applicationDefaultJvmArgs = [ "-server", "-Xms64m", "-Xmx64m", "-XX:+ExitOnOutOfMemoryError", "-XX:+AlwaysPreTouch" ]
+    applicationDefaultJvmArgs = [ "-Xms64m", "-Xmx64m", "-XX:+ExitOnOutOfMemoryError", "-XX:+AlwaysPreTouch" ]
 }
 
 run {

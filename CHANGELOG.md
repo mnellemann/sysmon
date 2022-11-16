@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.24] - 2022-11-16
+- Fix incorrect use of OSHI getDiskStores()
+- Update dashboards
+
 ## [1.0.23] - 2022-11-07
 - Update dashboards.
 - Lower default interval for most plugins.
@@ -36,6 +40,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
+[1.0.24]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.24%0Dv0.1.23
 [1.0.23]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.23%0Dv0.1.21
 [1.0.21]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.21%0Dv0.1.18
 [1.0.18]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.18%0Dv0.1.13
