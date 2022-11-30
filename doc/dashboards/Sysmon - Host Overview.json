@@ -37,6 +37,12 @@
     },
     {
       "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "text",
       "name": "Text",
       "version": ""
@@ -115,8 +121,10 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
+          "custom": {
+            "align": "center",
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -128,30 +136,26 @@
               }
             ]
           },
-          "unit": "text"
+          "unit": "string"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 3,
         "w": 24,
         "x": 0,
         "y": 3
       },
       "id": 35,
       "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
           ],
-          "fields": "/.*/",
-          "values": false
+          "show": false
         },
-        "textMode": "value_and_name"
+        "showHeader": true
       },
       "pluginVersion": "9.1.6",
       "targets": [
@@ -184,7 +188,7 @@
           "measurement": "base_info",
           "orderByTime": "DESC",
           "policy": "default",
-          "query": "SELECT last(\"os_manufacturer\") AS \"manufacturer\", last(\"os_family\") AS \"family\", last(\"os_version\") AS \"version\",  last(\"os_codename\") AS \"codename\", last(\"os_build\") AS \"build\", last(\"boot_time\") * 1000 AS \"boottime\" FROM \"base_info\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval), \"hostname\" fill(null) ORDER BY time DESC LIMIT 1000",
+          "query": "SELECT last(\"os_manufacturer\") AS \"manufacturer\", last(\"os_family\") AS \"family\", last(\"os_version\") AS \"version\",  last(\"os_codename\") AS \"codename\", last(\"os_build\") AS \"build\", last(\"boot_time\") * 1000 AS \"boottime\" FROM \"base_info\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY \"hostname\" fill(previous) ORDER BY time DESC LIMIT 1",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
@@ -350,7 +354,8 @@
           }
         }
       ],
-      "type": "stat"
+      "transparent": true,
+      "type": "table"
     },
     {
       "datasource": {
@@ -415,7 +420,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 6
       },
       "id": 2,
       "options": {
@@ -647,7 +652,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 6
       },
       "id": 16,
       "options": {
@@ -876,7 +881,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 11
       },
       "id": 29,
       "options": {
@@ -983,6 +988,12 @@
                   5
                 ],
                 "type": "moving_average"
+              },
+              {
+                "params": [
+                  "*-1"
+                ],
+                "type": "math"
               },
               {
                 "params": [
@@ -1137,7 +1148,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 14
+        "y": 11
       },
       "id": 19,
       "options": {
@@ -1313,7 +1324,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 14
+        "y": 11
       },
       "id": 17,
       "options": {
@@ -1488,7 +1499,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 20
+        "y": 17
       },
       "id": 10,
       "options": {
@@ -1648,7 +1659,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 20
+        "y": 17
       },
       "id": 30,
       "options": {
@@ -1809,7 +1820,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 29
+        "y": 26
       },
       "id": 18,
       "options": {
@@ -1964,7 +1975,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 29
+        "y": 26
       },
       "id": 31,
       "options": {
@@ -2074,8 +2085,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2184,7 +2194,7 @@
         "h": 5,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 35
       },
       "id": 22,
       "options": {
@@ -2479,8 +2489,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2496,7 +2505,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 40
       },
       "id": 24,
       "options": {
@@ -2638,8 +2647,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2651,7 +2659,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 43
+        "y": 40
       },
       "id": 25,
       "options": {
@@ -2779,8 +2787,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2796,7 +2803,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 50
       },
       "id": 8,
       "options": {
@@ -2973,8 +2980,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "transparent",
-                "value": null
+                "color": "transparent"
               },
               {
                 "color": "orange",
@@ -2994,7 +3000,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 53
+        "y": 50
       },
       "id": 26,
       "options": {
@@ -3151,6 +3157,6 @@
   "timezone": "",
   "title": "Sysmon - Host Overview",
   "uid": "QkVPjseMt",
-  "version": 18,
+  "version": 21,
   "weekStart": ""
 }

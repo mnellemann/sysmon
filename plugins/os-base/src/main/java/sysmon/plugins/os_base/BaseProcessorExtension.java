@@ -8,6 +8,7 @@ import oshi.hardware.HardwareAbstractionLayer;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
+import sysmon.shared.PluginHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,15 +106,15 @@ public class BaseProcessorExtension implements MetricExtension {
         long nonBusy = idle + iowait;
         long total = busy + nonBusy;
 
-        fieldsMap.put("system", ((float) system / (float) total) * 100);
-        fieldsMap.put("user", ((float) user / (float) total) * 100);
-        fieldsMap.put("nice", ((float) nice / (float) total) * 100);
-        fieldsMap.put("iowait", ((float) iowait / (float) total) * 100);
-        fieldsMap.put("steal", ((float) steal / (float) total) * 100);
-        fieldsMap.put("irq", ((float) irq / (float) total) * 100);
-        fieldsMap.put("softirq", ((float) softirq / (float) total) * 100);
-        fieldsMap.put("idle", ((float) idle / (float) total) * 100);
-        fieldsMap.put("busy", ((float) busy / (float) total) * 100);
+        fieldsMap.put("system", PluginHelper.round(((double) system / (double) total) * 100, 2));
+        fieldsMap.put("user", PluginHelper.round(((double) user / (double) total) * 100, 2));
+        fieldsMap.put("nice", PluginHelper.round(((double) nice / (double) total) * 100, 2));
+        fieldsMap.put("iowait", PluginHelper.round(((double) iowait / (double) total) * 100, 2));
+        fieldsMap.put("steal", PluginHelper.round(((double) steal / (double) total) * 100, 2));
+        fieldsMap.put("irq", PluginHelper.round(((double) irq / (double) total) * 100, 2));
+        fieldsMap.put("softirq", PluginHelper.round(((double) softirq / (double) total) * 100, 2));
+        fieldsMap.put("idle", PluginHelper.round(((double) idle / (double) total) * 100, 2));
+        fieldsMap.put("busy", PluginHelper.round(((double) busy / (double) total) * 100, 2));
 
         oldTicks = ticks;
         log.debug(fieldsMap.toString());

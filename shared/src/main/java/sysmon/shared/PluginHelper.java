@@ -69,4 +69,10 @@ public class PluginHelper {
         return allLines;
     }
 
+
+    public static double round(double average, int scale) {
+        double pow = Math.pow(10, scale);
+        return Math.round(average * pow) / pow;
+    }
+
 }
