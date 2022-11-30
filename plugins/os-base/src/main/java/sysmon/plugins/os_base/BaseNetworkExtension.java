@@ -27,6 +27,8 @@ public class BaseNetworkExtension implements MetricExtension {
     private String interval = "10s";
 
     private HardwareAbstractionLayer hardwareAbstractionLayer;
+    private List<NetworkIF> interfaces;
+    private int refreshCounter = 0;
 
 
     @Override
@@ -82,8 +84,12 @@ public class BaseNetworkExtension implements MetricExtension {
     public MetricResult getMetrics() {
 
         ArrayList<Measurement> measurementList = new ArrayList<>();
+        if(interfaces == null || refreshCounter++ > 360) {
+            log.info("getMetrics() - refreshing list of network interfaces");
+            interfaces = hardwareAbstractionLayer.getNetworkIFs();
+            refreshCounter = 0;
+        }
 
-        List<NetworkIF> interfaces = hardwareAbstractionLayer.getNetworkIFs();
         for(NetworkIF netif : interfaces) {
 
             TreeMap<String, String> tagsMap = new TreeMap<String, String>() {{
