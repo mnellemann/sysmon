@@ -26,14 +26,14 @@ public class ComboResultToPointProcessor implements Processor {
 
         BatchPoints.Builder batchPoints = BatchPoints
                 .database(ComboResultToPointProcessor.influxDbName)
-                .precision(TimeUnit.MILLISECONDS);
+                .precision(TimeUnit.SECONDS);
 
         for(MetricResult metricResult : comboResult.getMetricResults()) {
 
             for(Measurement measurement : metricResult.getMeasurements()) {
 
                 Point.Builder point = Point.measurement(metricResult.getName())
-                        .time(metricResult.getTimestamp(), TimeUnit.MILLISECONDS)
+                        .time(metricResult.getTimestamp(), TimeUnit.SECONDS)
                         .tag("hostname", metricResult.getHostname())
                         .tag(measurement.getTags())
                         .fields(measurement.getFields());

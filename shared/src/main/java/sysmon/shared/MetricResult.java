@@ -10,7 +10,7 @@ public class MetricResult implements Serializable {
 
     private String name;
     private String hostname;
-    private Long timestamp;   // epoch milli
+    private Long timestamp;   // epoch seconds
     private ArrayList<Measurement> measurements;
 
     public MetricResult() {
@@ -18,12 +18,12 @@ public class MetricResult implements Serializable {
 
     public MetricResult(String name) {
         this.name = name;
-        this.timestamp = Instant.now().toEpochMilli();
+        this.timestamp = Instant.now().getEpochSecond();
     }
 
     public MetricResult(String name, Measurement measurement) {
         this.name = name;
-        this.timestamp = Instant.now().toEpochMilli();
+        this.timestamp = Instant.now().getEpochSecond();
         this.measurements = new ArrayList<Measurement>() {{
                 add(measurement);
         }};
@@ -31,7 +31,7 @@ public class MetricResult implements Serializable {
 
     public MetricResult(String name, ArrayList<Measurement> measurements) {
         this.name = name;
-        this.timestamp = Instant.now().toEpochMilli();
+        this.timestamp = Instant.now().getEpochSecond();
         this.measurements = measurements;
     }
 
@@ -85,5 +85,5 @@ public class MetricResult implements Serializable {
 
         return sb.toString();
     }
-    
+
 }

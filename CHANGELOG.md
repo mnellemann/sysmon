@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2022-12-17
+- Lower influx time precision from milliseconds to seconds
+  - requires you to update server and clients to this version.
+- Update *oshi* dependency (for AIX improvements).
+
+
 ## [1.0.24] - 2022-11-16
 - Fix incorrect use of OSHI getDiskStores()
 - Update dashboards
@@ -40,6 +46,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
+[1.1.0]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.1.0%0Dv0.1.24
 [1.0.24]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.24%0Dv0.1.23
 [1.0.23]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.23%0Dv0.1.21
 [1.0.21]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.21%0Dv0.1.18
