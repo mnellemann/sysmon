@@ -2,13 +2,18 @@
 
 Open source system monitoring solution with support for plugins.
 
-![Sysmon Icon](doc/sysmon.png)
-
 This software is free to use and is licensed under the [Apache 2.0 License](LICENSE).
 
 - Example dashboards are provided in the [doc/dashboards/](doc/dashboards/) folder, which can be imported into your Grafana installation.
 - Screenshots are available in the [downloads](https://bitbucket.org/mnellemann/sysmon/downloads/) section.
 
+![Sysmon Icon](doc/sysmon.png)
+
+Some of my other related projects are:
+
+- [hmci](https://bitbucket.org/mnellemann/hmci) for agent-less monitoring of IBM Power servers
+- [svci](https://bitbucket.org/mnellemann/svci) for monitoring IBM Spectrum Virtualize (Flashsystems / Storwize / SVC)
+- [syslogd](https://bitbucket.org/mnellemann/syslogd) for redirecting syslog and GELF to other logging destinations
 
 ## Components
 
