@@ -4,6 +4,9 @@
 ### Example configuration with some default values.
 ###
 
+# Local path for Groovy scripts
+scripts = "/opt/sysmon/scripts"
+
 [extension.base_info]
 enabled = true
 interval = '60m'

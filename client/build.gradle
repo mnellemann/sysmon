@@ -23,6 +23,9 @@ dependencies {
         exclude(group: "org.slf4j")
     }
 
+    //implementation "org.apache.groovy:groovy-all:${groovyVersion}"    // From version 4.+
+    implementation "org.codehaus.groovy:groovy:${groovyVersion}"
+
     implementation group: 'org.apache.camel', name: 'camel-core', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-main', version: camelVersion
     implementation group: 'org.apache.camel', name: 'camel-http', version: camelVersion

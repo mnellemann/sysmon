@@ -14,14 +14,24 @@ import sysmon.shared.ComboResult;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
+import javax.script.*;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ClientRouteBuilder extends RouteBuilder {
 
     private static final Logger log = LoggerFactory.getLogger(ClientRouteBuilder.class);
+
+    private final Set<String> scriptFiles = new HashSet<>();
+
 
     @Override
     public void configure() {
@@ -34,12 +44,9 @@ public class ClientRouteBuilder extends RouteBuilder {
         pluginManager.loadPlugins();
         pluginManager.startPlugins();
 
-        List<String> providers = new ArrayList<>();
         List<MetricExtension> metricExtensions = pluginManager.getExtensions(MetricExtension.class);
         for (MetricExtension ext : metricExtensions) {
-
             final String name = ext.getName();
-            final String provides = ext.getProvides();
 
             // Load configuration if available
             if(configuration.isForExtension(name)) {
@@ -48,33 +55,10 @@ public class ClientRouteBuilder extends RouteBuilder {
             }
 
             if(ext.isSupported() && ext.isEnabled()) {
-
-                if(providers.contains(provides)) {
-                    log.warn("Skipping extension (already provided): " + ext.getName());
-                    continue;
-                }
-
-                log.info("Enabling extension: " + ext.getDescription());
-                providers.add(provides);
-
-                // Setup Camel route for this extension
-                // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
-                String timerName = ext.isThreaded() ? ext.getProvides() : "default";
-                String timerInterval = (ext.getInterval() != null) ? ext.getInterval() : "30s";
-                from("timer:"+timerName+"?fixedRate=true&period="+timerInterval)
-                        .bean(ext, "getMetrics")
-                        .outputType(MetricResult.class)
-                        .process(new MetricEnrichProcessor(registry))
-                        .choice().when(exchangeProperty("skip").isEqualTo(true))
-                            .log(LoggingLevel.WARN,"Skipping empty measurement.")
-                            .stop()
-                        .otherwise()
-                            .log("${body}")
-                            .to("seda:metrics?discardWhenFull=true");
+                addExtensionRoute(ext);
             } else {
                 log.info("Skipping extension (not supported or disabled): " + ext.getDescription());
             }
-
         }
 
         from("seda:metrics?purgeWhenStopping=true")
@@ -97,7 +81,97 @@ public class ClientRouteBuilder extends RouteBuilder {
                     .log(LoggingLevel.WARN,"Error: ${exception.message}.")
                 .end();
 
+        // Find all local scripts
+        String scriptsPath = configuration.getScriptPath();
+        if(scriptsPath != null && Files.isDirectory(Paths.get(scriptsPath))) {
+            try {
+                scriptFiles.addAll(listFilesByExtension(scriptsPath, "groovy"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        // Enable the local scripts
+        for (String scriptFile : scriptFiles) {
+            try {
+                ScriptWrapper scriptWrapper = new ScriptWrapper(scriptsPath, scriptFile);
+                addScriptRoute(scriptWrapper);
+            } catch(Exception e) {
+                log.error("configure() - script error: {}", e.getMessage());
+            }
+        }
+
     }
 
+
+    void addScriptRoute(ScriptWrapper script) {
+        Registry registry = getContext().getRegistry();
+
+        from("timer:scripts?fixedRate=true&period=30s")
+            .bean(script, "run")
+            .outputType(MetricResult.class)
+            .process(new MetricEnrichProcessor(registry))
+            .choice().when(exchangeProperty("skip").isEqualTo(true))
+            .log(LoggingLevel.WARN, "Skipping empty measurement.")
+            .stop()
+            .otherwise()
+            .log("${body}")
+            .to("seda:metrics?discardWhenFull=true");
+    }
+
+
+    void addExtensionRoute(MetricExtension ext) {
+
+        Registry registry = getContext().getRegistry();
+
+        // Setup Camel route for this extension
+        // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
+        String timerName = ext.isThreaded() ? ext.getName() : "default";
+        String timerInterval = (ext.getInterval() != null) ? ext.getInterval() : "30s";
+        from("timer:" + timerName + "?fixedRate=true&period=" + timerInterval)
+            .bean(ext, "getMetrics")
+            .outputType(MetricResult.class)
+            .process(new MetricEnrichProcessor(registry))
+            .choice().when(exchangeProperty("skip").isEqualTo(true))
+            .log(LoggingLevel.WARN, "Skipping empty measurement.")
+            .stop()
+            .otherwise()
+            .log("${body}")
+            .to("seda:metrics?discardWhenFull=true");
+    }
+
+
+    List<String> findScripts(String location) {
+        log.info("Looking for scripts in: {}", location);
+        List<String> scripts = new ArrayList<>();
+        ScriptEngineManager manager = new ScriptEngineManager();
+        List<ScriptEngineFactory> factoryList = manager.getEngineFactories();
+        for (ScriptEngineFactory factory : factoryList) {
+            log.info("findScripts() - Supporting: {}", factory.getLanguageName());
+            for(String ex : factory.getExtensions()) {
+                log.info("findScripts() - Extension: {}", ex);
+                try {
+                    scripts.addAll(listFilesByExtension(location, ex));
+                    log.warn(scripts.toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+        return scripts;
+    }
+
+
+    Set<String> listFilesByExtension(String dir, String ext) throws IOException {
+        try (Stream<Path> stream = Files.list(Paths.get(dir))) {
+            return stream
+                .filter(file -> !Files.isDirectory(file))
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .filter(s -> s.endsWith(ext))
+                .collect(Collectors.toSet());
+        }
+    }
 
 }
