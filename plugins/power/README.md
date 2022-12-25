@@ -1,6 +1,6 @@
-# AIX Plugin
+# IBM Power Plugin
 
-## LPAR Processor Extension
+## Power LPAR Processor Extension
 
 The processor extension works for both AIX and Linux on the Power ppc64/ppc64le architecture.
 
