@@ -9,6 +9,7 @@ import sysmon.shared.MetricScript;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class ScriptWrapper {
 
@@ -20,9 +21,9 @@ public class ScriptWrapper {
 
     public ScriptWrapper(String scriptPath, String scriptFile) {
         try {
-            Class scriptClass = loader.parseClass(new File(scriptPath, scriptFile));
-            script = (GroovyObject) scriptClass.newInstance();
-        } catch (IOException |InstantiationException | IllegalAccessException e) {
+            Class<?> scriptClass = loader.parseClass(new File(scriptPath, scriptFile));
+            script = (GroovyObject) scriptClass.getDeclaredConstructor().newInstance();
+        } catch (IOException |InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             log.error("ScriptWrapper() - error: {}", e.getMessage());
         }
     }

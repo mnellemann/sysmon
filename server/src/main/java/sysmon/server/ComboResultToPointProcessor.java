@@ -8,7 +8,6 @@ import sysmon.shared.ComboResult;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricResult;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ComboResultToPointProcessor implements Processor {

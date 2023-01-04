@@ -33,7 +33,6 @@ public class BaseFilesystemExtension implements MetricExtension {
         add("/boot/efi");
     }};
 
-    private HardwareAbstractionLayer hardwareAbstractionLayer;
     private SystemInfo systemInfo;
     private List<OSFileStore> fileStores;
     private int refreshCounter = 0;
