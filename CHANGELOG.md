@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2023-01-xx
+- Simplify plugin naming
+- Initial support for calling (groovy) scripts
+
 ## [1.1.0] - 2022-12-17
 - Lower influx time precision from milliseconds to seconds
   - requires you to update server and clients to this version.

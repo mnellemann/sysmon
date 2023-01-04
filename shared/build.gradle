@@ -9,6 +9,7 @@
 plugins {
     id 'groovy'
     id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -32,4 +33,25 @@ dependencies {
 tasks.named('test') {
     // Use junit platform for unit tests.
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            groupId = 'sysmon'
+            artifactId = 'shared'
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = "gitea"
+            url = uri("https://git.data.coop/api/packages/$System.env.DRONE_REPO_OWNER/maven")
+            credentials {
+                username = "$System.env.DRONE_REPO_OWNER"
+                password = "$System.env.AUTH_TOKEN"
+            }
+        }
+    }
 }

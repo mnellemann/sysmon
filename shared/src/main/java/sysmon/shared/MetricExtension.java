@@ -12,7 +12,6 @@ public interface MetricExtension extends ExtensionPoint {
 
     String getName();
     String getInterval();
-    String getProvides();
     String getDescription();
 
     void setConfiguration(Map<String, Object> map);

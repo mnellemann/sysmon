@@ -65,4 +65,10 @@ public final class Configuration {
         return map;
     }
 
+
+    String getScriptPath() {
+        return result.getString("scripts");
+    }
+
+
 }

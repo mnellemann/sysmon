@@ -3,9 +3,9 @@ import org.redline_rpm.header.Os
 plugins {
     id 'application'
 
-    id "com.github.johnrengelman.shadow" version "7.1.2"
     id "net.nemerosa.versioning" version "2.15.1"
-    id "nebula.ospackage" version "9.1.1"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.netflix.nebula.ospackage" version "10.0.0"
 }
 
 dependencies {
@@ -40,7 +40,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-apply plugin: 'nebula.ospackage'
 ospackage {
     packageName = projectName
     release = '1'

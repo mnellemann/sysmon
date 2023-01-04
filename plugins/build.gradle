@@ -1,7 +1,7 @@
 import org.redline_rpm.header.Os
 
 plugins {
-    id "nebula.ospackage" version "9.1.1"
+    id "com.netflix.nebula.ospackage" version "10.0.0"
 }
 
 
@@ -82,7 +82,6 @@ tasks.clean.dependsOn(tasks.customCleanUp)
 def projectName = "sysmon-plugins"
 
 
-apply plugin: 'nebula.ospackage'
 ospackage {
     packageName = projectName
     release = '1'
