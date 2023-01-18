@@ -18,11 +18,9 @@ Use *yum* if *dnf* is not available.
 
 ## Installation
 
-[Download](https://bitbucket.org/mnellemann/sysmon/downloads/) the latest client and plugins rpm files and install:
+[Download](https://git.data.coop/nellemann/-/packages/generic/sysmon/) the latest client and plugins rpm files and install:
 
 ```shell
-wget https://bitbucket.org/mnellemann/sysmon/downloads/sysmon-client-1.0.16-1.noarch.rpm
-wget https://bitbucket.org/mnellemann/sysmon/downloads/sysmon-plugins-1.0.16-1.noarch.rpm
 rpm -ivh sysmon-client-*.noarch.rpm sysmon-plugins-*.noarch.rpm
 cp /opt/sysmon/client/doc/sysmon-client.service /etc/systemd/system/
 systemctl daemon-reload
