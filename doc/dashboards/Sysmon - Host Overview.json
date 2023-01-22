@@ -2,7 +2,7 @@
   "__inputs": [
     {
       "name": "DS_SYSMON",
-      "label": "sysmon",
+      "label": "Database",
       "description": "",
       "type": "datasource",
       "pluginId": "influxdb",
@@ -76,7 +76,7 @@
       }
     ]
   },
-  "description": "https://git.data.coop/nellemann/sysmon - Metrics from sysmon agent.",
+  "description": "https://git.data.coop/nellemann/sysmon/ - Metrics from sysmon agent.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -97,7 +97,7 @@
       },
       "id": 28,
       "options": {
-        "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [https://git.data.coop/nellemann/sysmon](https://git.data.coop/nellemann/sysmon)\n           ",
+        "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [git.data.coop/nellemann/sysmon](https://git.data.coop/nellemann/sysmon)\n           ",
         "mode": "markdown"
       },
       "pluginVersion": "9.1.6",
@@ -565,7 +565,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.mode"
+              "options": "power_processor.mode"
             },
             "properties": [
               {
@@ -585,7 +585,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.type"
+              "options": "power_processor.type"
             },
             "properties": [
               {
@@ -605,7 +605,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.ent"
+              "options": "power_processor.ent"
             },
             "properties": [
               {
@@ -621,7 +621,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.lcpu"
+              "options": "power_processor.lcpu"
             },
             "properties": [
               {
@@ -637,7 +637,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.smt"
+              "options": "power_processor.smt"
             },
             "properties": [
               {
@@ -691,9 +691,11 @@
               "type": "fill"
             }
           ],
-          "measurement": "aix_processor",
+          "measurement": "power_processor",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT last(\"mode\") AS \"mode\", last(\"type\") AS \"type\", last(\"ent\") AS \"ent\", last(\"lcpu\") AS \"lcpu\", last(\"smt\") AS \"smt\" FROM \"power_processor\" WHERE (\"hostname\" =~ /^$hostname$/) AND $timeFilter GROUP BY time($__interval) fill(previous) SLIMIT 1",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -805,11 +807,11 @@
           "options": {
             "include": {
               "names": [
-                "aix_processor.mode",
-                "aix_processor.type",
-                "aix_processor.ent",
-                "aix_processor.lcpu",
-                "aix_processor.smt"
+                "power_processor.mode",
+                "power_processor.type",
+                "power_processor.ent",
+                "power_processor.lcpu",
+                "power_processor.smt"
               ]
             }
           }
@@ -988,12 +990,6 @@
                   5
                 ],
                 "type": "moving_average"
-              },
-              {
-                "params": [
-                  "*-1"
-                ],
-                "type": "math"
               },
               {
                 "params": [
@@ -1277,7 +1273,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.entc"
+              "options": "power_processor.entc"
             },
             "properties": [
               {
@@ -1293,7 +1289,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.physc"
+              "options": "power_processor.physc"
             },
             "properties": [
               {
@@ -1305,7 +1301,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "aix_processor.lbusy"
+              "options": "power_processor.lbusy"
             },
             "properties": [
               {
@@ -1363,7 +1359,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "aix_processor",
+          "measurement": "power_processor",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -2085,7 +2081,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -2489,7 +2486,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2647,7 +2645,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -2787,7 +2786,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2980,7 +2980,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "transparent"
+                "color": "transparent",
+                "value": null
               },
               {
                 "color": "orange",
@@ -3157,6 +3158,6 @@
   "timezone": "",
   "title": "Sysmon - Host Overview",
   "uid": "QkVPjseMt",
-  "version": 21,
+  "version": 23,
   "weekStart": ""
 }

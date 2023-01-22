@@ -2,7 +2,7 @@
   "__inputs": [
     {
       "name": "DS_SYSMON",
-      "label": "sysmon",
+      "label": "Database",
       "description": "",
       "type": "datasource",
       "pluginId": "influxdb",
@@ -70,7 +70,7 @@
       }
     ]
   },
-  "description": "https://bitbucket.org/mnellemann/sysmon/ - Metrics from within host / guest / partition.",
+  "description": "https://git.data.coop/nellemann/sysmon/ - Metrics from within host / guest / partition.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -91,7 +91,7 @@
       },
       "id": 30,
       "options": {
-        "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [bitbucket.org/mnellemann/sysmon](https://bitbucket.org/mnellemann/sysmon)\n           ",
+        "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [git.data.coop/nellemann/sysmon](https://git.data.coop/nellemann/sysmon)\n           ",
         "mode": "markdown"
       },
       "pluginVersion": "9.1.6",
