@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Simplify plugin naming
 - Initial support for executing (groovy) scripts
 - Fixed bug when no config file were found
+- Update the default [dashboards](doc/dashboards/)
 
 ## [1.1.0] - 2022-12-17
 - Lower influx time precision from milliseconds to seconds
