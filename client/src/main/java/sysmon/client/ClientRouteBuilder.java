@@ -62,6 +62,7 @@ public class ClientRouteBuilder extends RouteBuilder {
         }
 
         from("seda:metrics?purgeWhenStopping=true")
+                .routeId("aggregation")
                 .aggregate(constant(true), AggregationStrategies.beanAllowNull(ComboAppender.class, "append"))
                 .completionTimeout(5000L)
                 .doTry()
@@ -72,6 +73,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                 .end();
 
         from("seda:outbound?purgeWhenStopping=true")
+                .routeId("outbound")
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .doTry()
                     .marshal(new JacksonDataFormat(ComboResult.class))
@@ -108,6 +110,7 @@ public class ClientRouteBuilder extends RouteBuilder {
         Registry registry = getContext().getRegistry();
 
         from("timer:scripts?fixedRate=true&period=30s")
+            .routeId(script.toString())
             .bean(script, "run")
             .outputType(MetricResult.class)
             .process(new MetricEnrichProcessor(registry))
@@ -129,6 +132,7 @@ public class ClientRouteBuilder extends RouteBuilder {
         String timerName = ext.isThreaded() ? ext.getName() : "default";
         String timerInterval = (ext.getInterval() != null) ? ext.getInterval() : "30s";
         from("timer:" + timerName + "?fixedRate=true&period=" + timerInterval)
+            .routeId(ext.getName())
             .bean(ext, "getMetrics")
             .outputType(MetricResult.class)
             .process(new MetricEnrichProcessor(registry))

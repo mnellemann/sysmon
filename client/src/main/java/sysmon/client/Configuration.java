@@ -67,6 +67,10 @@ public final class Configuration {
 
 
     String getScriptPath() {
+        if(result == null) {
+            log.debug("No configuration file loaded ...");
+            return null;
+        }
         return result.getString("scripts");
     }
 

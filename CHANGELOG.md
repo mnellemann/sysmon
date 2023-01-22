@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.1] - 2023-01-xx
+## [1.1.1] - 2023-01-22
 - Simplify plugin naming
-- Initial support for calling (groovy) scripts
+- Initial support for executing (groovy) scripts
+- Fixed bug when no config file were found
 
 ## [1.1.0] - 2022-12-17
 - Lower influx time precision from milliseconds to seconds
@@ -50,6 +51,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated 3rd party dependencies.
 
+<!--
 [1.1.0]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.1.0%0Dv0.1.24
 [1.0.24]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.24%0Dv0.1.23
 [1.0.23]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.23%0Dv0.1.21
@@ -59,3 +61,4 @@ All notable changes to this project will be documented in this file.
 [0.1.11]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.11%0Dv0.1.10
 [0.1.10]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.10%0Dv0.1.9
 [0.1.9]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.9%0Dv0.1.8
+-->

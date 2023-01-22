@@ -21,15 +21,6 @@ public class ServerRouteBuilder extends RouteBuilder {
                 .host(registry.lookupByNameAndType("http.host", String.class))
                 .port(registry.lookupByNameAndType("http.port", Integer.class));
 
-        /*
-        rest()
-                .get("/")
-                .produces("text/html")
-                .route()
-                .to("log:stdout")
-                .endRest();
-         */
-
         rest()
                 .post("/metrics")
                 .consumes("application/json")

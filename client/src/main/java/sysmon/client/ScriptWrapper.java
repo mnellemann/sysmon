@@ -18,8 +18,10 @@ public class ScriptWrapper {
     private final static GroovyClassLoader loader = new GroovyClassLoader();
 
     private GroovyObject script;
+    private final String name;
 
     public ScriptWrapper(String scriptPath, String scriptFile) {
+        name = scriptFile;
         try {
             Class<?> scriptClass = loader.parseClass(new File(scriptPath, scriptFile));
             script = (GroovyObject) scriptClass.getDeclaredConstructor().newInstance();
@@ -37,5 +39,9 @@ public class ScriptWrapper {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }

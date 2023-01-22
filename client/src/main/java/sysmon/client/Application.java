@@ -85,7 +85,7 @@ public class Application implements Callable<Integer> {
             try {
                 configuration.parse(configurationFile.toPath());
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                System.err.println("Could not parse configuration file: " + e.getMessage());
                 return 1;
             }
         }
