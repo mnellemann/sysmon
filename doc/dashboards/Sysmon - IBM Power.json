@@ -79,7 +79,7 @@
       },
       "id": 28,
       "options": {
-        "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information: [git.data.coop/nellemann/sysmon](https://git.data.coop/nellemann/sysmon)\n           ",
+        "content": "## Metrics are collected by an agent running inside of each LPAR / VM / Host.\n    \n  For more information visit: [git.data.coop/nellemann/sysmon](https://git.data.coop/nellemann/sysmon)\n           ",
         "mode": "markdown"
       },
       "pluginVersion": "9.1.6",

@@ -84,7 +84,6 @@ public class BaseInfoExtension implements MetricExtension {
             put("boot_time", systemInfo.getOperatingSystem().getSystemBootTime());
         }};
 
-        log.info(fieldsMap.toString());
         return new MetricResult(name, new Measurement(tags, fieldsMap));
     }
 

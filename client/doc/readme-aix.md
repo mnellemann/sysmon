@@ -8,7 +8,7 @@ We require Java 8, which should already be installed on AIX, or is available to 
 The RPM packages are *"noarch"* Java bytecode, so we can use the **--ignoreos** option to install:
 
 ```shell
-rpm -i --ignoreos sysmon-client.rpm sysmon-plugins.rpm
+rpm -ivh --ignoreos sysmon-client-*.rpm sysmon-plugins-*.rpm
 ```
 
 ### Run automatically at boot

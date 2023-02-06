@@ -79,7 +79,7 @@ public class BaseDiskExtension implements MetricExtension {
 
         ArrayList<Measurement> measurementList = new ArrayList<>();
         if(diskStores == null || refreshCounter++ > 360) {
-            log.info("getMetrics() - refreshing list of disk stores");
+            log.debug("getMetrics() - refreshing list of disk stores");
             diskStores = hardwareAbstractionLayer.getDiskStores();
             refreshCounter = 0;
         }

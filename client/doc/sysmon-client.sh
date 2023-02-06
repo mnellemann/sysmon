@@ -19,11 +19,12 @@ pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
 
-# Uncomment if required
+# Java 8+ runtime required - Uncomment and export JAVA_HOME if needed
 #JAVA_HOME=/usr/java8_64
-#JAVA_HOME=/opt/ibm-semeru-open-8-jdk
-#JAVA_HOME=/opt/ibm-semeru-open-11-jdk
-#JAVA_HOME=/opt/ibm-semeru-open-17-jdk
+#JAVA_HOME=/opt/ibm-semeru-open-XX-jre
+#JAVA_HOME=/opt/ibm-semeru-open-XX-jdk
+#JAVA_HOME=/opt/ibm/ibm-semeru-certified-XX-jre
+#JAVA_HOME=/opt/ibm/ibm-semeru-certified-XX-jdk
 #export JAVA_HOME
 
 get_pid() {

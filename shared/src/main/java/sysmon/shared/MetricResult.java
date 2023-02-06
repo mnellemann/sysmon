@@ -46,7 +46,7 @@ public class MetricResult implements Serializable {
     }
 
     public void setHostname(String hostname) {
-        this.hostname = hostname;
+        this.hostname = hostname.toLowerCase();
     }
 
     public void setName(String name) {

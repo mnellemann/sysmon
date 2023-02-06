@@ -1,6 +1,6 @@
 # System Monitor
 
-Open source system monitoring solution with support for plugins.
+Open source system monitoring solution with support for plugins and scripts.
 
 This software is free to use and is licensed under the [Apache 2.0 License](LICENSE).
 
@@ -14,6 +14,13 @@ Some of my other related projects are:
 - [hmci](https://git.data.coop/nellemann/hmci) for agent-less monitoring of IBM Power servers
 - [svci](https://git.data.coop/nellemann/svci) for monitoring IBM Spectrum Virtualize (Flashsystems / Storwize / SVC)
 - [syslogd](https://git.data.coop/nellemann/syslogd) for redirecting syslog and GELF to other logging destinations
+
+## Screenshots
+
+
+![screenshot](doc/screenshots/sysmon1.png)
+
+Screenshots of other dashboards are available in the [doc/screenshots](doc/screenshots/) folder.
 
 ## Components
 

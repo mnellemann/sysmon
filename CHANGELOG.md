@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2023-02-06
+- Lowercase client hostnames
+
 ## [1.1.1] - 2023-01-22
 - Simplify plugin naming
 - Initial support for executing (groovy) scripts
