@@ -4,7 +4,6 @@ import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import oshi.SystemInfo;
-import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.OSFileStore;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
