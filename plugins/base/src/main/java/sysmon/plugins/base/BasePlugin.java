@@ -3,7 +3,6 @@ package sysmon.plugins.base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.pf4j.Plugin;
-import org.pf4j.PluginWrapper;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 
@@ -15,9 +14,6 @@ public class BasePlugin extends Plugin {
     private static SystemInfo systemInfo;
     private static HardwareAbstractionLayer hardwareAbstractionLayer;
 
-    public BasePlugin(PluginWrapper wrapper) {
-        super(wrapper);
-    }
 
     public static HardwareAbstractionLayer getHardwareAbstractionLayer() {
 
