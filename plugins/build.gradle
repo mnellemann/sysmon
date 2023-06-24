@@ -110,3 +110,12 @@ task buildRpmAix(type: Rpm) {
     packageName = "${projectName}-AIX"
     os = Os.AIX
 }
+
+task buildZip(type: Zip) {
+    subprojects.each {
+        dependsOn("${it.name}:copyJar")
+    }
+    from "output"
+    setArchivesBaseName(projectName as String)
+    setArchiveVersion(project.property("version") as String)
+}
