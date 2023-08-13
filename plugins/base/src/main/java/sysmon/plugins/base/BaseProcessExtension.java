@@ -38,10 +38,13 @@ public class BaseProcessExtension implements MetricExtension {
         add("corosync");
         add("rsyslogd");
         add("postgres");
+        add("mariadbd");
         add("memcached");
         add("db2sysc");
         add("dsmserv");
         add("mmfsd");
+        add("systemd");
+        add("nginx");
     }};
 
     private final long minUptimeInSeconds = 600;

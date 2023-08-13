@@ -45,4 +45,5 @@ tasks.register("packages") {
 
     dependsOn ":plugins:buildDeb"
     dependsOn ":plugins:buildRpm"
+    dependsOn ":plugins:buildZip"
 }
