@@ -11,9 +11,9 @@ This software is free to use and is licensed under the [Apache 2.0 License](LICE
 
 Some of my other related projects are:
 
-- [hmci](/mnellemann/hmci) for agent-less monitoring of IBM Power servers
-- [svci](/mnellemann/svci) for monitoring IBM Spectrum Virtualize (Flashsystems / Storwize / SVC)
-- [syslogd](/mnellemann/syslogd) for redirecting syslog and GELF to other logging destinations
+- [hmci](https://github.com/mnellemann/hmci) for agent-less monitoring of IBM Power servers
+- [svci](https://github.com/mnellemann/svci) for monitoring IBM Spectrum Virtualize (Flashsystems / Storwize / SVC)
+- [syslogd](https://github.com/mnellemann/syslogd) for redirecting syslog and GELF to other logging destinations
 
 ## Screenshots
 
