@@ -11,9 +11,9 @@ This software is free to use and is licensed under the [Apache 2.0 License](LICE
 
 Some of my other related projects are:
 
-- [hmci](https://git.data.coop/nellemann/hmci) for agent-less monitoring of IBM Power servers
-- [svci](https://git.data.coop/nellemann/svci) for monitoring IBM Spectrum Virtualize (Flashsystems / Storwize / SVC)
-- [syslogd](https://git.data.coop/nellemann/syslogd) for redirecting syslog and GELF to other logging destinations
+- [hmci](/mnellemann/hmci) for agent-less monitoring of IBM Power servers
+- [svci](/mnellemann/svci) for monitoring IBM Spectrum Virtualize (Flashsystems / Storwize / SVC)
+- [syslogd](/mnellemann/syslogd) for redirecting syslog and GELF to other logging destinations
 
 ## Screenshots
 
@@ -28,14 +28,14 @@ Screenshots of other dashboards are available in the [doc/screenshots](doc/scree
 
 The server component receives aggregated metrics from *clients* and saves these into InfluxDB.
 
-- Downloaded from [packages](https://git.data.coop/nellemann/-/packages/generic/sysmon/).
+- Downloaded server package from [releases](/mnellemann/sysmon/releases).
 - More information and documentation on the [sysmon-server](server/README.md).
 
 ### Client & Plugins
 
 The client runs on all or some of your hosts and collects metrics, which are then sent to the central sysmon-server component. Plugins are loaded by the client at startup and should also be installed.
 
-- Downloaded from [packages](https://git.data.coop/nellemann/-/packages/generic/sysmon/).
+- Downloaded client & plugin packages from [releases](/mnellemann/sysmon/releases).
 - More information and documentation on the [sysmon-client](client/README.md).
 . More information and documentation on the [sysmon-plugins](plugins/README.md).
 
