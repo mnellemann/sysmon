@@ -28,14 +28,14 @@ Screenshots of other dashboards are available in the [doc/screenshots](doc/scree
 
 The server component receives aggregated metrics from *clients* and saves these into InfluxDB.
 
-- Downloaded server package from [releases](releases/).
+- Downloaded server package from [releases](https://github.com/mnellemann/sysmon/releases).
 - More information and documentation on the [sysmon-server](server/README.md).
 
 ### Client & Plugins
 
 The client runs on all or some of your hosts and collects metrics, which are then sent to the central sysmon-server component. Plugins are loaded by the client at startup and should also be installed.
 
-- Downloaded client & plugin packages from [releases](releases/).
+- Downloaded client & plugin packages from [releases](https://github.com/mnellemann/sysmon/releases).
 - More information and documentation on the [sysmon-client](client/README.md).
 . More information and documentation on the [sysmon-plugins](plugins/README.md).
 
