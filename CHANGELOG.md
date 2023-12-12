@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.5] - 2023-12-12
+- Update 3rd party dependencies
+
 ## [1.1.2] - 2023-02-06
 - Lowercase client hostnames
 
