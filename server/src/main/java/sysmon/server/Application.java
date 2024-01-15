@@ -1,14 +1,15 @@
 package sysmon.server;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.concurrent.Callable;
+
 import org.apache.camel.main.Main;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.slf4j.simple.SimpleLogger;
-import picocli.CommandLine;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.concurrent.Callable;
+import picocli.CommandLine;
 
 @CommandLine.Command(name = "sysmon-server", mixinStandardHelpOptions = true)
 public class Application implements Callable<Integer> {
@@ -34,8 +35,11 @@ public class Application implements Callable<Integer> {
     @CommandLine.Option(names = { "-t", "--threads" }, description = "Threads for processing inbound metrics(default: ${DEFAULT-VALUE}).", paramLabel = "<num>")
     private Integer threads = 1;
 
+    @CommandLine.Option(names = { "-l", "--local-time" }, description = "Override timestamp from clients (default: ${DEFAULT_VALUE}).")
+    private Boolean localTime = false;
+
     @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
-    private boolean enableDebug = false;
+    private Boolean enableDebug = false;
 
 
     public static void main(String... args) {
@@ -60,6 +64,7 @@ public class Application implements Callable<Integer> {
         main.bind("http.port", listenPort);
         main.bind("threads", threads);
         main.bind("dbname", influxName);
+        main.bind("localTime", localTime);
         main.configure().addRoutesBuilder(ServerRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)

@@ -5,6 +5,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spi.Registry;
+
 import sysmon.shared.ComboResult;
 
 public class ServerRouteBuilder extends RouteBuilder {
@@ -15,6 +16,8 @@ public class ServerRouteBuilder extends RouteBuilder {
         final Registry registry = getContext().getRegistry();
         final String dbname = registry.lookupByNameAndType("dbname", String.class);
         final Integer threads = registry.lookupByNameAndType("threads", Integer.class);
+        final Boolean localTime = registry.lookupByNameAndType("localTime", Boolean.class);
+
 
         restConfiguration().component("netty-http")
                 .bindingMode(RestBindingMode.auto)
@@ -40,7 +43,7 @@ public class ServerRouteBuilder extends RouteBuilder {
         fromF("seda:inbound?concurrentConsumers=%s", threads)
                 .log("From ${header.hostname}: ${body}.")
                 .doTry()
-                    .process(new ComboResultToPointProcessor(dbname))
+                    .process(new ComboResultToPointProcessor(dbname, localTime))
                     .toF("influxdb://ref.myInfluxConnection?batch=true") //&retentionPolicy=autogen
                 .doCatch(Exception.class)
                     .log(LoggingLevel.WARN, "Error: ${exception.message}.")

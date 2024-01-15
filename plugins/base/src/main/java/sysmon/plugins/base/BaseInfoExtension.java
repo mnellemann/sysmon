@@ -1,21 +1,20 @@
 package sysmon.plugins.base;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.pf4j.Extension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import oshi.SystemInfo;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 @Extension
 public class BaseInfoExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseInfoExtension.class);
+    //private static final Logger log = LoggerFactory.getLogger(BaseInfoExtension.class);
 
     // Extension details
     private final String name = "base_info";
@@ -25,7 +24,7 @@ public class BaseInfoExtension implements MetricExtension {
     private boolean enabled = true;
     private boolean threaded = false;
     private String interval = "60m";
-    private HashMap<String, String> tags = new HashMap<>();
+    private final HashMap<String, String> tags = new HashMap<>();
 
     private SystemInfo systemInfo;
 
