@@ -128,7 +128,7 @@ public class ClientRouteBuilder extends RouteBuilder {
         Registry registry = getContext().getRegistry();
 
         // Setup Camel route for this extension
-        // a unique timer name gives the timer it's own thread, otherwise it's a shared thread for other timers with same name.
+        // a unique timer name gives the timer its own thread, otherwise it's a shared thread for other timers with same name.
         String timerName = ext.isThreaded() ? ext.getName() : "default";
         String timerInterval = (ext.getInterval() != null) ? ext.getInterval() : "30s";
         from("timer:" + timerName + "?fixedRate=true&period=" + timerInterval)
