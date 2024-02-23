@@ -1,22 +1,33 @@
 package sysmon.server;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
+
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricResult;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MetricResultToPointProcessor implements Processor {
 
     private static String influxDbName;
+    private boolean localTime = false;
+
 
     MetricResultToPointProcessor(String influxDbName) {
         MetricResultToPointProcessor.influxDbName = influxDbName;
     }
+
+
+    MetricResultToPointProcessor(String influxDbName, boolean localTime) {
+        MetricResultToPointProcessor.influxDbName = influxDbName;
+        this.localTime = localTime;
+    }
+
 
     @Override
     public void process(Exchange exchange) {
@@ -34,9 +45,15 @@ public class MetricResultToPointProcessor implements Processor {
         for(Measurement measurement : measurementList) {
 
             Point.Builder point = Point.measurement(metricResult.getName())
-                .time(metricResult.getTimestamp(), TimeUnit.SECONDS)
                 .fields(measurement.getFields())
                 .tag(measurement.getTags());
+
+            // Override timestamp from client
+            if(localTime) {
+                point.time(Instant.now().getEpochSecond(), TimeUnit.SECONDS);
+            } else {
+                point.time(metricResult.getTimestamp(), TimeUnit.SECONDS);
+            }
 
             batchPoints.point(point.build());
 

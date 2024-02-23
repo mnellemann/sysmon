@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.6] - 2024-01-31
+- Allow server to override timestamp from clients
+- Update 3rd party dependencies
+
 ## [1.1.5] - 2023-12-12
 - Update 3rd party dependencies
 

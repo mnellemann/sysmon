@@ -1,20 +1,19 @@
 package sysmon.plugins.base;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.pf4j.Extension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import oshi.SystemInfo;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 @Extension
 public class BaseNetstatExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(BaseNetstatExtension.class);
+    //private static final Logger log = LoggerFactory.getLogger(BaseNetstatExtension.class);
 
     // Extension details
     private final String name = "base_netstat";

@@ -25,7 +25,10 @@ stderr_log="/var/log/$name.err"
 #JAVA_HOME=/opt/ibm-semeru-open-XX-jdk
 #JAVA_HOME=/opt/ibm/ibm-semeru-certified-XX-jre
 #JAVA_HOME=/opt/ibm/ibm-semeru-certified-XX-jdk
-#export JAVA_HOME
+
+# Ensure US formatted numbers (dot and not comma)
+LC_ALL=C
+
 
 get_pid() {
     cat "$pid_file"
