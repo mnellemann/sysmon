@@ -47,7 +47,7 @@ public class ComboResultToPointProcessor implements Processor {
                         .tag(measurement.getTags())
                         .fields(measurement.getFields());
 
-                // Override timestamp client
+                // Override timestamp from client
                 if(localTime) {
                     point.time(Instant.now().getEpochSecond(), TimeUnit.SECONDS);
                 } else {

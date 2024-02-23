@@ -48,7 +48,7 @@ public class MetricResultToPointProcessor implements Processor {
                 .fields(measurement.getFields())
                 .tag(measurement.getTags());
 
-            // Override timestamp client
+            // Override timestamp from client
             if(localTime) {
                 point.time(Instant.now().getEpochSecond(), TimeUnit.SECONDS);
             } else {
