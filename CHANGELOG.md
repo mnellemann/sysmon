@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.7] - 2024-02-27
+- Client: Move configuration options into configuration file - prep. for packaging
+- Server: Implement configuration file and move options into configuration file - prep. for packaging
+- Create systemd (Linux) or sysv (AIX) init scripts during installation when installing from .deb or .rpm
+
 ## [1.1.6] - 2024-01-31
 - Allow server to override timestamp from clients
 - Update 3rd party dependencies

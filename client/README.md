@@ -6,8 +6,6 @@ This is the client/agent component of sysmon, which you install (together with s
 
 Download *.deb* or *.rpm* packages for sysmon-client *and* sysmon-plugins, and install.
 
-See the [doc/systemd.md](doc/systemd.md) or [doc/sysv-init.md](doc/sysv-init.md) files for further instructions on running as a system service.
-
 ## Development
 
 ### Build & Test

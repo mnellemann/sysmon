@@ -3,9 +3,9 @@ import org.redline_rpm.header.Os
 plugins {
     id 'application'
 
-    id "net.nemerosa.versioning" version "2.15.1"
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-    id "com.netflix.nebula.ospackage" version "11.5.0"
+    id "net.nemerosa.versioning" version "${versioningVersion}"
+    id "com.github.johnrengelman.shadow" version "${shadowVersion}"
+    id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
 }
 
 dependencies {
@@ -32,6 +32,7 @@ application {
 }
 
 run {
+    systemProperty 'sysmon.cfgFile', 'doc/sysmon-server.toml'
     systemProperty 'sysmon.debug', '1'
 }
 
@@ -68,17 +69,18 @@ ospackage {
 
 buildDeb {
     dependsOn startShadowScripts
+    installUtils file('scripts/shared.sh')
+    preUninstall file('scripts/remove.sh')
+    postInstall file('scripts/install.sh')
+
 }
 
 buildRpm {
     dependsOn startShadowScripts
-    os = Os.LINUX
-}
-
-task buildRpmAix(type: Rpm) {
-    dependsOn startShadowScripts
-    packageName = "${projectName}-AIX"
-    os = Os.AIX
+    installUtils file('scripts/shared.sh')
+    preUninstall file('scripts/remove.sh')
+    postTrans file('scripts/install.sh')
+    os Os.LINUX
 }
 
 jar {

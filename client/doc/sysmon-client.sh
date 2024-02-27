@@ -11,7 +11,7 @@
 
 dir="/opt/sysmon/client"
 cmd="/opt/sysmon/client/bin/client"
-args="-s http://10.20.30.40:9925/metrics"   # <- HERE: Specify sysmon-server URL, add '-n hostname' if needed
+args=""
 user=""
 
 name="sysmon-client"
@@ -26,7 +26,7 @@ stderr_log="/var/log/$name.err"
 #JAVA_HOME=/opt/ibm/ibm-semeru-certified-XX-jre
 #JAVA_HOME=/opt/ibm/ibm-semeru-certified-XX-jdk
 
-# Ensure US formatted numbers (dot and not comma)
+# Ensure numbers formatted with dot and not comma for thousand-separator
 LC_ALL=C
 
 

@@ -4,6 +4,15 @@
 ### Example configuration with some default values.
 ###
 
+# Sysmon Server URL
+server = "http://127.0.0.1:9925/metrics"
+
+# Override hostname
+#hostname = "cattle1"
+
+# Local path containing plugins
+plugins = "/opt/sysmon/plugins"
+
 # Local path for Groovy scripts
 scripts = "/opt/sysmon/scripts"
 

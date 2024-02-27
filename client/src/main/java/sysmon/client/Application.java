@@ -16,23 +16,12 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "sysmon-client", mixinStandardHelpOptions = true)
 public class Application implements Callable<Integer> {
 
-    @CommandLine.Option(names = { "-s", "--server-url" }, description = "Server URL (default: ${DEFAULT-VALUE}).", defaultValue = "http://127.0.0.1:9925/metrics", paramLabel = "<url>")
-    private URL serverUrl;
-
-    @CommandLine.Option(names = { "-n", "--hostname" }, description = "Client hostname (default: <hostname>).", paramLabel = "<name>")
-    private String hostname;
-
-    @CommandLine.Option(names = { "-p", "--plugin-dir" }, description = "Plugin jar path (default: ${DEFAULT-VALUE}).", paramLabel = "<path>", defaultValue = "/opt/sysmon/plugins")
-    private String pluginPath;
-
     @CommandLine.Option(names = { "-c", "--conf" }, description = "Configuration file [default: '/etc/sysmon-client.toml'].", paramLabel = "<file>", defaultValue = "/etc/sysmon-client.toml")
     private File configurationFile;
 
-    //@CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
-    //private boolean enableDebug = false;
-
     @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
     private boolean[] enableDebug = new boolean[0];
+
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new Application()).execute(args);
@@ -43,8 +32,8 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() {
 
-        String sysmonDebug = System.getProperty("sysmon.debug");
-        if(sysmonDebug != null) {
+        String doDebug = System.getProperty("sysmon.debug");
+        if(doDebug != null) {
             System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         }
 
@@ -60,23 +49,9 @@ public class Application implements Callable<Integer> {
                 break;
         }
 
-        String sysmonCfgFile = System.getProperty("sysmon.cfgFile");
-        if(sysmonCfgFile != null) {
-            configurationFile = new File(sysmonCfgFile);
-        }
-
-        String sysmonPluginsDir = System.getProperty("sysmon.pluginsDir");
-        if(sysmonPluginsDir != null) {
-            pluginPath = sysmonPluginsDir;
-        }
-
-        if(hostname == null || hostname.isEmpty()) {
-            try {
-                hostname = InetAddress.getLocalHost().getHostName();
-            } catch (UnknownHostException e) {
-                System.err.println("Could not detect hostname. Use the '-n' or '--hostname' option to specify.");
-                return -1;
-            }
+        String useConfigFile = System.getProperty("sysmon.cfgFile");
+        if(useConfigFile != null) {
+            configurationFile = new File(useConfigFile);
         }
 
         Configuration configuration = new Configuration();
@@ -90,11 +65,26 @@ public class Application implements Callable<Integer> {
             }
         }
 
+        String pluginPath = System.getProperty("sysmon.pluginsDir");
+        if(pluginPath == null) {
+            pluginPath = configuration.getPluginPath();
+        }
+
+        String hostname = configuration.getHostname();
+        if(hostname == null || hostname.isEmpty()) {
+            try {
+                hostname = InetAddress.getLocalHost().getHostName();
+            } catch (UnknownHostException e) {
+                System.err.println("Could not detect hostname, override in configuration file.");
+                return -1;
+            }
+        }
+
         Main main = new Main();
-        main.bind("pluginPath", pluginPath);
-        main.bind("myServerUrl", serverUrl.toString());
-        main.bind("myHostname", hostname);
         main.bind("configuration", configuration);
+        main.bind("pluginPath", pluginPath);
+        main.bind("myServerUrl", configuration.getServer());
+        main.bind("myHostname", hostname);
         main.configure().addRoutesBuilder(ClientRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)

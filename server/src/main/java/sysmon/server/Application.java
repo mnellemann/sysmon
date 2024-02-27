@@ -1,5 +1,6 @@
 package sysmon.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Callable;
@@ -14,29 +15,8 @@ import picocli.CommandLine;
 @CommandLine.Command(name = "sysmon-server", mixinStandardHelpOptions = true)
 public class Application implements Callable<Integer> {
 
-    @CommandLine.Option(names = { "-i", "--influxdb-url" }, description = "InfluxDB URL (default: ${DEFAULT-VALUE})].", defaultValue = "http://localhost:8086", paramLabel = "<url>")
-    private URL influxUrl;
-
-    @CommandLine.Option(names = { "-u", "--influxdb-user" }, description = "InfluxDB Username (default: ${DEFAULT-VALUE})].", defaultValue = "root", paramLabel = "<user>")
-    private String influxUser;
-
-    @CommandLine.Option(names = { "-p", "--influxdb-pass" }, description = "InfluxDB Password (default: ${DEFAULT-VALUE}).", defaultValue = "", paramLabel = "<pass>")
-    private String influxPass;
-
-    @CommandLine.Option(names = { "-n", "--influxdb-db" }, description = "InfluxDB Database (default: ${DEFAULT-VALUE}).", defaultValue = "sysmon", paramLabel = "<db>")
-    private String influxName;
-
-    @CommandLine.Option(names = { "-H", "--server-host" }, description = "Server listening address (default: ${DEFAULT-VALUE}).", paramLabel = "<addr>")
-    private String listenHost = "0.0.0.0";
-
-    @CommandLine.Option(names = { "-P", "--server-port" }, description = "Server listening port (default: ${DEFAULT-VALUE}).", paramLabel = "<port>")
-    private Integer listenPort = 9925;
-
-    @CommandLine.Option(names = { "-t", "--threads" }, description = "Threads for processing inbound metrics(default: ${DEFAULT-VALUE}).", paramLabel = "<num>")
-    private Integer threads = 1;
-
-    @CommandLine.Option(names = { "-l", "--local-time" }, description = "Override timestamp from clients (default: ${DEFAULT_VALUE}).")
-    private Boolean localTime = false;
+    @CommandLine.Option(names = { "-c", "--conf" }, description = "Configuration file [default: '/etc/sysmon-server.toml'].", paramLabel = "<file>", defaultValue = "/etc/sysmon-server.toml")
+    private File configurationFile;
 
     @CommandLine.Option(names = { "-d", "--debug" }, description = "Enable debugging (default: ${DEFAULT_VALUE}).")
     private Boolean enableDebug = false;
@@ -51,20 +31,40 @@ public class Application implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
 
-        String sysmonDebug = System.getProperty("sysmon.debug");
-        if(sysmonDebug != null || enableDebug) {
+        String doDebug = System.getProperty("sysmon.debug");
+        if(doDebug != null || enableDebug) {
             System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         }
 
-        InfluxDB influxDB = InfluxDBFactory.connect(influxUrl.toString(), influxUser, influxPass);
+        String useConfigFile = System.getProperty("sysmon.cfgFile");
+        if(useConfigFile != null) {
+            configurationFile = new File(useConfigFile);
+        }
+
+        Configuration configuration = new Configuration();
+        if(configurationFile.exists()) {
+            try {
+                configuration.parse(configurationFile.toPath());
+            } catch (Exception e) {
+                System.err.println("Could not parse configuration file: " + e.getMessage());
+                return 1;
+            }
+        }
+
+
+        String influxUrl = configuration.result().contains("influx.url") ? configuration.result().getString("influx.url") : "http://localhost:8086";
+        String influxUser = configuration.result().contains("influx.user") ? configuration.result().getString("influx.user") : "root";
+        String influxPass = configuration.result().contains("influx.pass") ? configuration.result().getString("influx.pass") : "";
+        InfluxDB influxDB = InfluxDBFactory.connect(influxUrl, influxUser, influxPass);
 
         Main main = new Main();
+        main.bind("configuration", configuration);
         main.bind("myInfluxConnection", influxDB);
-        main.bind("http.host", listenHost);
-        main.bind("http.port", listenPort);
-        main.bind("threads", threads);
-        main.bind("dbname", influxName);
-        main.bind("localTime", localTime);
+        main.bind("http.host", configuration.result().getString("listen"));
+        main.bind("http.port", configuration.result().getLong("port").intValue());
+        main.bind("threads", configuration.result().getLong("threads").intValue());
+        main.bind("dbname", configuration.result().getString("influx.db"));
+        main.bind("localTime", configuration.result().getBoolean("localtime"));
         main.configure().addRoutesBuilder(ServerRouteBuilder.class);
 
         // now keep the application running until the JVM is terminated (ctrl + c or sigterm)
