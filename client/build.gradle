@@ -82,12 +82,6 @@ ospackage {
     user = 'root'
     packager = "Mark Nellemann <mark.nellemann@gmail.com>"
 
-    os Os.LINUX
-
-    installUtils file('scripts/shared.sh')
-    postInstall file('scripts/install.sh')
-    preUninstall file('scripts/remove.sh')
-
     into '/opt/sysmon/client'
 
     from(shadowJar.outputs.files) {
@@ -110,8 +104,16 @@ ospackage {
 
 buildDeb {
     dependsOn startShadowScripts
+    installUtils file('scripts/shared.sh')
+    preUninstall file('scripts/remove.sh')
+    postInstall file('scripts/install.sh')
 }
 
 buildRpm {
     dependsOn startShadowScripts
+    installUtils file('scripts/shared.sh')
+    preUninstall file('scripts/remove.sh')
+    postTrans file('scripts/install.sh')
+    os Os.LINUX
 }
+
