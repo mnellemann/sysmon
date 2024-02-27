@@ -1,0 +1,27 @@
+###
+### Sysmon Server
+###
+### Example configuration with some default values.
+###
+
+# Server Listener
+listen = "0.0.0.0"
+
+# Server Port
+port = 9925
+
+# Threads for processing inbound messages
+threads = 1
+
+# Override timestamp in messages with local server timestamp
+localtime = false
+
+# Debugging
+debug = false
+
+[influx]
+url = "http://localhost:8086"
+user = "root"
+pass = ""
+db = "sysmon"
+

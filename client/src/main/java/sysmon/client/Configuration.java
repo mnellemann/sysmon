@@ -24,6 +24,19 @@ public final class Configuration {
         result.errors().forEach(error -> log.error(error.toString()));
     }
 
+    Object get(String key) {
+        return result.contains(key) ? result.get(key) : null;
+    }
+
+    String getServer() {
+        return result.contains("server") ? result.getString("server") : null;
+    }
+
+
+    String getHostname() {
+        return result.contains("hostname") ? result.getString("hostname") : null;
+    }
+
 
     boolean isForExtension(String extName) {
         if(result == null) {
@@ -74,5 +87,13 @@ public final class Configuration {
         return result.getString("scripts");
     }
 
+
+    String getPluginPath() {
+        if(result == null) {
+            log.debug("No configuration file loaded ...");
+            return null;
+        }
+        return result.getString("plugins");
+    }
 
 }

@@ -38,11 +38,6 @@ sudo dpkg -i sysmon-client-*.deb sysmon-plugins-*.deb
 
 ## Configuration
 
-Edit **/etc/systemd/system/sysmon-client.service** and change the URL so that it points to *your* sysmon-server.
-
-````
-# Modify below line in /etc/systemd/system/sysmon-client.service
-ExecStart=/opt/sysmon/client/bin/client -s http://10.20.30.40:9925/metrics
-````
+Edit **/etc/sysmon-client.toml** and modify the server URL.
 
 Check logs for errors with: ```journalctl -u sysmon-client```

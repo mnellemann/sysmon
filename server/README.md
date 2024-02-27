@@ -6,8 +6,6 @@ This is the server component of sysmon.
 
 Download *.deb* or *.rpm* package and install.
 
-See the [doc/systemd.md](doc/systemd.md) or [doc/sysv-init.md](doc/sysv-init.md) files for further instructions on running as a system service.
-
 ### Influx Database
 
 Create a database for the metrics and adjust duration as you prefer:

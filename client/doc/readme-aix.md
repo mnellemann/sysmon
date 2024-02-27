@@ -13,7 +13,7 @@ rpm -ivh --ignoreos sysmon-client-*.rpm sysmon-plugins-*.rpm
 
 ## Configuration
 
-Edit **/etc/rc.d/init.d/sysmon-client** and change the URL so that it points to *your* sysmon-server.
+Edit **/etc/sysmon-client.toml** and modify the server URL.
 
 ## Upgrades
 
