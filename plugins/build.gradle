@@ -1,7 +1,9 @@
 import org.redline_rpm.header.Os
 
+import javax.naming.LimitExceededException
+
 plugins {
-    id "com.netflix.nebula.ospackage" version "11.5.0"
+    id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
 }
 
 
@@ -87,6 +89,7 @@ ospackage {
     release = '1'
     user = 'root'
     packager = "Mark Nellemann <mark.nellemann@gmail.com>"
+    os Os.LINUX
 
     into '/opt/sysmon/plugins'
 
@@ -98,17 +101,12 @@ ospackage {
 
 buildDeb {
     subprojects.each { dependsOn("${it.name}:build") }
+    requires('sysmon-client', version, GREATER | EQUAL)
 }
 
 buildRpm {
     subprojects.each { dependsOn("${it.name}:build") }
-    os = Os.LINUX
-}
-
-task buildRpmAix(type: Rpm) {
-    subprojects.each { dependsOn("${it.name}:build") }
-    packageName = "${projectName}-AIX"
-    os = Os.AIX
+    requires('sysmon-client', version, GREATER | EQUAL)
 }
 
 task buildZip(type: Zip) {
