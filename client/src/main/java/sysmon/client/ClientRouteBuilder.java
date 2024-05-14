@@ -57,7 +57,7 @@ public class ClientRouteBuilder extends RouteBuilder {
             if(ext.isSupported() && ext.isEnabled()) {
                 addExtensionRoute(ext);
             } else {
-                log.info("Skipping extension (not supported or disabled): " + ext.getDescription());
+                log.info("Skipping extension (not supported or disabled): {}", ext.getDescription());
             }
         }
 
@@ -77,7 +77,7 @@ public class ClientRouteBuilder extends RouteBuilder {
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .doTry()
                     .marshal(new JacksonDataFormat(ComboResult.class))
-                    .to((String)registry.lookupByName("myServerUrl"))
+                    .to((String)registry.lookupByName("myServerUrl") + "?responseTimeout=1000")
                     .log("${body}")
                 .doCatch(Exception.class)
                     .log(LoggingLevel.WARN,"Error: ${exception.message}.")

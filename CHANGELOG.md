@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.8] - 2024-05-14
 - Update 3rd party dependencies
+- Avoid infinite timeout on http connections to server (max 1s now)
 
 ## [1.1.7] - 2024-02-27
 - Client: Move configuration options into configuration file - prep. for packaging
