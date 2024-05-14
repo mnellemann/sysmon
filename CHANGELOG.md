@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.8] - 2024-05-14
+- Update 3rd party dependencies
+
 ## [1.1.7] - 2024-02-27
 - Client: Move configuration options into configuration file - prep. for packaging
 - Server: Implement configuration file and move options into configuration file - prep. for packaging
@@ -66,15 +69,3 @@ All notable changes to this project will be documented in this file.
 ## [0.1.9] - 2022-02-15
 ### Changed
 - Updated 3rd party dependencies.
-
-<!--
-[1.1.0]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.1.0%0Dv0.1.24
-[1.0.24]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.24%0Dv0.1.23
-[1.0.23]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.23%0Dv0.1.21
-[1.0.21]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.21%0Dv0.1.18
-[1.0.18]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v1.0.18%0Dv0.1.13
-[0.1.13]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.13%0Dv0.1.11
-[0.1.11]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.11%0Dv0.1.10
-[0.1.10]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.10%0Dv0.1.9
-[0.1.9]: https://bitbucket.org/mnellemann/sysmon/branches/compare/v0.1.9%0Dv0.1.8
--->

@@ -8,7 +8,6 @@ import org.slf4j.simple.SimpleLogger;
 import picocli.CommandLine;
 
 import java.io.File;
-import java.net.URL;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.Callable;
