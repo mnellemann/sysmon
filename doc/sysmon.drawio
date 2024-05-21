@@ -1,52 +1,58 @@
-<mxfile host="65bd71144e" scale="1" border="15">
-    <diagram id="JBJC25AnoTCSJF4dnfuA" name="Page-1">
-        <mxGraphModel dx="1761" dy="1167" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
-            <root>
-                <mxCell id="0"/>
-                <mxCell id="1" parent="0"/>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-1" value="Linux" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-                    <mxGeometry x="250" y="50" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-2" value="AIX" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-                    <mxGeometry x="180" y="140" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;sketch=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-3" target="n2YpyNFSe_BwzrgFeqL7-4" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-3" value="Sysmon Server" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
-                    <mxGeometry x="510" y="120" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;sketch=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-4" target="n2YpyNFSe_BwzrgFeqL7-5" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-4" value="InfluxDB&lt;br&gt;ver 1.x" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;sketch=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
-                    <mxGeometry x="690" y="110" width="60" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-5" value="Grafana&lt;br&gt;Dashboards &amp;amp; Alerting" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;sketch=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
-                    <mxGeometry x="800" y="110" width="120" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-8" value="Other OS'es" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-                    <mxGeometry x="310" y="210" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-9" target="n2YpyNFSe_BwzrgFeqL7-3" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-9" value="Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;" parent="1" vertex="1">
-                    <mxGeometry x="320" y="90" width="50" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-10" target="n2YpyNFSe_BwzrgFeqL7-3" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-10" value="Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;" parent="1" vertex="1">
-                    <mxGeometry x="250" y="180" width="50" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-11" target="n2YpyNFSe_BwzrgFeqL7-3" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="n2YpyNFSe_BwzrgFeqL7-11" value="Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;" parent="1" vertex="1">
-                    <mxGeometry x="380" y="250" width="50" height="20" as="geometry"/>
-                </mxCell>
-            </root>
-        </mxGraphModel>
-    </diagram>
+<mxfile host="Electron" scale="1" border="15" modified="2024-05-21T06:33:21.284Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" version="24.2.5" etag="cN7ZFVWIrKtoLixvYEHb" type="device">
+  <diagram id="JBJC25AnoTCSJF4dnfuA" name="Page-1">
+    <mxGraphModel dx="2074" dy="1195" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-1" value="Linux" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="250" y="50" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-2" value="AIX" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="180" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;sketch=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-3" target="n2YpyNFSe_BwzrgFeqL7-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5HfQOijbvimRVzuDms9h-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" edge="1" parent="1" source="n2YpyNFSe_BwzrgFeqL7-3" target="n2YpyNFSe_BwzrgFeqL7-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-3" value="&lt;font color=&quot;#000000&quot;&gt;Sysmon Server&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673A6;" parent="1" vertex="1">
+          <mxGeometry x="510" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;sketch=1;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-4" target="n2YpyNFSe_BwzrgFeqL7-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5HfQOijbvimRVzuDms9h-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" edge="1" parent="1" source="n2YpyNFSe_BwzrgFeqL7-4" target="n2YpyNFSe_BwzrgFeqL7-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-4" value="&lt;font color=&quot;#000000&quot;&gt;InfluxDB&lt;br&gt;ver 1.x&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;sketch=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="690" y="110" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-5" value="&lt;font color=&quot;#000000&quot;&gt;Grafana&lt;br&gt;Dashboards &amp;amp; Alerting&lt;/font&gt;" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;sketch=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="800" y="110" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-8" value="Other OS&#39;es" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="310" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-9" target="n2YpyNFSe_BwzrgFeqL7-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-9" value="&lt;font color=&quot;#000000&quot;&gt;Agent&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="90" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-10" target="n2YpyNFSe_BwzrgFeqL7-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-10" value="&lt;font color=&quot;#000000&quot;&gt;Agent&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="180" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" parent="1" source="n2YpyNFSe_BwzrgFeqL7-11" target="n2YpyNFSe_BwzrgFeqL7-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n2YpyNFSe_BwzrgFeqL7-11" value="&lt;font color=&quot;#000000&quot;&gt;Agent&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="250" width="50" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 </mxfile>
