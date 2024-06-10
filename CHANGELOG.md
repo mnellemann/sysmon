@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.9] - 2024-06-xx
+- Adjust defaults intervals from 10s to 30s
+- Send sleep overrun
+
 ## [1.1.8] - 2024-05-14
 - Update 3rd party dependencies
 - Avoid infinite timeout on http connections to server (max 1s now)

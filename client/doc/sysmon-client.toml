@@ -22,11 +22,11 @@ interval = '60m'
 
 [extension.base_disk]
 enabled = true
-interval = '10s'
+interval = '30s'
 
 [extension.base_filesystem]
 enabled = true
-interval = '10s'
+interval = '30s'
 exclude_type = [ "tmpfs", "ahafs" ]
 exclude_mount = [ "/boot/efi" ]
 
