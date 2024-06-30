@@ -100,12 +100,12 @@ ospackage {
 
 buildDeb {
     subprojects.each { dependsOn("${it.name}:build") }
-    requires('sysmon-client', version, GREATER | EQUAL)
+    requires('sysmon-agent', version, GREATER | EQUAL)
 }
 
 buildRpm {
     subprojects.each { dependsOn("${it.name}:build") }
-    requires('sysmon-client', version, GREATER | EQUAL)
+    requires('sysmon-agent', version, GREATER | EQUAL)
     os Os.LINUX
 }
 

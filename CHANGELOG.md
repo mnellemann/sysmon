@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.9] - 2024-06-xx
+## [1.2.1] - 2024-07-xx
 - Adjust defaults intervals from 10s to 30s
-- Send sleep overrun
+- Measure sleep overrun
+- Rename client to agent
+  - When upgrading, ensure any *client* related init-scripts are removed
 
 ## [1.1.8] - 2024-05-14
 - Update 3rd party dependencies

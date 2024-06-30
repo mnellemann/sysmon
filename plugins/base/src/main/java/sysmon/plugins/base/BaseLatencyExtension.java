@@ -76,7 +76,7 @@ public class BaseLatencyExtension implements MetricExtension {
     @Override
     public MetricResult getMetrics() {
 
-        // TODO: Calculate execution time for sysmon-client to monitor drift
+        // TODO: Calculate execution time for sysmon-agent to monitor drift
         // Available from Java 9
         //long pid = ProcessHandle.current().pid();
 
@@ -88,7 +88,7 @@ public class BaseLatencyExtension implements MetricExtension {
             long nanoTime2 = System.nanoTime();
             long nanoDiff = nanoTime2 - nanoTime1;
             sleepOverrun = (nanoDiff / 1_000_000)  - sleepTimeMillis;
-            log.warn("Sleep Overrun: {}", sleepOverrun);
+            log.debug("getMetrics() - sleep Overrun: {}", sleepOverrun);
         } catch (InterruptedException e) {
             log.error("getMetrics() - error: {}", e.getMessage());
         }

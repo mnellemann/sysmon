@@ -2,7 +2,7 @@
 
 remove_config() {
     echo "Leaving /etc/${service_name}.toml for manual deletion."
-    #test -f "/etc/${service_name}.toml" && mv "/etc/${service_name}.toml" "/etc/${service_name}.toml.bak"
+    #test -f "/etc/${service_name}.toml" && mv "/etc/${service_name}.toml" "/etc/${service_name}.bak"
 }
 
 remove_systemd() {
@@ -19,8 +19,8 @@ remove_sysv_linux() {
 
 remove_sysv_aix() {
     /etc/rc.d/init.d/${service_name} stop
-    rm -f /etc/rc.d/init.d/sysmon-server /etc/rc.d/rc2.d/Ksysmon-server
-    rm -f /etc/rc.d/rc2.d/Ssysmon-server
+    rm -f /etc/rc.d/init.d/sysmon-agent /etc/rc.d/rc2.d/Ksysmon-agent
+    rm -f /etc/rc.d/rc2.d/Ssysmon-agent
 }
 
 remove_sysv() {
