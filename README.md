@@ -18,7 +18,7 @@ Some of my other related projects are:
 ## Screenshots
 
 
-![screenshot](doc/screenshots/sysmon1.png)
+![screenshot](doc/screenshots/sysmon3.png)
 
 Screenshots of other dashboards are available in the [doc/screenshots](doc/screenshots/) folder.
 
