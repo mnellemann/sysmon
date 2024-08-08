@@ -1,8 +1,6 @@
 ###
 ### Sysmon Agent
 ###
-### Example configuration with some default values.
-###
 
 # Sysmon Server URL
 server = "http://127.0.0.1:9925/metrics"
@@ -16,26 +14,31 @@ plugins = "/opt/sysmon/plugins"
 # Local path for Groovy scripts
 scripts = "/opt/sysmon/scripts"
 
-[extension.base_info]
-enabled = true
-interval = '60m'
+# All plugins can be disabled, and you can control the check interval
+#[extension.base_info]
+#enabled = true
+#interval = '60m'
 
-[extension.base_disk]
-enabled = true
-interval = '30s'
+#[extension.base_disk]
+#enabled = true
+#interval = '30s'
 
-[extension.base_filesystem]
-enabled = true
-interval = '30s'
-exclude_type = [ "tmpfs", "ahafs" ]
-exclude_mount = [ "/boot/efi" ]
+# See plugins/base/src/main/java/sysmon.plugins.base/BaseFilesystemExtension.java
+# for a list of the default excluded types and mounts.
+#[extension.base_filesystem]
+#enabled = true
+#interval = '10m'
+#exclude_type = [ "tmpfs", "ahafs" ]
+#exclude_mount = [ "/boot/efi" ]
 
-[extension.base_process]
-enabled = true
-interval = '5m'
-include = [
-    "java", "node", "httpd", "mongod", "mysqld",
-    "postgres", "influxd", "haproxy", "beam.smp",
-    "filebeat", "corosync", "rsyslogd", "memcached",
-    "db2sysc", "dsmserv", "mmfsd",
-]
+# See plugins/base/src/main/java/sysmon.plugins.base/BaseProcessExtension.java
+# for a list of the default included process names.
+#[extension.base_process]
+#enabled = true
+#interval = '5m'
+#include = [
+#    "java", "node", "httpd", "mongod", "mysqld",
+#    "postgres", "influxd", "haproxy", "beam.smp",
+#    "filebeat", "corosync", "rsyslogd", "memcached",
+#    "db2sysc", "dsmserv", "mmfsd", "apache2"
+#]

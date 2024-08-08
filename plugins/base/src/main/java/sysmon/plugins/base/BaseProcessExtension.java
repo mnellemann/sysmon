@@ -23,14 +23,17 @@ public class BaseProcessExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
-    private String interval = "60s";
+                private String interval = "60s";
 
     private List<?> includeList = new ArrayList<Object>() {{
         add("java");
         add("node");
+        add("sshd");
         add("httpd");
+        add("nginx");
         add("mongod");
         add("mysqld");
+        add("apache2");
         add("influxd");
         add("haproxy");
         add("beam.smp");
@@ -44,7 +47,10 @@ public class BaseProcessExtension implements MetricExtension {
         add("dsmserv");
         add("mmfsd");
         add("systemd");
-        add("nginx");
+        add("php-fpm");
+        add("clamd");
+        add("freshclam");
+        add("dovecot");
     }};
 
     private final long minUptimeInSeconds = 600;
