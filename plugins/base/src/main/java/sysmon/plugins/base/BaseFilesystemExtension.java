@@ -23,7 +23,7 @@ public class BaseFilesystemExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
-    private String interval = "10s";
+    private String interval = "60s";
     private List<?> excludeType = new ArrayList<String>() {{
       add("tmpfs");
       add("ahafs");

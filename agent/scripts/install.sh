@@ -1,6 +1,10 @@
 #!/bin/sh
 
 install_config() {
+    # Migrate from old (name) configuration file
+    test -f "/etc/sysmon-client.toml" && mv "/etc/sysmon-client.toml" "/etc/${service_name}.toml"
+
+    # Install default configuration file
     test -f "/etc/${service_name}.toml" || cp "${config_source}" "/etc/${service_name}.toml"
 }
 
@@ -24,8 +28,8 @@ install_sysv_linux() {
 install_sysv_aix() {
     test -f "/etc/rc.d/init.d/${service_name}" || cp "${sysv_source}" "/etc/rc.d/init.d/${service_name}"
     chmod 0755 "/etc/rc.d/init.d/${service_name}"
-    ln -sf /etc/rc.d/init.d/sysmon-server /etc/rc.d/rc2.d/Ssysmon-server
-    ln -sf /etc/rc.d/init.d/sysmon-server /etc/rc.d/rc2.d/Ksysmon-server
+    ln -sf /etc/rc.d/init.d/sysmon-agent /etc/rc.d/rc2.d/Ssysmon-agent
+    ln -sf /etc/rc.d/init.d/sysmon-agent /etc/rc.d/rc2.d/Ksysmon-agent
 }
 
 install_sysv() {

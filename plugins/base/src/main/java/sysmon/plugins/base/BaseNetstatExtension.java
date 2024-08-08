@@ -22,7 +22,7 @@ public class BaseNetstatExtension implements MetricExtension {
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = false;
-    private String interval = "10s";
+    private String interval = "30s";
 
     private SystemInfo systemInfo;
 

@@ -37,8 +37,8 @@ subprojects {
 tasks.register("packages") {
     group "build"
 
-    dependsOn ":client:buildDeb"
-    dependsOn ":client:buildRpm"
+    dependsOn ":agent:buildDeb"
+    dependsOn ":agent:buildRpm"
 
     dependsOn ":server:buildDeb"
     dependsOn ":server:buildRpm"

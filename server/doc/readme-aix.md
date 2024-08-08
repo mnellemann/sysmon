@@ -2,7 +2,7 @@
 
 ## Installation
 
-We require Java 8, which should already be installed on AIX, or can be downloaded and installed.
+Requires Java 8 (or later), which should already be installed on AIX, or can be downloaded and installed.
 The RPM packages are *"noarch"* Java bytecode, so we can use the **--ignoreos** option to install:
 
 ```shell

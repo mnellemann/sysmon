@@ -1,0 +1,12 @@
+[Unit]
+Description=Sysmon Agent
+
+[Service]
+#User=nobody
+#Group=nobody
+TimeoutSec=20
+Restart=on-failure
+ExecStart=/opt/sysmon/agent/bin/agent
+
+[Install]
+WantedBy=default.target

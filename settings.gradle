@@ -8,7 +8,7 @@
  */
 
 rootProject.name = 'sysmon'
-include('shared', 'client', 'server', 'plugins')
+include('shared', 'agent', 'server', 'plugins')
 
 new File(rootDir, "plugins").listFiles().each {
 
