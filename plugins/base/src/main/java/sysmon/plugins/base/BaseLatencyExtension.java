@@ -18,7 +18,7 @@ public class BaseLatencyExtension implements MetricExtension {
 
     private static final Logger log = LoggerFactory.getLogger(BaseLatencyExtension.class);
 
-    private final int sleepTimeMillis = 5000;
+    private final int sleepTimeMillis = 1000;
 
     // Extension details
     private final String name = "base_latency";

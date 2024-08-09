@@ -109,7 +109,7 @@ public class AgentRouteBuilder extends RouteBuilder {
     void addScriptRoute(ScriptWrapper script) {
         Registry registry = getContext().getRegistry();
 
-        from("timer:scripts?fixedRate=true&daemon=false&period=30s")
+        from("timer:scripts?fixedRate=true&period=30s")
             .routeId(script.toString())
             .bean(script, "run")
             .outputType(MetricResult.class)
@@ -131,7 +131,7 @@ public class AgentRouteBuilder extends RouteBuilder {
         // a unique timer name gives the timer its own thread, otherwise it's a shared thread for other timers with same name.
         String timerName = ext.isThreaded() ? ext.getName() : "default";
         String timerInterval = (ext.getInterval() != null) ? ext.getInterval() : "30s";
-        from("timer:" + timerName + "?fixedRate=true&daemon=false&period=" + timerInterval)
+        from("timer:" + timerName + "?fixedRate=true&period=" + timerInterval)
             .routeId(ext.getName())
             .bean(ext, "getMetrics")
             .outputType(MetricResult.class)

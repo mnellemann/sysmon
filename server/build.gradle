@@ -2,8 +2,7 @@ import org.redline_rpm.header.Os
 
 plugins {
     id 'application'
-
-    id "net.nemerosa.versioning" version "${versioningVersion}"
+    id "com.palantir.git-version" version "${versioningVersion}"
     id "com.github.johnrengelman.shadow" version "${shadowVersion}"
     id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
 }
@@ -69,19 +68,22 @@ ospackage {
 
 buildDeb {
     dependsOn startShadowScripts
-    installUtils file('scripts/shared.sh')
-    preUninstall file('scripts/remove.sh')
-    postInstall file('scripts/install.sh')
-
+    installUtils file('../shared/scripts/utils.sh') as File
+    installUtils file('scripts/config.sh') as File
+    preUninstall file('scripts/deb-pre-rm.sh') as File
+    postInstall file('scripts/deb-post-inst.sh') as File
 }
 
 buildRpm {
     dependsOn startShadowScripts
-    installUtils file('scripts/shared.sh')
-    preUninstall file('scripts/remove.sh')
-    postTrans file('scripts/install.sh')
+    installUtils file('../shared/scripts/utils.sh') as File
+    installUtils file('scripts/config.sh') as File
+    preUninstall file('scripts/rpm-pre-rm.sh') as File
+    postTrans file('scripts/rpm-post-inst.sh') as File
     os Os.LINUX
 }
+
+
 
 jar {
     manifest {
@@ -90,8 +92,7 @@ jar {
                 'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
                 'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
                 'Build-User'     : System.properties['user.name'],
-                'Build-Version'  : versioning.info.tag ?: (versioning.info.branch + "-" + versioning.info.build),
-                'Build-Revision' : versioning.info.commit,
+                'Build-Version'  : gitVersion(),
                 'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ").toString(),
                 'Add-Opens'      : 'java.base/java.lang.invoke' // To ignore "Illegal reflective access by retrofit2.Platform" warnings
         )

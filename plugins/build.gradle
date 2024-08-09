@@ -1,7 +1,5 @@
 import org.redline_rpm.header.Os
 
-import javax.naming.LimitExceededException
-
 plugins {
     id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
 }
