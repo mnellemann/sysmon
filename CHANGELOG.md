@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] - 2024-08-09
+- Refactor RPM and DEB scripts
+
 ## [1.2.2] - 2024-08-08
 - Update dashboard
 - Add sleep-overrun latency
