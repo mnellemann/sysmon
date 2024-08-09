@@ -4,7 +4,7 @@
 # $1 == 1  for upgrade
 # $1 == 0  for uninstall
 
-echo "Running RedHat Pre Un-Install Script with: $@"
+#echo "Running RedHat Pre Un-Install Script with: $@"
 
 # Uninstall
 if [ "$1" = "0" ] ; then

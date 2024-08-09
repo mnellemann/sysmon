@@ -9,7 +9,13 @@ install_config() {
     service_name=$1
     config_source=$2
 
-    # Install default configuration file
+    # Leave any existing configuration file
+    test -f "/etc/${service_name}.toml" && return
+
+    # Or install a previously used configuration file
+    test -f "/etc/${service_name}.bak" && mv "/etc/${service_name}.bak" "/etc/${service_name}.toml"
+
+    # Or install the default configuration file
     test -f "/etc/${service_name}.toml" || cp "${config_source}" "/etc/${service_name}.toml"
 }
 
@@ -60,7 +66,8 @@ install_service() {
 
     # Detect if we are running on a systemd based Linux
     # shellcheck disable=SC2046
-    if [ $(command -v systemctl) = "" ]; then
+    # shellcheck disable=SC2268
+    if [ x$(command -v systemctl) = x"" ]; then
         install_service_sysv "$service_name" "$service_source_sysv"
     else
         install_service_systemd "$service_name" "$service_source_systemd"
@@ -102,7 +109,8 @@ refresh_service() {
 
     # Detect if we are running on a systemd based Linux
     # shellcheck disable=SC2046
-    if [ $(command -v systemctl) = "" ]; then
+    # shellcheck disable=SC2268
+    if [ x$(command -v systemctl) = x"" ]; then
         refresh_service_sysv "$service_name"
     else
         refresh_service_systemd "$service_name"
@@ -119,6 +127,7 @@ refresh_service() {
 purge_config() {
     service_name=$1
 
+    test -f "/etc/${service_name}.bak" && rm "/etc/${service_name}.bak"
     test -f "/etc/${service_name}.toml" && rm "/etc/${service_name}.toml"
 }
 
@@ -162,7 +171,8 @@ remove_service() {
     service_name=$1
 
     # Detect if we are running on a systemd based Linux
-    if [ "$(command -v systemctl)" = "" ]; then
+    # shellcheck disable=SC2268
+    if [ x"$(command -v systemctl)" = x"" ]; then
         remove_service_sysv "$service_name"
     else
         remove_service_systemd "$service_name"
