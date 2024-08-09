@@ -1,6 +1,6 @@
-# System Monitor
+# System Monitor / Sysmon
 
-Open source system monitoring solution with support for plugins and scripts.
+Open source systems monitoring solution with support for plugins and scripts.
 
 This software is free to use and is licensed under the [Apache 2.0 License](LICENSE).
 
@@ -13,9 +13,8 @@ Some of my other related projects are:
 
 - [hmci](https://github.com/mnellemann/hmci) for agent-less monitoring of IBM Power servers
 - [svci](https://github.com/mnellemann/svci) for monitoring IBM Storage Virtualize (Flashsystems / Storwize / SVC)
-- [syslogd](https://github.com/mnellemann/syslogd) for redirecting syslog and GELF to other logging destinations
+- [syslogd](https://github.com/mnellemann/syslogd) for redirecting syslog to other logging destinations
 
-## Screenshots
 
 
 ![screenshot](doc/screenshots/sysmon3.png)
@@ -40,7 +39,10 @@ The agent runs on all or some of your hosts and collects metrics, which are then
 - More information and documentation on the [sysmon-plugins](plugins/README.md).
 
 
-## Known problems
+------
+
+<details closed>
+  <summary><B>Known problems</B></summary>
 
 ### Correct timezone and clock
 
@@ -59,3 +61,5 @@ If you rename a host, the metrics in InfluxDB will still be available by the old
 USE sysmon;
 DELETE WHERE hostname = 'unknown';
 ```
+
+</details>
