@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.4] - 2024-09-16
+- Update 3rd party dependencies
+
 ## [1.2.3] - 2024-08-09
 - Refactor RPM and DEB scripts
 
