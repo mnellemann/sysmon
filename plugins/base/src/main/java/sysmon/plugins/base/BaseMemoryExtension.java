@@ -87,6 +87,11 @@ public class BaseMemoryExtension implements MetricExtension {
         fieldsMap.put("usage", usage);
         fieldsMap.put("paged", hardwareAbstractionLayer.getMemory().getPageSize());
         fieldsMap.put("virtual", hardwareAbstractionLayer.getMemory().getVirtualMemory().getVirtualInUse());
+        fieldsMap.put("swap_in", hardwareAbstractionLayer.getMemory().getVirtualMemory().getSwapPagesIn());
+        fieldsMap.put("swap_out", hardwareAbstractionLayer.getMemory().getVirtualMemory().getSwapPagesOut());
+        fieldsMap.put("swap_used", hardwareAbstractionLayer.getMemory().getVirtualMemory().getSwapUsed());
+        fieldsMap.put("swap_total", hardwareAbstractionLayer.getMemory().getVirtualMemory().getSwapUsed());
+
 
         log.debug(fieldsMap.toString());
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));

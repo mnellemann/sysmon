@@ -1,7 +1,7 @@
 import org.redline_rpm.header.Os
 
 plugins {
-    id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
+        id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
 }
 
 

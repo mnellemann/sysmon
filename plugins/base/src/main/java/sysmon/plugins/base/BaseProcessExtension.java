@@ -51,9 +51,10 @@ public class BaseProcessExtension implements MetricExtension {
         add("clamd");
         add("freshclam");
         add("dovecot");
+        add("grafana");
     }};
 
-    private final long minUptimeInSeconds = 600;
+    private static final long MINIMUM_UPTIME_SECONDS = 600;
     private SystemInfo systemInfo;
 
 
@@ -119,7 +120,7 @@ public class BaseProcessExtension implements MetricExtension {
             }
 
             // Skip short-lived processes
-            if(p.getUpTime() < (minUptimeInSeconds * 1000)) {
+            if(p.getUpTime() < (MINIMUM_UPTIME_SECONDS * 1000)) {
                 continue;
             }
 

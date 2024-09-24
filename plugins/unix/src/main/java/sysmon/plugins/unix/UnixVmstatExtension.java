@@ -1,8 +1,9 @@
-package sysmon.plugins.power;
+package sysmon.plugins.unix;
 
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import oshi.SystemInfo;
 import sysmon.shared.Measurement;
 import sysmon.shared.MetricExtension;
 import sysmon.shared.MetricResult;
@@ -14,18 +15,20 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Extension
-public class PowerProcessorExtension implements MetricExtension {
+public class UnixVmstatExtension implements MetricExtension {
 
-    private static final Logger log = LoggerFactory.getLogger(PowerProcessorExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(UnixVmstatExtension.class);
 
     // Extension details
-    private final String name = "power_processor";
-    private final String description = "IBM Power Processor Metrics";
+    private final String name = "unix_vmstat";
+    private final String description = "UNIX VMStat Metrics";
 
     // Configuration / Options
     private boolean enabled = true;
     private boolean threaded = true;
     private String interval = "30s";
+
+    protected String osType = "unknown";
 
     @Override
     public boolean isEnabled() {
@@ -40,14 +43,20 @@ public class PowerProcessorExtension implements MetricExtension {
     @Override
     public boolean isSupported() {
 
-        String osArch = System.getProperty("os.arch").toLowerCase();
-        if(!osArch.startsWith("ppc64")) {
-            log.debug("Requires CPU Architecture ppc64 or ppc64le, this is: " + osArch);
+        SystemInfo systemInfo = UnixPlugin.getSystemInfo();
+        if(systemInfo == null) {
             return false;
         }
 
-        if(PluginHelper.notExecutable("lparstat")) {
-            log.warn("Requires the 'lparstat' command.");
+        if(systemInfo.getOperatingSystem().getManufacturer().equals("GNU/Linux")) {
+            osType = "linux";
+        }
+        if(systemInfo.getOperatingSystem().getManufacturer().equals("IBM") && systemInfo.getOperatingSystem().getFamily().equals("AIX")) {
+            osType = "aix";
+        }
+
+        if(PluginHelper.notExecutable("vmstat")) {
+            log.warn("Requires the 'vmstat' command.");
             return false;
         }
 
@@ -88,21 +97,21 @@ public class PowerProcessorExtension implements MetricExtension {
         TreeMap<String, String> tagsMap = null;
         TreeMap<String, Object> fieldsMap = null;
 
-        try (InputStream buf = PluginHelper.executeCommand("lparstat 3 1")) {
-            PowerProcessorStat processorStat = processCommandOutput(buf);
-            tagsMap = processorStat.getTags();
-            fieldsMap = processorStat.getFields();
+        try (InputStream buf = PluginHelper.executeCommand("vmstat -w 1 1")) {
+            UnixVmstatOutput vmstatOutput = processCommandOutput(buf);
+            tagsMap = vmstatOutput.getTags();
+            fieldsMap = vmstatOutput.getFields();
         } catch (IOException e) {
-            log.error("lparstat error", e);
+            log.error("vmstat error", e);
         }
 
-        log.debug("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
+        log.info("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
 
-    protected PowerProcessorStat processCommandOutput(InputStream input) throws IOException {
-        return new PowerProcessorStat(input);
+    protected UnixVmstatOutput processCommandOutput(InputStream input) throws IOException {
+        return new UnixVmstatOutput(osType, input);
     }
 
 }

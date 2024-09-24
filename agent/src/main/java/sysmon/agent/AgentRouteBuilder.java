@@ -50,7 +50,7 @@ public class AgentRouteBuilder extends RouteBuilder {
 
             // Load configuration if available
             if(configuration.isForExtension(name)) {
-                log.info("Loading configuring for extension: " + ext.getDescription());
+                log.info("Loading configuring for extension: {}", ext.getDescription());
                 ext.setConfiguration(configuration.getForExtension(name));
             }
 
