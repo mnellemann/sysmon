@@ -115,5 +115,3 @@ public class BaseProcessorExtension implements MetricExtension {
     }
 
 }
-
-

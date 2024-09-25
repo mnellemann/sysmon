@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.pf4j.Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oshi.SystemInfo;
 import sysmon.shared.Measurement;
@@ -14,7 +16,7 @@ import sysmon.shared.MetricResult;
 @Extension
 public class BaseInfoExtension implements MetricExtension {
 
-    //private static final Logger log = LoggerFactory.getLogger(BaseInfoExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseInfoExtension.class);
 
     // Extension details
     private final String name = "base_info";
@@ -75,13 +77,18 @@ public class BaseInfoExtension implements MetricExtension {
     public MetricResult getMetrics() {
 
         TreeMap<String, Object> fieldsMap = new TreeMap<String, Object>() {{
-            put("os_manufacturer", systemInfo.getOperatingSystem().getManufacturer());             // GNU/Linux            / IBM
-            put("os_family", systemInfo.getOperatingSystem().getFamily());                         // Freedesktop.org      / AIX
-            put("os_codename", systemInfo.getOperatingSystem().getVersionInfo().getCodeName()); // Flatpak runtime      / ppc64
-            put("os_version", systemInfo.getOperatingSystem().getVersionInfo().getVersion());   // 21.08.4              / 7.2
-            put("os_build", systemInfo.getOperatingSystem().getVersionInfo().getBuildNumber()); // 5.13.0-7620-generic  / 2045B_72V
+            put("os_manufacturer", systemInfo.getOperatingSystem().getManufacturer());              // GNU/Linux            / IBM
+            put("os_family", systemInfo.getOperatingSystem().getFamily());                          // Freedesktop.org      / AIX
+            put("os_codename", systemInfo.getOperatingSystem().getVersionInfo().getCodeName());     // Flatpak runtime      / ppc64
+            put("os_version", systemInfo.getOperatingSystem().getVersionInfo().getVersion());       // 21.08.4              / 7.2
+            put("os_build", systemInfo.getOperatingSystem().getVersionInfo().getBuildNumber());     // 5.13.0-7620-generic  / 2045B_72V
             put("boot_time", systemInfo.getOperatingSystem().getSystemBootTime());
+            put("sockets", systemInfo.getHardware().getProcessor().getPhysicalPackageCount());
+            put("procs", systemInfo.getHardware().getProcessor().getPhysicalProcessorCount());
+            put("lcpus", systemInfo.getHardware().getProcessor().getLogicalProcessorCount());
         }};
+
+        log.warn(fieldsMap.toString());
 
         return new MetricResult(name, new Measurement(tags, fieldsMap));
     }

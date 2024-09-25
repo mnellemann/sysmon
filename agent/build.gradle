@@ -5,7 +5,7 @@ plugins {
 
     id "com.palantir.git-version" version "${versioningVersion}"
     id "com.github.johnrengelman.shadow" version "${shadowVersion}"
-            id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
+    id "com.netflix.nebula.ospackage" version "${osPackageVersion}"
 }
 
 dependencies {
@@ -41,7 +41,7 @@ def projectName = "sysmon-agent"
 application {
     // Define the main class for the application.
     mainClass.set('sysmon.agent.Application')
-    applicationDefaultJvmArgs = [ "-Xms16m", "-Xmx16m", "-XX:+ExitOnOutOfMemoryError", "-XX:+AlwaysPreTouch", "-XX:+UseSerialGC" ]
+    applicationDefaultJvmArgs = [ "-Xms16m", "-Xmx16m", "-XX:+ExitOnOutOfMemoryError", "-XX:+UseSerialGC" ]
 }
 
 run {
