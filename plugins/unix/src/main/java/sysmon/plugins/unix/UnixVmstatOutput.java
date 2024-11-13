@@ -26,6 +26,8 @@ public class UnixVmstatOutput {
             case "aix":
                 matchAix(inputStream);
                 break;
+            default:
+                log.warn("UnixVmstatOutput - unsupported os: {}", osType);
         }
 
     }
@@ -37,7 +39,7 @@ public class UnixVmstatOutput {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         while(reader.ready()) {
             String line = reader.readLine();
-            log.info("matchLinux() - {}", line);
+            //log.info("matchLinux() - {}", line);
             lastLine = line.trim();
         }
 
@@ -55,7 +57,7 @@ public class UnixVmstatOutput {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         while(reader.ready()) {
             String line = reader.readLine();
-            log.info("matchAix() - {}", line);
+            //log.info("matchAix() - {}", line);
             lastLine = line.trim();
         }
 

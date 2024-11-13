@@ -102,10 +102,10 @@ public class UnixVmstatExtension implements MetricExtension {
             tagsMap = vmstatOutput.getTags();
             fieldsMap = vmstatOutput.getFields();
         } catch (IOException e) {
-            log.error("vmstat error", e);
+            log.error("getMetrics() - vmstat error", e);
         }
 
-        log.info("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
+        //log.info("getMetrics() - tags: {}, fields: {}", tagsMap, fieldsMap);
         return new MetricResult(name, new Measurement(tagsMap, fieldsMap));
     }
 
